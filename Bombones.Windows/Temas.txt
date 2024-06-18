@@ -1,0 +1,9 @@
+﻿Servicio=> crea conexión y transacción
+Clase Ciudad.
+OJO completar EstaRelacionado de Pais.
+Uso de SCOPE_IDENTITY():
+
+SCOPE_IDENTITY() devuelve el último valor de identidad generado
+en el mismo ámbito de ejecución, lo cual es más seguro que @@IDENTITY
+ya que @@IDENTITY puede devolver el valor generado por un disparador
+en otra tabla.
