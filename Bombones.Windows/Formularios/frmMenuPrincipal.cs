@@ -68,5 +68,16 @@ namespace Bombones.Windows
             frm.ShowDialog();
 
         }
+
+        private void frmMenuPrincipal_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClientes_Click(object sender, EventArgs e)
+        {
+            frmClientes frm = new frmClientes(_serviceProvider);
+            frm.ShowDialog();
+        }
     }
 }
