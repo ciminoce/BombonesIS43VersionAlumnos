@@ -9,10 +9,10 @@ namespace Bombones.Windows
     {
         private List<TipoDeChocolate> lista = null!;
         private readonly IServiciosTiposDeChocolates? _servicio;
-        public frmChocolates(IServiceProvider serviceProvider)
+        public frmChocolates(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
-            _servicio = serviceProvider.GetService<IServiciosTiposDeChocolates>();
+            _servicio = serviceProvider?.GetService<IServiciosTiposDeChocolates>();
         }
 
         private void tsbCerrar_Click(object sender, EventArgs e)

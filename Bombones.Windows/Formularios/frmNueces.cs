@@ -1,17 +1,18 @@
 ﻿using Bombones.Entidades.Entidades;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bombones.Windows.Formularios
 {
     public partial class frmNueces : Form
     {
-        private readonly IServiciosTiposDeNueces _servicio;
+        private readonly IServiciosTiposDeNueces? _servicio;
         private List<TipoDeNuez>? lista;
-        public frmNueces(IServiciosTiposDeNueces servicio)
+        public frmNueces(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            _servicio = servicio;
+            _servicio = serviceProvider?.GetService<IServiciosTiposDeNueces>();
         }
 
         private void frmNueces_Load(object sender, EventArgs e)

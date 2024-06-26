@@ -1,23 +1,24 @@
 ﻿using Bombones.Entidades.Entidades;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bombones.Windows.Formularios
 {
     public partial class frmRellenos : Form
     {
-        private readonly IServiciosTiposDeRellenos _servicio;
+        private readonly IServiciosTiposDeRellenos? _servicio;
         private List<TipoDeRelleno>? lista;
-        public frmRellenos(IServiciosTiposDeRellenos servicio)
+        public frmRellenos(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
-            _servicio = servicio;
+            _servicio = serviceProvider?.GetService<IServiciosTiposDeRellenos>();
         }
         private void frmRellenos_Load(object sender, EventArgs e)
         {
             try
             {
-                lista = _servicio.GetLista();
+                lista = _servicio?.GetLista();
                 MostrarDatosEnGrilla();
             }
             catch (Exception)

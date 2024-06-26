@@ -4,28 +4,28 @@ using Bombones.Entidades.Enumeraciones;
 using Bombones.Entidades.Extensions;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bombones.Windows.Formularios
 {
     public partial class frmProvinciasEstados : Form
     {
         private readonly IServiceProvider? _serviceProvider;
-        private readonly IServiciosProvinciasEstados _servicios;
+        private readonly IServiciosProvinciasEstados? _servicios;
         private List<ProvinciaEstadoListDto>? lista;
         private Orden orden = Orden.Ninguno;
-        public frmProvinciasEstados(IServiciosProvinciasEstados servicios,
-                IServiceProvider? serviceProvider)
+        public frmProvinciasEstados(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
-            _servicios = servicios;
             _serviceProvider = serviceProvider;
+            _servicios = _serviceProvider?.GetService<IServiciosProvinciasEstados>();
         }
 
         private void frmProvinciasEstados_Load(object sender, EventArgs e)
         {
             try
             {
-                lista = _servicios.GetLista();
+                lista = _servicios?.GetLista();
                 MostrarDatosEnGrilla();
             }
             catch (Exception)

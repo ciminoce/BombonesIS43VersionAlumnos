@@ -3,6 +3,7 @@ using Bombones.Entidades.Entidades;
 using Bombones.Entidades.Extensions;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bombones.Windows.Formularios
 {
@@ -11,11 +12,11 @@ namespace Bombones.Windows.Formularios
         private readonly IServiceProvider? _serviceProvider;
         private readonly IServiciosFabricas? _servicios;
         private List<FabricaListDto>? lista;
-        public frmFabricas(IServiciosFabricas? servicios, IServiceProvider? serviceProvider)
+        public frmFabricas(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
-            _servicios = servicios;
             _serviceProvider = serviceProvider;
+            _servicios = _serviceProvider?.GetService<IServiciosFabricas>();
         }
 
         private void frmFabricas_Load(object sender, EventArgs e)

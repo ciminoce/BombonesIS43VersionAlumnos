@@ -4,6 +4,7 @@ using Bombones.Entidades.Extensions;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Formularios;
 using Bombones.Windows.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bombones.Windows
 {
@@ -13,11 +14,11 @@ namespace Bombones.Windows
         private readonly IServiceProvider? _serviceProvider;
         private readonly IServiciosCiudades? _servicios;
         private List<CiudadListDto>? lista;
-        public frmCiudades(IServiciosCiudades? servicios, IServiceProvider? serviceProvider)
+        public frmCiudades(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
-            _servicios = servicios;
             _serviceProvider = serviceProvider;
+            _servicios = _serviceProvider?.GetService<IServiciosCiudades>();
         }
 
         private void frmCiudades_Load(object sender, EventArgs e)

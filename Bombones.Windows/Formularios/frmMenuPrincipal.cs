@@ -27,24 +27,19 @@ namespace Bombones.Windows
         private void btnRellenos_Click(object sender, EventArgs e)
         {
             var frm = new frmRellenos(
-                _serviceProvider
-                .GetService<IServiciosTiposDeRellenos>());
+                _serviceProvider);
             frm.ShowDialog();
         }
 
         private void btnNueces_Click(object sender, EventArgs e)
         {
-            var frm = new frmNueces(
-                _serviceProvider
-                .GetService<IServiciosTiposDeNueces>());
+            var frm = new frmNueces(_serviceProvider);
             frm.ShowDialog();
         }
 
         private void btnProvinciasEstados_Click(object sender, EventArgs e)
         {
             var frm = new frmProvinciasEstados(
-                _serviceProvider
-                .GetService<IServiciosProvinciasEstados>(),
                 _serviceProvider);
             frm.ShowDialog();
         }
@@ -52,7 +47,6 @@ namespace Bombones.Windows
         private void btnCiudades_Click(object sender, EventArgs e)
         {
             var frm = new frmCiudades(
-                    _serviceProvider.GetService<IServiciosCiudades>(),
                     _serviceProvider);
             frm.ShowDialog();
 
@@ -60,9 +54,7 @@ namespace Bombones.Windows
 
         private void btnFabricas_Click(object sender, EventArgs e)
         {
-            var frm = new frmFabricas(
-        _serviceProvider.GetService<IServiciosFabricas>(),
-        _serviceProvider);
+            var frm = new frmFabricas(_serviceProvider);
             frm.ShowDialog();
 
         }
