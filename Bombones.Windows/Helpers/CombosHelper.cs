@@ -14,7 +14,7 @@ namespace Bombones.Windows.Helpers
         {
             _serviceProvider = serviceProvider;
             IServiciosPaises? servicio = _serviceProvider?.GetService<IServiciosPaises>();
-            var listaPaises = servicio?.GetLista();
+            var listaPaises = servicio?.GetLista(null,null);
             var defaultPais = new Pais()
             {
                 PaisId = 0,
@@ -64,6 +64,16 @@ namespace Bombones.Windows.Helpers
             cbo.SelectedIndex = 0;
 
 
+        }
+
+        public static void CargarComboPaginas(ref ComboBox cbo, int totalPages)
+        {
+            cbo.Items.Clear();
+            for (int i = 1; i <= totalPages; i++)
+            {
+                cbo.Items.Add(i.ToString());
+            }
+            
         }
     }
 }

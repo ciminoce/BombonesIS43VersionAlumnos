@@ -82,7 +82,7 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public List<Pais>? GetLista()
+        public List<Pais>? GetLista(int? currentPage, int? pageSize)
         {
             if (_repositorio is null)
             {
@@ -92,7 +92,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetLista(conn);
+                return _repositorio?.GetLista(conn, currentPage, pageSize);
             }
         }
 
@@ -141,7 +141,6 @@ namespace Bombones.Servicios.Servicios
             }
 
         }
-
 
     }
 }

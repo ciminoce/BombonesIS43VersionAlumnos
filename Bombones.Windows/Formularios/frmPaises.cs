@@ -1,25 +1,36 @@
 ﻿using Bombones.Entidades.Entidades;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bombones.Windows.Formularios
 {
     public partial class frmPaises : Form
     {
-        private readonly IServiciosPaises _servicio;
+        private readonly IServiciosPaises? _servicio;
         private List<Pais>? lista;
-        public frmPaises(IServiciosPaises servicio)
+
+        private int currentPage = 1;//pagina actual
+        private int totalPages = 0;//total de paginas
+        private int pageSize = 10;//registros por página
+        private int totalRecords = 0;//cantidad de registros
+        public frmPaises(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            _servicio = servicio;
+            _servicio = serviceProvider.GetService<IServiciosPaises>();
         }
 
         private void frmPaises_Load(object sender, EventArgs e)
         {
             try
             {
-                lista = _servicio.GetLista();
-                MostrarDatosEnGrilla();
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+                totalRecords = _servicio.GetCantidad();
+                totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                LoadData();
             }
             catch (Exception)
             {
@@ -28,7 +39,27 @@ namespace Bombones.Windows.Formularios
             }
         }
 
-        private void MostrarDatosEnGrilla()
+        private void LoadData()
+        {
+            try
+            {
+                lista = _servicio?.GetLista(currentPage, pageSize);
+                MostrarDatosEnGrilla(lista);
+                if (cboPaginas.Items.Count != totalPages)
+                {
+                    CombosHelper.CargarComboPaginas(ref cboPaginas, totalPages);
+                }
+                txtCantidadPaginas.Text = totalPages.ToString();
+                cboPaginas.SelectedIndex = currentPage == 1 ? 0 : currentPage - 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        private void MostrarDatosEnGrilla(List<Pais>? lista)
         {
             GridHelper.LimpiarGrilla(dgvDatos);
             if (lista is not null)
@@ -196,6 +227,42 @@ namespace Bombones.Windows.Formularios
         private void tsbCerrar_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnPrimero_Click(object sender, EventArgs e)
+        {
+            currentPage = 1;
+            LoadData();
+        }
+
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                LoadData();
+            }
+        }
+
+        private void btnUltimo_Click(object sender, EventArgs e)
+        {
+            currentPage = totalPages;
+            LoadData();
+        }
+
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            if (currentPage < totalPages)
+            {
+                currentPage++;
+                LoadData();
+            }
+        }
+
+        private void cboPaginas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currentPage=int.Parse(cboPaginas.Text);
+            LoadData();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Bombones.Datos.Interfaces;
 using Bombones.Entidades.Entidades;
 using Dapper;
-using System.Configuration;
 using System.Data.SqlClient;
 
 namespace Bombones.Datos.Repositorios
@@ -83,10 +82,15 @@ namespace Bombones.Datos.Repositorios
             }
 
         }
-        public List<Pais>? GetLista(SqlConnection conn, SqlTransaction? tran)
+        public List<Pais>? GetLista(SqlConnection conn, int? currentPage, int? pageSize,  SqlTransaction? tran)
         {
             var selectQuery = @"SELECT PaisId, NombrePais FROM 
                 Paises ORDER BY NombrePais";
+            if (currentPage.HasValue && pageSize.HasValue)
+            {
+                var offSet=(currentPage.Value-1)*pageSize;
+                selectQuery += $" OFFSET {offSet} ROWS FETCH NEXT {pageSize.Value} ROWS ONLY";
+            }
             return conn.Query<Pais>(selectQuery).ToList();
 
         }

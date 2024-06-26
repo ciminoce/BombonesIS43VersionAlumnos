@@ -14,15 +14,13 @@ namespace Bombones.Windows
         }
         private void btnChocolates_Click(object sender, EventArgs e)
         {
-            var frm = new frmChocolates(_serviceProvider
-                .GetService<IServiciosTiposDeChocolates>());   // Crea frm, un objeto del tipo formulario frmChocolates
+            var frm = new frmChocolates(_serviceProvider);   // Crea frm, un objeto del tipo formulario frmChocolates
             frm.ShowDialog();       // muestra frm de forma modal
         }
 
         private void btnPaises_Click(object sender, EventArgs e)
         {
-            var frm = new frmPaises(
-                _serviceProvider.GetService<IServiciosPaises>());
+            var frm = new frmPaises(_serviceProvider);
             frm.ShowDialog();
         }
 

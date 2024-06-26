@@ -44,7 +44,7 @@
             splitContainer1 = new SplitContainer();
             dgvDatos = new DataGridView();
             colPais = new DataGridViewTextBoxColumn();
-            txtCantidadRegistros = new TextBox();
+            txtCantidadPaginas = new TextBox();
             cboPaginas = new ComboBox();
             label2 = new Label();
             label1 = new Label();
@@ -171,7 +171,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(txtCantidadRegistros);
+            splitContainer1.Panel2.Controls.Add(txtCantidadPaginas);
             splitContainer1.Panel2.Controls.Add(cboPaginas);
             splitContainer1.Panel2.Controls.Add(label2);
             splitContainer1.Panel2.Controls.Add(label1);
@@ -208,13 +208,13 @@
             colPais.Name = "colPais";
             colPais.ReadOnly = true;
             // 
-            // txtCantidadRegistros
+            // txtCantidadPaginas
             // 
-            txtCantidadRegistros.Location = new Point(176, 38);
-            txtCantidadRegistros.Name = "txtCantidadRegistros";
-            txtCantidadRegistros.ReadOnly = true;
-            txtCantidadRegistros.Size = new Size(85, 23);
-            txtCantidadRegistros.TabIndex = 19;
+            txtCantidadPaginas.Location = new Point(176, 38);
+            txtCantidadPaginas.Name = "txtCantidadPaginas";
+            txtCantidadPaginas.ReadOnly = true;
+            txtCantidadPaginas.Size = new Size(85, 23);
+            txtCantidadPaginas.TabIndex = 19;
             // 
             // cboPaginas
             // 
@@ -224,6 +224,7 @@
             cboPaginas.Name = "cboPaginas";
             cboPaginas.Size = new Size(68, 23);
             cboPaginas.TabIndex = 18;
+            cboPaginas.SelectedIndexChanged += cboPaginas_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -251,6 +252,7 @@
             btnUltimo.Size = new Size(75, 41);
             btnUltimo.TabIndex = 12;
             btnUltimo.UseVisualStyleBackColor = true;
+            btnUltimo.Click += btnUltimo_Click;
             // 
             // btnSiguiente
             // 
@@ -260,6 +262,7 @@
             btnSiguiente.Size = new Size(75, 41);
             btnSiguiente.TabIndex = 13;
             btnSiguiente.UseVisualStyleBackColor = true;
+            btnSiguiente.Click += btnSiguiente_Click;
             // 
             // btnAnterior
             // 
@@ -269,6 +272,7 @@
             btnAnterior.Size = new Size(75, 41);
             btnAnterior.TabIndex = 14;
             btnAnterior.UseVisualStyleBackColor = true;
+            btnAnterior.Click += btnAnterior_Click;
             // 
             // btnPrimero
             // 
@@ -278,6 +282,7 @@
             btnPrimero.Size = new Size(75, 41);
             btnPrimero.TabIndex = 15;
             btnPrimero.UseVisualStyleBackColor = true;
+            btnPrimero.Click += btnPrimero_Click;
             // 
             // frmPaises
             // 
@@ -316,7 +321,7 @@
         private SplitContainer splitContainer1;
         private DataGridView dgvDatos;
         private DataGridViewTextBoxColumn colPais;
-        private TextBox txtCantidadRegistros;
+        private TextBox txtCantidadPaginas;
         private ComboBox cboPaginas;
         private Label label2;
         private Label label1;

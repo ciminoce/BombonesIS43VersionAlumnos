@@ -11,7 +11,7 @@ namespace Bombones.Datos.Interfaces
         void Editar(Pais pais, SqlConnection conn, SqlTransaction? tran = null);
         bool EstaRelacionado(int tipoId, SqlConnection conn, SqlTransaction? tran = null);
         bool Existe(Pais pais, SqlConnection conn, SqlTransaction? tran = null);
-        List<Pais>? GetLista(SqlConnection conn, SqlTransaction? tran = null);
+        List<Pais>? GetLista(SqlConnection conn,int? currentPage, int? pageSize, SqlTransaction? tran = null);
         Pais? GetPaisPorId(int paisId, SqlConnection conn, SqlTransaction? tran = null);
 
     }

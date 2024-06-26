@@ -1,17 +1,18 @@
 ﻿using Bombones.Entidades.Entidades;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Bombones.Windows
 {
     public partial class frmChocolates : Form
     {
         private List<TipoDeChocolate> lista = null!;
-        private readonly IServiciosTiposDeChocolates _servicio;
-        public frmChocolates(IServiciosTiposDeChocolates servicio)
+        private readonly IServiciosTiposDeChocolates? _servicio;
+        public frmChocolates(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            _servicio = servicio;
+            _servicio = serviceProvider.GetService<IServiciosTiposDeChocolates>();
         }
 
         private void tsbCerrar_Click(object sender, EventArgs e)

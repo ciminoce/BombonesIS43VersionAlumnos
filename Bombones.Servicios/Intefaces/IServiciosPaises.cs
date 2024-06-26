@@ -7,7 +7,7 @@ namespace Bombones.Servicios.Intefaces
         void Borrar(int paisId);
         bool EstaRelacionado(int paisId);
         bool Existe(Pais pais);
-        List<Pais>? GetLista();
+        List<Pais>? GetLista(int? currentPage, int? pageSize);
         void Guardar(Pais pais);
         Pais? GetPaisPorId(int paisId);
         int GetCantidad();
