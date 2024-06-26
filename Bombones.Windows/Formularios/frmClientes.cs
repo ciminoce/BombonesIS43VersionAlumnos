@@ -34,7 +34,8 @@ namespace Bombones.Windows.Formularios
 
             try
             {
-                Cliente cliente = frm.GetCliente();
+                Cliente? cliente = frm.GetCliente();
+                if (cliente == null) {return; }
                 if (_servicios is null)
                 {
                     throw new ApplicationException("Dependencia no cargada");

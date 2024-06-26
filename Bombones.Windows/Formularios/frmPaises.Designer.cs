@@ -43,7 +43,6 @@
             tsbCerrar = new ToolStripButton();
             splitContainer1 = new SplitContainer();
             dgvDatos = new DataGridView();
-            colPais = new DataGridViewTextBoxColumn();
             txtCantidadPaginas = new TextBox();
             cboPaginas = new ComboBox();
             label2 = new Label();
@@ -52,6 +51,8 @@
             btnSiguiente = new Button();
             btnAnterior = new Button();
             btnPrimero = new Button();
+            colId = new DataGridViewTextBoxColumn();
+            colPais = new DataGridViewTextBoxColumn();
             toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
@@ -190,7 +191,7 @@
             dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
             dgvDatos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvDatos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colPais });
+            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colId, colPais });
             dgvDatos.Dock = DockStyle.Fill;
             dgvDatos.Location = new Point(0, 0);
             dgvDatos.MultiSelect = false;
@@ -200,13 +201,6 @@
             dgvDatos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDatos.Size = new Size(800, 444);
             dgvDatos.TabIndex = 2;
-            // 
-            // colPais
-            // 
-            colPais.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colPais.HeaderText = "País";
-            colPais.Name = "colPais";
-            colPais.ReadOnly = true;
             // 
             // txtCantidadPaginas
             // 
@@ -284,6 +278,20 @@
             btnPrimero.UseVisualStyleBackColor = true;
             btnPrimero.Click += btnPrimero_Click;
             // 
+            // colId
+            // 
+            colId.HeaderText = "Id";
+            colId.Name = "colId";
+            colId.ReadOnly = true;
+            colId.Visible = false;
+            // 
+            // colPais
+            // 
+            colPais.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colPais.HeaderText = "País";
+            colPais.Name = "colPais";
+            colPais.ReadOnly = true;
+            // 
             // frmPaises
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -320,7 +328,6 @@
         private ToolStripButton tsbCerrar;
         private SplitContainer splitContainer1;
         private DataGridView dgvDatos;
-        private DataGridViewTextBoxColumn colPais;
         private TextBox txtCantidadPaginas;
         private ComboBox cboPaginas;
         private Label label2;
@@ -329,5 +336,7 @@
         private Button btnSiguiente;
         private Button btnAnterior;
         private Button btnPrimero;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colPais;
     }
 }

@@ -151,10 +151,19 @@ namespace Bombones.Windows.Formularios
                 {
                     return;
                 }
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
                 if (!_servicio.EstaRelacionado(pais.PaisId))
                 {
                     _servicio.Borrar(pais.PaisId);
-                    GridHelper.QuitarFila(r, dgvDatos);
+                    totalRecords = _servicio.GetCantidad();
+                    totalPages=(int)Math.Ceiling((double)totalRecords/pageSize);
+                    if (currentPage > totalPages) currentPage = totalPages; // Ajustar la página actual si se reduce el total de páginas
+
+                    LoadData();
                     MessageBox.Show("Registro eliminado",
                         "Mensaje",
                         MessageBoxButtons.OK,
@@ -201,11 +210,22 @@ namespace Bombones.Windows.Formularios
             if (pais is null) return;
             try
             {
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
                 if (!_servicio.Existe(pais))
                 {
                     _servicio.Guardar(pais);
 
-                    GridHelper.SetearFila(r, pais);
+                    totalRecords = _servicio.GetCantidad();
+                    totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                    currentPage = _servicio.GetPaginaPorRegistro(pais.NombrePais, pageSize);
+                    LoadData();
+                    int row = GridHelper.ObtenerRowIndex(dgvDatos, pais.PaisId);
+                    GridHelper.MarcarRow(dgvDatos, row);
+
                     MessageBox.Show("Registro modificado",
                         "Mensaje",
                         MessageBoxButtons.OK,

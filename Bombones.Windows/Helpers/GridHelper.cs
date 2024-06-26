@@ -30,7 +30,8 @@ namespace Bombones.Windows.Helpers
                     r.Cells[0].Value = tn.Descripcion;
                     break;
                 case Pais p:
-                    r.Cells[0].Value = p.NombrePais;
+                    r.Cells[0].Value = p.PaisId;
+                    r.Cells[1].Value = p.NombrePais;
                     break;
                 case ProvinciaEstadoListDto pe:
                     r.Cells[0].Value = pe.NombreProvinciaEstado;
@@ -69,5 +70,30 @@ namespace Bombones.Windows.Helpers
         {
             grid.Rows.Remove(r);
         }
+
+        public static int ObtenerRowIndex(DataGridView dgv, int id)
+        {
+            for (int i = 0; i < dgv.Rows.Count; i++)
+            {
+                var row = dgv.Rows[i];
+                if ((int)row.Cells[0].Value == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+
+        }
+
+        public static void MarcarRow(DataGridView dgvDatos, int rowIndex)
+        {
+            if (rowIndex >= 0)
+            {
+                dgvDatos.Rows[rowIndex].Selected = true;
+                dgvDatos.FirstDisplayedScrollingRowIndex = rowIndex;
+            }
+
+        }
+
     }
 }

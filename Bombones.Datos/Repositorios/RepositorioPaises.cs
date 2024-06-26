@@ -140,7 +140,7 @@ namespace Bombones.Datos.Repositorios
                     NombrePais = @NombrePais";
 
             int position = conn.ExecuteScalar<int>(positionQuery, new { NombrePais = nombrePais });
-            return (position / pageSize) + 1;
+            return ((int)Math.Ceiling((decimal)position / pageSize));
 
         }
     }
