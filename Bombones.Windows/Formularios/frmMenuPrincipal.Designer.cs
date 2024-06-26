@@ -41,6 +41,7 @@
             btnRoles = new Button();
             btnPermisos = new Button();
             btnLogin = new Button();
+            btnClientes = new Button();
             SuspendLayout();
             // 
             // btnRellenos
@@ -85,7 +86,7 @@
             // 
             // btnFabricas
             // 
-            btnFabricas.Location = new Point(24, 518);
+            btnFabricas.Location = new Point(563, 344);
             btnFabricas.Name = "btnFabricas";
             btnFabricas.Size = new Size(139, 123);
             btnFabricas.TabIndex = 0;
@@ -171,13 +172,24 @@
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnNueces_Click;
             // 
+            // btnClientes
+            // 
+            btnClientes.Location = new Point(724, 344);
+            btnClientes.Name = "btnClientes";
+            btnClientes.Size = new Size(139, 123);
+            btnClientes.TabIndex = 0;
+            btnClientes.Text = "Clientes";
+            btnClientes.UseVisualStyleBackColor = true;
+            btnClientes.Click += btnClientes_Click;
+            // 
             // frmMenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 710);
+            ClientSize = new Size(875, 710);
             Controls.Add(btnCajas);
             Controls.Add(btnBombones);
+            Controls.Add(btnClientes);
             Controls.Add(btnFabricas);
             Controls.Add(btnCiudades);
             Controls.Add(btnProvinciasEstados);
@@ -192,6 +204,7 @@
             Name = "frmMenuPrincipal";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Menu Principal";
+            Load += frmMenuPrincipal_Load;
             ResumeLayout(false);
         }
 
@@ -210,5 +223,6 @@
         private Button btnRoles;
         private Button btnPermisos;
         private Button btnLogin;
+        private Button btnClientes;
     }
 }

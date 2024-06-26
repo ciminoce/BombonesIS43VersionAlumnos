@@ -48,7 +48,10 @@ namespace Bombones.Windows.Helpers
                     r.Cells[3].Value = fabrica.NombreProvinciaEstado;
                     r.Cells[4].Value = fabrica.NombrePais;
                     break;
-
+                case ClienteListDto cliente:
+                    r.Cells[0].Value=cliente.Documento;
+                    r.Cells[1].Value = $"{cliente.Apellido} {cliente.Nombres}";
+                    break;
                 default:
                     break;
             }
