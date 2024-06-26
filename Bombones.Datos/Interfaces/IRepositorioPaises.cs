@@ -13,6 +13,6 @@ namespace Bombones.Datos.Interfaces
         bool Existe(Pais pais, SqlConnection conn, SqlTransaction? tran = null);
         List<Pais>? GetLista(SqlConnection conn,int? currentPage, int? pageSize, SqlTransaction? tran = null);
         Pais? GetPaisPorId(int paisId, SqlConnection conn, SqlTransaction? tran = null);
-
+        int GetPaginaPorRegistro(SqlConnection conn, string nombrePais, int totalPages);
     }
 }

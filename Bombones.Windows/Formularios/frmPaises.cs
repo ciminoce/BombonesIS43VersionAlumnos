@@ -89,12 +89,20 @@ namespace Bombones.Windows.Formularios
                 {
                     return;
                 }
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
                 if (!_servicio.Existe(pais))
                 {
                     _servicio.Guardar(pais);
-                    DataGridViewRow r = GridHelper.ConstruirFila(dgvDatos);
-                    GridHelper.SetearFila(r, pais);
-                    GridHelper.AgregarFila(r, dgvDatos);
+
+                    totalRecords = _servicio.GetCantidad();
+                    totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                    currentPage = _servicio.GetPaginaPorRegistro(pais.NombrePais, pageSize);
+                    LoadData();
+
                     MessageBox.Show("Registro agregado",
                         "Mensaje",
                         MessageBoxButtons.OK,

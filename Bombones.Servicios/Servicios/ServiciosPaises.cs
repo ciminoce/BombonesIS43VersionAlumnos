@@ -142,5 +142,18 @@ namespace Bombones.Servicios.Servicios
 
         }
 
+        public int GetPaginaPorRegistro(string nombrePais, int pageSize)
+        {
+            if (_repositorio is null)
+            {
+                throw new ApplicationException("Dependencias no cargadas!!!");
+            }
+
+            using (var conn = new SqlConnection(_cadena))
+            {
+                conn.Open();
+                return _repositorio.GetPaginaPorRegistro(conn,nombrePais,pageSize);
+            }
+        }
     }
 }

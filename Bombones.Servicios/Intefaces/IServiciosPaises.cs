@@ -11,5 +11,6 @@ namespace Bombones.Servicios.Intefaces
         void Guardar(Pais pais);
         Pais? GetPaisPorId(int paisId);
         int GetCantidad();
+        int GetPaginaPorRegistro(string nombrePais, int pageSize);
     }
 }

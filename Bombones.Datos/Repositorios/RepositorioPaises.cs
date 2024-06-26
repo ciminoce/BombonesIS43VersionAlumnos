@@ -122,6 +122,26 @@ namespace Bombones.Datos.Repositorios
             return conn.ExecuteScalar<int>(selectQuery);
         }
 
+        public int GetPaginaPorRegistro(SqlConnection conn, string nombrePais, int pageSize)
+        {
+            var positionQuery = @"
+                    WITH PaisOrdenado AS (
+                    SELECT 
+                        ROW_NUMBER() OVER (ORDER BY NombrePais) AS RowNum,
+                        NombrePais
+                    FROM 
+                        Paises
+                )
+                SELECT 
+                    RowNum 
+                FROM 
+                    PaisOrdenado 
+                WHERE 
+                    NombrePais = @NombrePais";
 
+            int position = conn.ExecuteScalar<int>(positionQuery, new { NombrePais = nombrePais });
+            return (position / pageSize) + 1;
+
+        }
     }
 }
