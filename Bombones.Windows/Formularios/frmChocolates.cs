@@ -24,6 +24,11 @@ namespace Bombones.Windows
         {
             try
             {
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
                 lista = _servicio.GetLista();      // la lista guarda el listado de los registros con los tipos de chocolate
                 MostrarDatosEnGrilla();
             }
@@ -59,7 +64,10 @@ namespace Bombones.Windows
             try
             {
                 TipoDeChocolate tipoDeChocolate = frm.GetTipo();
-
+                if(_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
                 if (!_servicio.Existe(tipoDeChocolate))
                 {
                     _servicio.Guardar(tipoDeChocolate);
@@ -111,7 +119,11 @@ namespace Bombones.Windows
                 {
                     return;     // Si se presiona No, cancelar
                 }
-                //TODO: Ojo que falta controlar que no esté relacionado
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
                 if (!_servicio.EstaRelacionado(chocolate.TipoDeChocolateId))
                 {
                     _servicio.Borrar(chocolate.TipoDeChocolateId);
@@ -163,6 +175,10 @@ namespace Bombones.Windows
                         return;
                     }
                     tipoChocolate = frm.GetTipo();
+                    if (_servicio is null)
+                    {
+                        throw new ApplicationException("Dependencias no cargadas");
+                    }
 
                     if (!_servicio.Existe(tipoChocolate))       // Si no existe el chocolate, lo edita
                     {
