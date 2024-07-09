@@ -8,8 +8,9 @@ namespace Bombones.Servicios.Intefaces
         void Borrar(int clienteId);
         bool EstaRelacionado(int clienteId);
         bool Existe(Cliente cliente);
-        List<ClienteListDto> GetLista();
+        List<ClienteListDto> GetLista(int? currentPage, int? pageSize);
         void Guardar(Cliente cliente);
         Cliente? GetClientePorId(int clienteId);
+        int GetCantidad();
     }
 }

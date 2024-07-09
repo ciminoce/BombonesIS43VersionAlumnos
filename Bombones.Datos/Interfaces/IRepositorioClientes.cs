@@ -17,8 +17,10 @@ namespace Bombones.Datos.Interfaces
 
         bool Existe(Cliente cliente, SqlConnection conn, SqlTransaction? tran = null);
 
-        void Editar(Cliente cliente, SqlConnection conn, SqlTransaction tran);
+        void Editar(Cliente cliente, SqlConnection conn, SqlTransaction? tran=null);
         Cliente? GetClientePorId(int clienteId, SqlConnection conn);
-        List<ClienteListDto>? GetLista(SqlConnection conn);
+        List<ClienteListDto> GetLista(SqlConnection conn, int? currentPage, 
+            int? pageSize, SqlTransaction? tran=null);
+        int GetCantidad(SqlConnection conn);
     }
 }

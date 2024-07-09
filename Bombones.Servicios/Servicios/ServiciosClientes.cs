@@ -58,7 +58,7 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public List<ClienteListDto> GetLista()
+        public List<ClienteListDto> GetLista(int? currentPage, int? pageSize)
         {
             if (_repositorio is null)
             {
@@ -68,7 +68,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetLista(conn) ?? new List<ClienteListDto>();
+                return _repositorio.GetLista(conn, currentPage, pageSize);
             }
         }
 
@@ -112,6 +112,20 @@ namespace Bombones.Servicios.Servicios
                     }
                 }
             }
+        }
+
+        public int GetCantidad()
+        {
+            if (_repositorio is null)
+            {
+                throw new ApplicationException("Dependencias no cargadas!!!");
+            }
+            using (var conn = new SqlConnection(_cadena))
+            {
+                conn.Open();
+                return _repositorio.GetCantidad(conn);
+            }
+
         }
     }
 }

@@ -10,8 +10,14 @@ namespace Bombones.Windows.Formularios
     public partial class frmClientes : Form
     {
         private readonly IServiceProvider? _serviceProvider;
-        private readonly IServiciosClientes? _servicios;
+        private readonly IServiciosClientes? _servicio;
         private List<ClienteListDto>? lista;
+
+        private int currentPage = 1;//pagina actual
+        private int totalPages = 0;//total de paginas
+        private int pageSize = 10;//registros por página
+        private int totalRecords = 0;//cantidad de registros
+
         public frmClientes(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
@@ -19,7 +25,7 @@ namespace Bombones.Windows.Formularios
             {
                 throw new ApplicationException("Dependencias no cargadas");
             }
-            _servicios = serviceProvider?.GetService<IServiciosClientes>();
+            _servicio = serviceProvider?.GetService<IServiciosClientes>();
         }
 
         private void tsbNuevo_Click(object sender, EventArgs e)
@@ -36,13 +42,13 @@ namespace Bombones.Windows.Formularios
             {
                 Cliente? cliente = frm.GetCliente();
                 if (cliente == null) {return; }
-                if (_servicios is null)
+                if (_servicio is null)
                 {
                     throw new ApplicationException("Dependencia no cargada");
                 }
-                if (!_servicios.Existe(cliente))
+                if (!_servicio.Existe(cliente))
                 {
-                    _servicios.Guardar(cliente);
+                    _servicio.Guardar(cliente);
                     DataGridViewRow r = GridHelper.ConstruirFila(dgvDatos);
                     ClienteListDto clienteDto = ClientesExtensions.ToClienteListDto(cliente);
                     GridHelper.SetearFila(r, clienteDto);
@@ -71,8 +77,13 @@ namespace Bombones.Windows.Formularios
         {
             try
             {
-                lista = _servicios?.GetLista();
-                MostrarDatosEnGrilla();
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+                totalRecords = _servicio.GetCantidad();
+                totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                LoadData();
             }
             catch (Exception)
             {
@@ -80,8 +91,67 @@ namespace Bombones.Windows.Formularios
                 throw;
             }
         }
+        private void LoadData()
+        {
+            try
+            {
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
 
-        private void MostrarDatosEnGrilla()
+                lista = _servicio.GetLista(currentPage, pageSize);
+                MostrarDatosEnGrilla(lista);
+                if (cboPaginas.Items.Count != totalPages)
+                {
+                    CombosHelper.CargarComboPaginas(ref cboPaginas, totalPages);
+                }
+                txtCantidadPaginas.Text = totalPages.ToString();
+                cboPaginas.SelectedIndex = currentPage == 1 ? 0 : currentPage - 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        private void btnPrimero_Click(object sender, EventArgs e)
+        {
+            currentPage = 1;
+            LoadData();
+        }
+
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                LoadData();
+            }
+        }
+
+        private void btnUltimo_Click(object sender, EventArgs e)
+        {
+            currentPage = totalPages;
+            LoadData();
+        }
+
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            if (currentPage < totalPages)
+            {
+                currentPage++;
+                LoadData();
+            }
+        }
+
+        private void cboPaginas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currentPage = int.Parse(cboPaginas.Text);
+            LoadData();
+        }
+
+        private void MostrarDatosEnGrilla(List<ClienteListDto> lista)
         {
             GridHelper.LimpiarGrilla(dgvDatos);
             if (lista is not null)
@@ -95,7 +165,6 @@ namespace Bombones.Windows.Formularios
 
             }
         }
-
         private void tsbBorrar_Click(object sender, EventArgs e)
         {
             if (dgvDatos.SelectedRows.Count == 0)
@@ -121,7 +190,7 @@ namespace Bombones.Windows.Formularios
 
                 if (dr == DialogResult.Yes)
                 {
-                    _servicios.Borrar(clienteDto.ClienteId);
+                    _servicio.Borrar(clienteDto.ClienteId);
                     GridHelper.QuitarFila(r, dgvDatos);
                     MessageBox.Show("Registro eliminado",
                         "Mensaje",
@@ -160,7 +229,7 @@ namespace Bombones.Windows.Formularios
             var r = dgvDatos.SelectedRows[0];
             if (r.Tag == null) return;
             ClienteListDto clienteDto = (ClienteListDto)r.Tag;
-            Cliente? cliente = _servicios?.GetClientePorId(clienteDto.ClienteId);
+            Cliente? cliente = _servicio?.GetClientePorId(clienteDto.ClienteId);
             if (cliente is null) return;
             frmClientesAE frm = new frmClientesAE(_serviceProvider) { Text = "Editar Cliente" };
             frm.SetCliente(cliente);
@@ -171,9 +240,9 @@ namespace Bombones.Windows.Formularios
             if (cliente == null) return;
             try
             {
-                if (!_servicios?.Existe(cliente) ?? false)
+                if (!_servicio?.Existe(cliente) ?? false)
                 {
-                    _servicios?.Guardar(cliente);
+                    _servicio?.Guardar(cliente);
 
                     clienteDto = ClientesExtensions.ToClienteListDto(cliente);
 
@@ -204,8 +273,8 @@ namespace Bombones.Windows.Formularios
         {
             try
             {
-                lista = _servicios?.GetLista();
-                MostrarDatosEnGrilla();
+                lista = _servicio?.GetLista(currentPage, pageSize);
+                MostrarDatosEnGrilla(lista);
             }
             catch (Exception)
             {

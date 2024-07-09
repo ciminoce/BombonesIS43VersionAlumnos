@@ -54,7 +54,7 @@
             zAPorEstadoToolStripMenuItem = new ToolStripMenuItem();
             tsbCerrar = new ToolStripButton();
             panelNavegacion = new Panel();
-            txtCantidadRegistros = new TextBox();
+            txtCantidadPaginas = new TextBox();
             cboPaginas = new ComboBox();
             label2 = new Label();
             label1 = new Label();
@@ -278,7 +278,7 @@
             // 
             // panelNavegacion
             // 
-            panelNavegacion.Controls.Add(txtCantidadRegistros);
+            panelNavegacion.Controls.Add(txtCantidadPaginas);
             panelNavegacion.Controls.Add(cboPaginas);
             panelNavegacion.Controls.Add(label2);
             panelNavegacion.Controls.Add(label1);
@@ -292,13 +292,13 @@
             panelNavegacion.Size = new Size(931, 100);
             panelNavegacion.TabIndex = 10;
             // 
-            // txtCantidadRegistros
+            // txtCantidadPaginas
             // 
-            txtCantidadRegistros.Location = new Point(241, 35);
-            txtCantidadRegistros.Name = "txtCantidadRegistros";
-            txtCantidadRegistros.ReadOnly = true;
-            txtCantidadRegistros.Size = new Size(85, 23);
-            txtCantidadRegistros.TabIndex = 27;
+            txtCantidadPaginas.Location = new Point(241, 35);
+            txtCantidadPaginas.Name = "txtCantidadPaginas";
+            txtCantidadPaginas.ReadOnly = true;
+            txtCantidadPaginas.Size = new Size(85, 23);
+            txtCantidadPaginas.TabIndex = 27;
             // 
             // cboPaginas
             // 
@@ -308,6 +308,7 @@
             cboPaginas.Name = "cboPaginas";
             cboPaginas.Size = new Size(68, 23);
             cboPaginas.TabIndex = 26;
+            cboPaginas.SelectedIndexChanged += cboPaginas_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -335,6 +336,7 @@
             btnUltimo.Size = new Size(75, 41);
             btnUltimo.TabIndex = 20;
             btnUltimo.UseVisualStyleBackColor = true;
+            btnUltimo.Click += btnUltimo_Click;
             // 
             // btnSiguiente
             // 
@@ -344,6 +346,7 @@
             btnSiguiente.Size = new Size(75, 41);
             btnSiguiente.TabIndex = 21;
             btnSiguiente.UseVisualStyleBackColor = true;
+            btnSiguiente.Click += btnSiguiente_Click;
             // 
             // btnAnterior
             // 
@@ -353,6 +356,7 @@
             btnAnterior.Size = new Size(75, 41);
             btnAnterior.TabIndex = 22;
             btnAnterior.UseVisualStyleBackColor = true;
+            btnAnterior.Click += btnAnterior_Click;
             // 
             // btnPrimero
             // 
@@ -362,6 +366,7 @@
             btnPrimero.Size = new Size(75, 41);
             btnPrimero.TabIndex = 23;
             btnPrimero.UseVisualStyleBackColor = true;
+            btnPrimero.Click += btnPrimero_Click;
             // 
             // frmClientes
             // 
@@ -411,7 +416,7 @@
         private DataGridViewTextBoxColumn colCliente;
         private DataGridViewTextBoxColumn colDireccion;
         private DataGridViewTextBoxColumn colTelefono;
-        private TextBox txtCantidadRegistros;
+        private TextBox txtCantidadPaginas;
         private ComboBox cboPaginas;
         private Label label2;
         private Label label1;

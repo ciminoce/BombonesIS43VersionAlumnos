@@ -91,10 +91,28 @@ namespace Bombones.Datos.Repositorios
             return conn.QuerySingleOrDefault<Cliente>(
                 selectQuery, new { @ClienteId = clienteId });
         }
-        public List<ClienteListDto> GetLista(SqlConnection conn)
+
+        public List<ClienteListDto> GetLista(SqlConnection conn, int? currentPage, int? pageSize, SqlTransaction? tran = null)
         {
-            string selectQuery = @"SELECT ClienteId, Documento, Nombres, Apellido FROM Clientes";
+            string selectQuery = @"SELECT ClienteId, Documento, 
+                        Nombres, Apellido FROM Clientes";
+            selectQuery += " ORDER BY ClienteId";
+            if (currentPage.HasValue && pageSize.HasValue)
+            {
+                var offSet = (currentPage.Value - 1) * pageSize;
+                selectQuery += $" OFFSET {offSet} ROWS FETCH NEXT {pageSize.Value} ROWS ONLY";
+            }
+
             return conn.Query<ClienteListDto>(selectQuery).ToList();
+        }
+
+        public int GetCantidad(SqlConnection conn)
+        {
+            var selectQuery = "SELECT COUNT(*) FROM Clientes";
+            List<string> conditions = new List<string>();
+
+            return conn.ExecuteScalar<int>(selectQuery);
+
         }
     }
 }
