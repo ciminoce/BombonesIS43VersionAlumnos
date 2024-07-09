@@ -34,13 +34,15 @@ namespace Bombones.Windows.Helpers
                     r.Cells[1].Value = p.NombrePais;
                     break;
                 case ProvinciaEstadoListDto pe:
-                    r.Cells[0].Value = pe.NombreProvinciaEstado;
-                    r.Cells[1].Value = pe.NombrePais;
+                    r.Cells[0].Value=pe.ProvinciaEstadoId;
+                    r.Cells[1].Value = pe.NombreProvinciaEstado;
+                    r.Cells[2].Value = pe.NombrePais;
                     break;
                 case CiudadListDto ciudad:
-                    r.Cells[0].Value = ciudad.NombreCiudad;
-                    r.Cells[1].Value = ciudad.NombreProvinciaEstado;
-                    r.Cells[2].Value = ciudad.NombrePais;
+                    r.Cells[0].Value=ciudad.CiudadId;
+                    r.Cells[1].Value = ciudad.NombreCiudad;
+                    r.Cells[2].Value = ciudad.NombreProvinciaEstado;
+                    r.Cells[3].Value = ciudad.NombrePais;
                     break;
                 case FabricaListDto fabrica:
                     r.Cells[0].Value=fabrica.NombreFabrica;

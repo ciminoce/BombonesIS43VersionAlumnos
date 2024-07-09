@@ -9,10 +9,10 @@ namespace Bombones.Servicios.Intefaces
         void Borrar(int provinciaEstadoId);
         bool EstaRelacionado(int provinciaEstadoId);
         bool Existe(ProvinciaEstado pe);
-        
-        List<ProvinciaEstadoListDto>? GetLista(Orden? orden = Orden.Ninguno,
+        int GetCantidad(Pais? pais=null);
+        List<ProvinciaEstadoListDto> GetLista(int? currentPage, int? pageSize, Orden? orden = Orden.Ninguno,
             Pais ? paisSeleccionado=null);
-        List<ProvinciaEstado>? GetListaComboEstados(Pais pais);
+        List<ProvinciaEstado> GetListaComboEstados(Pais pais);
         ProvinciaEstado? GetProvinciaEstadoPorId(int provinciaEstadoId);
         void Guardar(ProvinciaEstado pe);
     }

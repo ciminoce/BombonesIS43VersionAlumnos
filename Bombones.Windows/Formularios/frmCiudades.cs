@@ -12,21 +12,32 @@ namespace Bombones.Windows
     public partial class frmCiudades : Form
     {
         private readonly IServiceProvider? _serviceProvider;
-        private readonly IServiciosCiudades? _servicios;
+        private readonly IServiciosCiudades? _servicio;
         private List<CiudadListDto>? lista;
+
+        private int currentPage = 1;//pagina actual
+        private int totalPages = 0;//total de paginas
+        private int pageSize = 10;//registros por página
+        private int totalRecords = 0;//cantidad de registros
+
         public frmCiudades(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
-            _servicios = _serviceProvider?.GetService<IServiciosCiudades>();
+            _servicio = _serviceProvider?.GetService<IServiciosCiudades>();
         }
 
         private void frmCiudades_Load(object sender, EventArgs e)
         {
             try
             {
-                lista = _servicios?.GetLista();
-                MostrarDatosEnGrilla();
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+                totalRecords = _servicio.GetCantidad(null,null);
+                totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                LoadData();
             }
             catch (Exception)
             {
@@ -34,7 +45,67 @@ namespace Bombones.Windows
                 throw;
             }
         }
-        private void MostrarDatosEnGrilla()
+        private void LoadData()
+        {
+            try
+            {
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
+                lista = _servicio.GetLista(currentPage, pageSize);
+                MostrarDatosEnGrilla(lista);
+                if (cboPaginas.Items.Count != totalPages)
+                {
+                    CombosHelper.CargarComboPaginas(ref cboPaginas, totalPages);
+                }
+                txtCantidadPaginas.Text = totalPages.ToString();
+                cboPaginas.SelectedIndex = currentPage == 1 ? 0 : currentPage - 1;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        private void btnPrimero_Click(object sender, EventArgs e)
+        {
+            currentPage = 1;
+            LoadData();
+        }
+
+        private void btnAnterior_Click(object sender, EventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                LoadData();
+            }
+        }
+
+        private void btnUltimo_Click(object sender, EventArgs e)
+        {
+            currentPage = totalPages;
+            LoadData();
+        }
+
+        private void btnSiguiente_Click(object sender, EventArgs e)
+        {
+            if (currentPage < totalPages)
+            {
+                currentPage++;
+                LoadData();
+            }
+        }
+
+        private void cboPaginas_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currentPage = int.Parse(cboPaginas.Text);
+            LoadData();
+        }
+
+        private void MostrarDatosEnGrilla(List<CiudadListDto> lista)
         {
             GridHelper.LimpiarGrilla(dgvDatos);
             if (lista is not null)
@@ -58,9 +129,9 @@ namespace Bombones.Windows
             {
                 Ciudad? ciudad = frm.GetCiudad();
                 if (ciudad is null) return;
-                if (!_servicios?.Existe(ciudad) ?? false)
+                if (!_servicio?.Existe(ciudad) ?? false)
                 {
-                    _servicios?.Guardar(ciudad);
+                    _servicio?.Guardar(ciudad);
                     var r = GridHelper.ConstruirFila(dgvDatos);
                     CiudadListDto ciudadDto = CiudadesExtensions
                         .ToCiudadListDto(ciudad);
@@ -106,9 +177,9 @@ namespace Bombones.Windows
             if (dr == DialogResult.No) return;
             try
             {
-                if (!_servicios.EstaRelacionado(ciudadDto.CiudadId))
+                if (!_servicio.EstaRelacionado(ciudadDto.CiudadId))
                 {
-                    _servicios.Borrar(ciudadDto.CiudadId);
+                    _servicio.Borrar(ciudadDto.CiudadId);
                     GridHelper.QuitarFila(r, dgvDatos);
                     MessageBox.Show("Registro eliminado!!", "Mensaje",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -138,7 +209,7 @@ namespace Bombones.Windows
             var r = dgvDatos.SelectedRows[0];
             if (r.Tag == null) return;
             CiudadListDto ciudadDto = (CiudadListDto)r.Tag;
-            Ciudad? ciudad = _servicios?.GetCiudadPorId(ciudadDto.CiudadId);
+            Ciudad? ciudad = _servicio?.GetCiudadPorId(ciudadDto.CiudadId);
             if (ciudad is null) return;
             frmCiudadesAE frm = new frmCiudadesAE(_serviceProvider) { Text = "Editar Ciudad" };
             frm.SetCiudad(ciudad);
@@ -149,9 +220,9 @@ namespace Bombones.Windows
             if (ciudad == null) return;
             try
             {
-                if (!_servicios?.Existe(ciudad) ?? false)
+                if (!_servicio?.Existe(ciudad) ?? false)
                 {
-                    _servicios?.Guardar(ciudad);
+                    _servicio?.Guardar(ciudad);
 
                     ciudadDto = CiudadesExtensions
                         .ToCiudadListDto(ciudad);

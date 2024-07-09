@@ -89,8 +89,10 @@ namespace Bombones.Datos.Repositorios
             return conn.ExecuteScalar<int>(query);
         }
 
-        public List<ProvinciaEstadoListDto>? GetLista(
+        public List<ProvinciaEstadoListDto> GetLista(
             SqlConnection conn,
+            int? currentPage,
+            int? pageSize,
             Orden? orden = Orden.Ninguno,
             Pais? pais = null,
             SqlTransaction? tran = null)
@@ -100,34 +102,32 @@ namespace Bombones.Datos.Repositorios
                         p.NombrePais 
                         FROM ProvinciasEstados pe
                         INNER JOIN Paises p ON pe.PaisId = p.PaisId";
+            List<string> conditions = new List<string>();
 
-            var conditions = new List<string>();
-            if (pais != null)
+            if(pais != null)
             {
-                conditions.Add("pe.PaisId = @PaisId");
+                conditions.Add(" WHERE pe.PaisId==@paisId");
             }
-
-            var orderQuery = orden switch
-            {
-                Orden.PaisAZ => " ORDER BY p.NombrePais",
-                Orden.PaisZA => " ORDER BY p.NombrePais DESC",
-                Orden.ProvinciaEstadoAZ => " ORDER BY pe.NombreProvinciaEstado",
-                Orden.ProvinciaEstadoZA => " ORDER BY pe.NombreProvinciaEstado DESC",
-                _ => " ORDER BY pe.ProvinciaEstadoId"  // Default order
-            };
-
             if (conditions.Any())
             {
-                selectQuery += " WHERE " + string.Join(" AND ", conditions);
+                selectQuery += string.Join("", conditions);
             }
 
-            selectQuery += orderQuery;
+            if(orden==Orden.Ninguno || orden == null)
+            {
+                selectQuery += " ORDER BY pe.ProvinciaEstadoId ";
+            }
 
+            if (currentPage.HasValue && pageSize.HasValue)
+            {
+                var offSet = (currentPage.Value - 1) * pageSize;
+                selectQuery += $" OFFSET {offSet} ROWS FETCH NEXT {pageSize.Value} ROWS ONLY";
+            }
 
             return conn.Query<ProvinciaEstadoListDto>(selectQuery, new { PaisId = pais?.PaisId }).ToList();
         }
 
-        public List<ProvinciaEstado>? GetListaComboEstados(Pais pais, SqlConnection conn,
+        public List<ProvinciaEstado> GetListaComboEstados(Pais pais, SqlConnection conn,
             SqlTransaction? tran = null)
         {
             string selectQuery = @"SELECT ProvinciaEstadoId,

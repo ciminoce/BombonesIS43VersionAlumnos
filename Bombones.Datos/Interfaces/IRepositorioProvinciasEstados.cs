@@ -15,9 +15,9 @@ namespace Bombones.Datos.Interfaces
         bool Existe(ProvinciaEstado pe, SqlConnection conn, SqlTransaction? tran = null);
 
 
-        List<ProvinciaEstadoListDto>? GetLista(SqlConnection conn,  Orden ? orden=Orden.Ninguno,
+        List<ProvinciaEstadoListDto> GetLista(SqlConnection conn, int? currentPage, int? pageSize,  Orden ? orden=Orden.Ninguno,
             Pais? pais=null, SqlTransaction? tran = null);
-        List<ProvinciaEstado>? GetListaComboEstados(Pais pais, SqlConnection conn, SqlTransaction? tran = null);
+        List<ProvinciaEstado> GetListaComboEstados(Pais pais, SqlConnection conn, SqlTransaction? tran = null);
         ProvinciaEstado? GetProvinciaEstadoPorId(int provinciaEstadoId, SqlConnection conn, SqlTransaction? tran = null);
     }
 }

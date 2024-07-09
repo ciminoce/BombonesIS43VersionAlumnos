@@ -42,7 +42,6 @@
             toolStripSeparator3 = new ToolStripSeparator();
             tsbCerrar = new ToolStripButton();
             panelNavegacion = new Panel();
-            panelGrilla = new Panel();
             txtCantidadPaginas = new TextBox();
             cboPaginas = new ComboBox();
             label2 = new Label();
@@ -51,7 +50,9 @@
             btnSiguiente = new Button();
             btnAnterior = new Button();
             btnPrimero = new Button();
+            panelGrilla = new Panel();
             dgvDatos = new DataGridView();
+            colId = new DataGridViewTextBoxColumn();
             colCiudad = new DataGridViewTextBoxColumn();
             colProvinciaEstado = new DataGridViewTextBoxColumn();
             colPais = new DataGridViewTextBoxColumn();
@@ -175,15 +176,6 @@
             panelNavegacion.Size = new Size(800, 100);
             panelNavegacion.TabIndex = 5;
             // 
-            // panelGrilla
-            // 
-            panelGrilla.Controls.Add(dgvDatos);
-            panelGrilla.Dock = DockStyle.Fill;
-            panelGrilla.Location = new Point(0, 62);
-            panelGrilla.Name = "panelGrilla";
-            panelGrilla.Size = new Size(800, 288);
-            panelGrilla.TabIndex = 6;
-            // 
             // txtCantidadPaginas
             // 
             txtCantidadPaginas.Location = new Point(176, 35);
@@ -200,6 +192,7 @@
             cboPaginas.Name = "cboPaginas";
             cboPaginas.Size = new Size(68, 23);
             cboPaginas.TabIndex = 42;
+            cboPaginas.SelectedIndexChanged += cboPaginas_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -227,6 +220,7 @@
             btnUltimo.Size = new Size(75, 41);
             btnUltimo.TabIndex = 36;
             btnUltimo.UseVisualStyleBackColor = true;
+            btnUltimo.Click += btnUltimo_Click;
             // 
             // btnSiguiente
             // 
@@ -236,6 +230,7 @@
             btnSiguiente.Size = new Size(75, 41);
             btnSiguiente.TabIndex = 37;
             btnSiguiente.UseVisualStyleBackColor = true;
+            btnSiguiente.Click += btnSiguiente_Click;
             // 
             // btnAnterior
             // 
@@ -245,6 +240,7 @@
             btnAnterior.Size = new Size(75, 41);
             btnAnterior.TabIndex = 38;
             btnAnterior.UseVisualStyleBackColor = true;
+            btnAnterior.Click += btnAnterior_Click;
             // 
             // btnPrimero
             // 
@@ -254,6 +250,16 @@
             btnPrimero.Size = new Size(75, 41);
             btnPrimero.TabIndex = 39;
             btnPrimero.UseVisualStyleBackColor = true;
+            btnPrimero.Click += btnPrimero_Click;
+            // 
+            // panelGrilla
+            // 
+            panelGrilla.Controls.Add(dgvDatos);
+            panelGrilla.Dock = DockStyle.Fill;
+            panelGrilla.Location = new Point(0, 62);
+            panelGrilla.Name = "panelGrilla";
+            panelGrilla.Size = new Size(800, 288);
+            panelGrilla.TabIndex = 6;
             // 
             // dgvDatos
             // 
@@ -262,7 +268,7 @@
             dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
             dgvDatos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvDatos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colCiudad, colProvinciaEstado, colPais });
+            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colId, colCiudad, colProvinciaEstado, colPais });
             dgvDatos.Dock = DockStyle.Fill;
             dgvDatos.Location = new Point(0, 0);
             dgvDatos.MultiSelect = false;
@@ -272,6 +278,13 @@
             dgvDatos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDatos.Size = new Size(800, 288);
             dgvDatos.TabIndex = 5;
+            // 
+            // colId
+            // 
+            colId.HeaderText = "Id";
+            colId.Name = "colId";
+            colId.ReadOnly = true;
+            colId.Visible = false;
             // 
             // colCiudad
             // 
@@ -338,6 +351,7 @@
         private Button btnPrimero;
         private Panel panelGrilla;
         private DataGridView dgvDatos;
+        private DataGridViewTextBoxColumn colId;
         private DataGridViewTextBoxColumn colCiudad;
         private DataGridViewTextBoxColumn colProvinciaEstado;
         private DataGridViewTextBoxColumn colPais;

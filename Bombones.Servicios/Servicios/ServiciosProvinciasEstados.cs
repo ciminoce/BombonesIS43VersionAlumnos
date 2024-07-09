@@ -97,7 +97,7 @@ namespace Bombones.Servicios.Servicios
 
 
 
-        public List<ProvinciaEstadoListDto>? GetLista(Orden? orden = Orden.Ninguno, Pais? paisSeleccionado = null)
+        public List<ProvinciaEstadoListDto>? GetLista(int? currentPage, int? pageSize, Orden? orden = Orden.Ninguno, Pais? paisSeleccionado = null)
         {
             if (_repositorio is null)
             {
@@ -107,14 +107,14 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetLista(conn, orden, paisSeleccionado
+                return _repositorio?.GetLista(conn, currentPage, pageSize, orden, paisSeleccionado
                     );
 
             }
 
         }
 
-        public List<ProvinciaEstado>? GetListaComboEstados(Pais pais)
+        public List<ProvinciaEstado> GetListaComboEstados(Pais pais)
         {
             if (_repositorio is null)
             {
@@ -124,7 +124,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetListaComboEstados(pais, conn);
+                return _repositorio.GetListaComboEstados(pais, conn);
 
             }
         }

@@ -8,8 +8,9 @@ namespace Bombones.Servicios.Intefaces
         void Borrar(int ciudadId);
         bool EstaRelacionado(int ciudadId);
         bool Existe(Ciudad ciudad);
+        int GetCantidad(Pais? paisSeleccionado=null, ProvinciaEstado? provSeleccionada=null);
         Ciudad? GetCiudadPorId(int ciudadId);
-        List<CiudadListDto> GetLista();
+        List<CiudadListDto> GetLista(int? currentPage, int? pageSize);
         List<Ciudad>? GetListaCombo(Pais? paisSeleccionado, ProvinciaEstado provinciaEstado);
         void Guardar(Ciudad ciudad);
     }

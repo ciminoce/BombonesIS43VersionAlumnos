@@ -14,9 +14,13 @@ namespace Bombones.Datos.Interfaces
         void Editar(Ciudad ciudad, SqlConnection conn, SqlTransaction tran);
         bool Existe(Ciudad ciudad, SqlConnection conn,
             SqlTransaction? tran=null);
-        List<CiudadListDto> GetLista(SqlConnection conn, 
-            SqlTransaction? tran=null);
+        List<CiudadListDto> GetLista(SqlConnection conn, int? currentPage,
+            int? pageSize, SqlTransaction? tran = null);
         Ciudad? GetCiudadPorId(int ciudadId, SqlConnection conn);
-        List<Ciudad>? GetListaCombo(Pais paisSeleccionado, ProvinciaEstado provinciaEstado, SqlConnection conn);
+        List<Ciudad>? GetListaCombo(SqlConnection conn,Pais paisSeleccionado, ProvinciaEstado provinciaEstado);
+        int GetCantidad(SqlConnection conn, Pais? paisSeleccionado,
+            ProvinciaEstado? provSeleccionada,
+            SqlTransaction? tran=null
+            );
     }
 }

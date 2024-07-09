@@ -72,6 +72,19 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
+        public int GetCantidad(Pais? paisSeleccionado = null, ProvinciaEstado? provSeleccionada = null)
+        {
+            if (_repositorio is null)
+            {
+                throw new ApplicationException("Dependencias no cargadas!!!");
+            }
+            using (var conn=new SqlConnection(_cadena))
+            {
+                conn.Open();
+                return _repositorio.GetCantidad(conn, paisSeleccionado, provSeleccionada);
+            }
+        }
+
         public Ciudad? GetCiudadPorId(int ciudadId)
         {
             if (_repositorio is null)
@@ -85,7 +98,7 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public List<CiudadListDto> GetLista()
+        public List<CiudadListDto> GetLista(int? currentPage, int? pageSize)
         {
             if (_repositorio is null)
             {
@@ -95,7 +108,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetLista(conn) ?? new List<CiudadListDto>();
+                return _repositorio.GetLista(conn, currentPage, pageSize);
             }
         }
 
@@ -109,7 +122,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetListaCombo(paisSeleccionado, provinciaEstado, conn) ?? new List<Ciudad>();
+                return _repositorio?.GetListaCombo(conn, paisSeleccionado, provinciaEstado);
             }
         }
 

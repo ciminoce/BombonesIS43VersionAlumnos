@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmProvinciasEstados));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            panelGrilla = new Panel();
             toolStrip1 = new ToolStrip();
             tsbNuevo = new ToolStripButton();
             tsbBorrar = new ToolStripButton();
@@ -48,7 +47,7 @@
             zAPorEstadoToolStripMenuItem = new ToolStripMenuItem();
             tsbCerrar = new ToolStripButton();
             panelNavegacion = new Panel();
-            txtCantidadRegistros = new TextBox();
+            txtCantidadPaginas = new TextBox();
             cboPaginas = new ComboBox();
             label2 = new Label();
             label1 = new Label();
@@ -56,23 +55,16 @@
             btnSiguiente = new Button();
             btnAnterior = new Button();
             btnPrimero = new Button();
+            panelGrilla = new Panel();
             dgvDatos = new DataGridView();
-            colProvinciaEstado = new DataGridViewTextBoxColumn();
+            colId = new DataGridViewTextBoxColumn();
+            colProvincia = new DataGridViewTextBoxColumn();
             colPais = new DataGridViewTextBoxColumn();
-            panelGrilla.SuspendLayout();
             toolStrip1.SuspendLayout();
             panelNavegacion.SuspendLayout();
+            panelGrilla.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDatos).BeginInit();
             SuspendLayout();
-            // 
-            // panelGrilla
-            // 
-            panelGrilla.Controls.Add(dgvDatos);
-            panelGrilla.Dock = DockStyle.Fill;
-            panelGrilla.Location = new Point(0, 62);
-            panelGrilla.Name = "panelGrilla";
-            panelGrilla.Size = new Size(800, 493);
-            panelGrilla.TabIndex = 5;
             // 
             // toolStrip1
             // 
@@ -216,7 +208,7 @@
             // 
             // panelNavegacion
             // 
-            panelNavegacion.Controls.Add(txtCantidadRegistros);
+            panelNavegacion.Controls.Add(txtCantidadPaginas);
             panelNavegacion.Controls.Add(cboPaginas);
             panelNavegacion.Controls.Add(label2);
             panelNavegacion.Controls.Add(label1);
@@ -228,15 +220,15 @@
             panelNavegacion.Location = new Point(0, 455);
             panelNavegacion.Name = "panelNavegacion";
             panelNavegacion.Size = new Size(800, 100);
-            panelNavegacion.TabIndex = 6;
+            panelNavegacion.TabIndex = 5;
             // 
-            // txtCantidadRegistros
+            // txtCantidadPaginas
             // 
-            txtCantidadRegistros.Location = new Point(176, 35);
-            txtCantidadRegistros.Name = "txtCantidadRegistros";
-            txtCantidadRegistros.ReadOnly = true;
-            txtCantidadRegistros.Size = new Size(85, 23);
-            txtCantidadRegistros.TabIndex = 27;
+            txtCantidadPaginas.Location = new Point(176, 35);
+            txtCantidadPaginas.Name = "txtCantidadPaginas";
+            txtCantidadPaginas.ReadOnly = true;
+            txtCantidadPaginas.Size = new Size(85, 23);
+            txtCantidadPaginas.TabIndex = 27;
             // 
             // cboPaginas
             // 
@@ -246,6 +238,7 @@
             cboPaginas.Name = "cboPaginas";
             cboPaginas.Size = new Size(68, 23);
             cboPaginas.TabIndex = 26;
+            cboPaginas.SelectedIndexChanged += cboPaginas_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -273,6 +266,7 @@
             btnUltimo.Size = new Size(75, 41);
             btnUltimo.TabIndex = 20;
             btnUltimo.UseVisualStyleBackColor = true;
+            btnUltimo.Click += btnUltimo_Click;
             // 
             // btnSiguiente
             // 
@@ -282,6 +276,7 @@
             btnSiguiente.Size = new Size(75, 41);
             btnSiguiente.TabIndex = 21;
             btnSiguiente.UseVisualStyleBackColor = true;
+            btnSiguiente.Click += btnSiguiente_Click;
             // 
             // btnAnterior
             // 
@@ -291,6 +286,7 @@
             btnAnterior.Size = new Size(75, 41);
             btnAnterior.TabIndex = 22;
             btnAnterior.UseVisualStyleBackColor = true;
+            btnAnterior.Click += btnAnterior_Click;
             // 
             // btnPrimero
             // 
@@ -300,6 +296,16 @@
             btnPrimero.Size = new Size(75, 41);
             btnPrimero.TabIndex = 23;
             btnPrimero.UseVisualStyleBackColor = true;
+            btnPrimero.Click += btnPrimero_Click;
+            // 
+            // panelGrilla
+            // 
+            panelGrilla.Controls.Add(dgvDatos);
+            panelGrilla.Dock = DockStyle.Fill;
+            panelGrilla.Location = new Point(0, 62);
+            panelGrilla.Name = "panelGrilla";
+            panelGrilla.Size = new Size(800, 393);
+            panelGrilla.TabIndex = 6;
             // 
             // dgvDatos
             // 
@@ -308,7 +314,7 @@
             dataGridViewCellStyle1.BackColor = Color.FromArgb(224, 224, 224);
             dgvDatos.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvDatos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colProvinciaEstado, colPais });
+            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colId, colProvincia, colPais });
             dgvDatos.Dock = DockStyle.Fill;
             dgvDatos.Location = new Point(0, 0);
             dgvDatos.MultiSelect = false;
@@ -316,15 +322,22 @@
             dgvDatos.ReadOnly = true;
             dgvDatos.RowHeadersVisible = false;
             dgvDatos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDatos.Size = new Size(800, 493);
-            dgvDatos.TabIndex = 4;
+            dgvDatos.Size = new Size(800, 393);
+            dgvDatos.TabIndex = 3;
             // 
-            // colProvinciaEstado
+            // colId
             // 
-            colProvinciaEstado.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colProvinciaEstado.HeaderText = "Prov. Estado";
-            colProvinciaEstado.Name = "colProvinciaEstado";
-            colProvinciaEstado.ReadOnly = true;
+            colId.HeaderText = "Id";
+            colId.Name = "colId";
+            colId.ReadOnly = true;
+            colId.Visible = false;
+            // 
+            // colProvincia
+            // 
+            colProvincia.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colProvincia.HeaderText = "Prov./Estado";
+            colProvincia.Name = "colProvincia";
+            colProvincia.ReadOnly = true;
             // 
             // colPais
             // 
@@ -338,25 +351,23 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 555);
-            Controls.Add(panelNavegacion);
             Controls.Add(panelGrilla);
+            Controls.Add(panelNavegacion);
             Controls.Add(toolStrip1);
             Name = "frmProvinciasEstados";
             Text = "frmProvinciasEstados";
             Load += frmProvinciasEstados_Load;
-            panelGrilla.ResumeLayout(false);
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             panelNavegacion.ResumeLayout(false);
             panelNavegacion.PerformLayout();
+            panelGrilla.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvDatos).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Panel panelGrilla;
         private ToolStrip toolStrip1;
         private ToolStripButton tsbNuevo;
         private ToolStripButton tsbBorrar;
@@ -374,10 +385,12 @@
         private ToolStripMenuItem zAPorPaísToolStripMenuItem;
         private ToolStripMenuItem zAPorEstadoToolStripMenuItem;
         private Panel panelNavegacion;
+        private Panel panelGrilla;
         private DataGridView dgvDatos;
-        private DataGridViewTextBoxColumn colProvinciaEstado;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colProvincia;
         private DataGridViewTextBoxColumn colPais;
-        private TextBox txtCantidadRegistros;
+        private TextBox txtCantidadPaginas;
         private ComboBox cboPaginas;
         private Label label2;
         private Label label1;

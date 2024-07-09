@@ -77,6 +77,31 @@ namespace Bombones.Datos.Repositorios
             return conn.QuerySingle<int>(finalQuery, ciudad) > 0;
         }
 
+        public int GetCantidad(SqlConnection conn, Pais? paisSeleccionado, ProvinciaEstado? provSeleccionada, SqlTransaction? tran = null)
+        {
+            var selectQuery = "SELECT COUNT(*) FROM Ciudades";
+            List<string> conditions= new List<string>();
+
+            if (paisSeleccionado != null)
+            {
+                conditions.Add(" WHERE PaisId = @PaisId");
+               
+            }
+            if (provSeleccionada != null)
+            {
+                conditions.Add("ProvinciaEstadoId= @ProvinciaEstadoId");
+            }
+            if (conditions.Any())
+            {
+                selectQuery += string.Join(" AND ", conditions);
+                return conn.ExecuteScalar<int>(selectQuery, new {@PaisId=paisSeleccionado?.PaisId,
+                    @ProvinciaEstadoId=provSeleccionada?.ProvinciaEstadoId
+                });
+
+            }
+            return conn.ExecuteScalar<int>(selectQuery);
+        }
+
         public Ciudad? GetCiudadPorId(int ciudadId, SqlConnection conn)
         {
             string selectQuery = @"SELECT CiudadId, NombreCiudad, 
@@ -86,22 +111,34 @@ namespace Bombones.Datos.Repositorios
                 selectQuery, new {@CiudadId= ciudadId });
         }
 
-        public List<CiudadListDto> GetLista(SqlConnection conn, SqlTransaction? tran=null)
+
+        public List<CiudadListDto> GetLista(SqlConnection conn, int? currentPage, int? pageSize, SqlTransaction? tran = null)
         {
             string selectQuery = @"SELECT c.CiudadId, c.NombreCiudad, 
                 p.NombrePais, pe.NombreProvinciaEstado FROM Ciudades c
                 INNER JOIN Paises p ON c.PaisId=p.PaisId INNER JOIN 
                 ProvinciasEstados pe ON c.ProvinciaEstadoId=pe.ProvinciaEstadoId";
+
+            selectQuery += " ORDER BY c.CiudadId";
+            if (currentPage.HasValue && pageSize.HasValue)
+            {
+                var offSet = (currentPage.Value - 1) * pageSize;
+                selectQuery += $" OFFSET {offSet} ROWS FETCH NEXT {pageSize.Value} ROWS ONLY";
+            }
             return conn.Query<CiudadListDto>(selectQuery).ToList();
+
         }
 
-        public List<Ciudad>? GetListaCombo(Pais paisSeleccionado, ProvinciaEstado provinciaEstado, SqlConnection conn)
+        public List<Ciudad>? GetListaCombo(SqlConnection conn, Pais paisSeleccionado, ProvinciaEstado provinciaEstado)
         {
             string selectQuery = @"SELECT CiudadId, NombreCiudad, 
                 PaisId, ProvinciaEstadoId FROM Ciudades 
                 WHERE PaisId=@PaisId AND ProvinciaEstadoId=@ProvinciaEstadoId";
-            return conn.Query<Ciudad>(selectQuery, new {@PaisId=paisSeleccionado.PaisId,
-                    @ProvinciaEstadoId=provinciaEstado.ProvinciaEstadoId}).ToList();
+            return conn.Query<Ciudad>(selectQuery, new
+            {
+                @PaisId = paisSeleccionado.PaisId,
+                @ProvinciaEstadoId = provinciaEstado.ProvinciaEstadoId
+            }).ToList();
         }
     }
 }
