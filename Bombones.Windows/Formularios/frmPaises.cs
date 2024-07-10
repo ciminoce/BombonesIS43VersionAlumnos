@@ -30,6 +30,7 @@ namespace Bombones.Windows.Formularios
                 }
                 totalRecords = _servicio.GetCantidad();
                 totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                currentPage = totalPages;
                 LoadData();
             }
             catch (Exception)
@@ -50,7 +51,10 @@ namespace Bombones.Windows.Formularios
                     CombosHelper.CargarComboPaginas(ref cboPaginas, totalPages);
                 }
                 txtCantidadPaginas.Text = totalPages.ToString();
+                cboPaginas.SelectedIndexChanged -= cboPaginas_SelectedIndexChanged;
                 cboPaginas.SelectedIndex = currentPage == 1 ? 0 : currentPage - 1;
+                cboPaginas.SelectedIndexChanged += cboPaginas_SelectedIndexChanged;
+
             }
             catch (Exception)
             {
@@ -102,6 +106,8 @@ namespace Bombones.Windows.Formularios
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(pais.NombrePais, pageSize);
                     LoadData();
+                    int row = GridHelper.ObtenerRowIndex(dgvDatos, pais.PaisId);
+                    GridHelper.MarcarRow(dgvDatos, row);
 
                     MessageBox.Show("Registro agregado",
                         "Mensaje",
@@ -219,8 +225,8 @@ namespace Bombones.Windows.Formularios
                 {
                     _servicio.Guardar(pais);
 
-                    totalRecords = _servicio.GetCantidad();
-                    totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                    //totalRecords = _servicio.GetCantidad();
+                    //totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(pais.NombrePais, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pais.PaisId);
@@ -289,8 +295,12 @@ namespace Bombones.Windows.Formularios
 
         private void cboPaginas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentPage=int.Parse(cboPaginas.Text);
-            LoadData();
+            if (cboPaginas.SelectedIndex>=0)
+            {
+                currentPage = int.Parse(cboPaginas.Text);
+                LoadData();
+
+            }
         }
     }
 }

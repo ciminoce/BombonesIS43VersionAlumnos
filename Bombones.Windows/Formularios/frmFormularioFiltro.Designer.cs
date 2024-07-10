@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFormularioFiltro));
             cboCiudades = new ComboBox();
             cboProvinciasEstados = new ComboBox();
@@ -35,8 +36,10 @@
             label2 = new Label();
             btnCancelar = new Button();
             btnOk = new Button();
-            label5 = new Label();
-            label1 = new Label();
+            lblCiudad = new Label();
+            lblEstado = new Label();
+            errorProvider1 = new ErrorProvider(components);
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // cboCiudades
@@ -65,6 +68,7 @@
             cboPaises.Name = "cboPaises";
             cboPaises.Size = new Size(315, 23);
             cboPaises.TabIndex = 36;
+            cboPaises.SelectedIndexChanged += cboPaises_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -77,6 +81,7 @@
             // 
             // btnCancelar
             // 
+            btnCancelar.Anchor = AnchorStyles.Bottom;
             btnCancelar.Image = Properties.Resources.Cancelar;
             btnCancelar.Location = new Point(449, 182);
             btnCancelar.Name = "btnCancelar";
@@ -85,9 +90,11 @@
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextImageRelation = TextImageRelation.ImageAboveText;
             btnCancelar.UseVisualStyleBackColor = true;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // btnOk
             // 
+            btnOk.Anchor = AnchorStyles.Bottom;
             btnOk.Image = (Image)resources.GetObject("btnOk.Image");
             btnOk.Location = new Point(37, 182);
             btnOk.Name = "btnOk";
@@ -96,40 +103,49 @@
             btnOk.Text = "Ok";
             btnOk.TextImageRelation = TextImageRelation.ImageAboveText;
             btnOk.UseVisualStyleBackColor = true;
+            btnOk.Click += btnOk_Click;
             // 
-            // label5
+            // lblCiudad
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(37, 128);
-            label5.Name = "label5";
-            label5.Size = new Size(48, 15);
-            label5.TabIndex = 29;
-            label5.Text = "Ciudad:";
+            lblCiudad.AutoSize = true;
+            lblCiudad.Location = new Point(37, 128);
+            lblCiudad.Name = "lblCiudad";
+            lblCiudad.Size = new Size(48, 15);
+            lblCiudad.TabIndex = 29;
+            lblCiudad.Text = "Ciudad:";
             // 
-            // label1
+            // lblEstado
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(37, 85);
-            label1.Name = "label1";
-            label1.Size = new Size(99, 15);
-            label1.TabIndex = 30;
-            label1.Text = "Provincia/Estado:";
+            lblEstado.AutoSize = true;
+            lblEstado.Location = new Point(37, 85);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(99, 15);
+            lblEstado.TabIndex = 30;
+            lblEstado.Text = "Provincia/Estado:";
+            // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
             // 
             // frmFormularioFiltro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(607, 262);
+            ClientSize = new Size(604, 261);
             Controls.Add(cboCiudades);
             Controls.Add(cboProvinciasEstados);
             Controls.Add(cboPaises);
             Controls.Add(label2);
             Controls.Add(btnCancelar);
             Controls.Add(btnOk);
-            Controls.Add(label5);
-            Controls.Add(label1);
+            Controls.Add(lblCiudad);
+            Controls.Add(lblEstado);
+            MaximumSize = new Size(620, 300);
             Name = "frmFormularioFiltro";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Seleccionar";
+            Load += frmFormularioFiltro_Load;
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -142,7 +158,8 @@
         private Label label2;
         private Button btnCancelar;
         private Button btnOk;
-        private Label label5;
-        private Label label1;
+        private Label lblCiudad;
+        private Label lblEstado;
+        private ErrorProvider errorProvider1;
     }
 }

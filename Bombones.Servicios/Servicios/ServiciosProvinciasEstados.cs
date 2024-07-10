@@ -108,8 +108,8 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetLista(conn, currentPage, pageSize, orden, paisSeleccionado
-                    );
+                return _repositorio.GetLista(conn, currentPage, pageSize, orden,
+                    paisSeleccionado);
 
             }
 

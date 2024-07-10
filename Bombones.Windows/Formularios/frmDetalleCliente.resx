@@ -117,23 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="errorProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+  <metadata name="colTelefonoId.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnOk.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAABGdBTUEAALGPC/xhBQAAAi1JREFUSEtj
-        GAWjAAtQB+L5QMwK5tEYpLKJCRyV9DY9BGTHQoRoB/IETVUPWW2q+We5vvI3ExvrSqg4TUAAv4HCMavN
-        Nf9hmFtedD9QnAMiTV2gxibMe9xyQ9VfZAsVEp2PAuUiIEqoB9iZOVj3mizMf41sGQhbrKv8wcjEdBGo
-        RhiilDqgTaM2/AK6ZVabqv8KmaruBspXQpQRBnZAzARh4gT6/DpyB9EtM1tZ+p5dlP8gUD4eooww4Gbi
-        ZLvEyMK8EcjmhwhhAGZmdrYdZstLPiBbZjQ7+ykLFxso7swgyogDAfJxjkd0uxNvMLKxrAPyWSDCKCBX
-        Icn1KLJlhtMy7gPjE5T/pCFKiAeTTBYXgBOBelXoeQZmpklQcRgQZxfhO4xsmfGsrMfM7KwHgHJiECUk
-        ABZejq3IhslG2h4GChdAZIGAiWmq3sTUOzB50yWFb1m42EFqpCAKSAedwhbq+0AlBsxQAUNlUCYGJSQt
-        fh35fTBxy43Vf0C+BYqrgTRSAoJ4NWT2wgy2WFvxnZmbfT8oTs2WFr+DiQtbqoMc4gfRQjlIFnMz2A0z
-        HJTf5BOcjsD42m2xV4AZpxeqlmpgokqeN0Zes1xf9YuFlxOUSLghyqgHWBgYGdfp9SaeRrZQwst4L1DO
-        F6KE+kAAmOT3mCzIfwyyDBSHwLjcBJWjGVBg5mTfb7q06AW3kvg+IN8AIkxboAYsSU4DE0o9lE8XIAPE
-        dGmrjAIiAQMDAGd29ys1zQYgAAAAAElFTkSuQmCC
-</value>
-  </data>
+  <metadata name="colTipo.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colNumero.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colDireccionId.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colTipoDireccion.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colCalle.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colAltura.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colEntre1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colEntre2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colCiudad.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colEstado.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colPais.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="colCodPostal.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

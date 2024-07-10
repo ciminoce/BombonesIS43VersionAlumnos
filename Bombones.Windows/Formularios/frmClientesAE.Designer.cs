@@ -29,70 +29,44 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClientesAE));
-            label4 = new Label();
-            label3 = new Label();
             btnCancelar = new Button();
             btnOk = new Button();
-            txtApellido = new TextBox();
-            txtDocumento = new TextBox();
-            txtNombre = new TextBox();
-            label6 = new Label();
             tabCliente = new TabControl();
             tabPage1 = new TabPage();
+            lblTelefonos = new Label();
+            lblDirecciones = new Label();
+            label3 = new Label();
+            label6 = new Label();
+            label4 = new Label();
+            txtDocumento = new TextBox();
+            txtApellido = new TextBox();
+            txtNombre = new TextBox();
             tabPage2 = new TabPage();
-            dataGridView1 = new DataGridView();
-            tabPage3 = new TabPage();
-            colCalle = new DataGridViewTextBoxColumn();
-            colPais = new DataGridViewTextBoxColumn();
-            colEstado = new DataGridViewTextBoxColumn();
-            colCiudad = new DataGridViewTextBoxColumn();
-            colDetalle = new DataGridViewButtonColumn();
-            btnAgregarDireccion = new Button();
-            btnBorrarDireccion = new Button();
+            dgvDirecciones = new DataGridView();
+            colId = new DataGridViewTextBoxColumn();
+            colDireccion = new DataGridViewTextBoxColumn();
             btnEditarDireccion = new Button();
+            btnBorrarDireccion = new Button();
+            btnAgregarDireccion = new Button();
+            tabPage3 = new TabPage();
             splitContainer1 = new SplitContainer();
-            dataGridView2 = new DataGridView();
-            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            dataGridViewTextBoxColumn4 = new DataGridViewTextBoxColumn();
-            dataGridViewButtonColumn1 = new DataGridViewButtonColumn();
-            label1 = new Label();
-            textBox1 = new TextBox();
-            cboTipoTelefono = new ComboBox();
-            label2 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            dgvTelefonos = new DataGridView();
+            colTelId = new DataGridViewTextBoxColumn();
+            colTelefono = new DataGridViewTextBoxColumn();
+            btnEditarTelefono = new Button();
+            btnBorrarTelefono = new Button();
+            btnAgregarTelefono = new Button();
             tabCliente.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDirecciones).BeginInit();
             tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTelefonos).BeginInit();
             SuspendLayout();
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(34, 63);
-            label4.Name = "label4";
-            label4.Size = new Size(54, 15);
-            label4.TabIndex = 40;
-            label4.Text = "Apellido:";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(34, 18);
-            label3.Name = "label3";
-            label3.Size = new Size(73, 15);
-            label3.TabIndex = 41;
-            label3.Text = "Documento:";
             // 
             // btnCancelar
             // 
@@ -116,52 +90,21 @@
             btnOk.TextImageRelation = TextImageRelation.ImageAboveText;
             btnOk.UseVisualStyleBackColor = true;
             // 
-            // txtApellido
-            // 
-            txtApellido.Location = new Point(135, 60);
-            txtApellido.MaxLength = 50;
-            txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(412, 23);
-            txtApellido.TabIndex = 31;
-            // 
-            // txtDocumento
-            // 
-            txtDocumento.Location = new Point(135, 15);
-            txtDocumento.MaxLength = 8;
-            txtDocumento.Name = "txtDocumento";
-            txtDocumento.Size = new Size(148, 23);
-            txtDocumento.TabIndex = 30;
-            // 
-            // txtNombre
-            // 
-            txtNombre.Location = new Point(135, 103);
-            txtNombre.MaxLength = 50;
-            txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(412, 23);
-            txtNombre.TabIndex = 31;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(34, 106);
-            label6.Name = "label6";
-            label6.Size = new Size(54, 15);
-            label6.TabIndex = 40;
-            label6.Text = "Nombre:";
-            // 
             // tabCliente
             // 
             tabCliente.Controls.Add(tabPage1);
             tabCliente.Controls.Add(tabPage2);
             tabCliente.Controls.Add(tabPage3);
-            tabCliente.Location = new Point(12, 23);
+            tabCliente.Location = new Point(25, 39);
             tabCliente.Name = "tabCliente";
             tabCliente.SelectedIndex = 0;
             tabCliente.Size = new Size(934, 415);
-            tabCliente.TabIndex = 42;
+            tabCliente.TabIndex = 43;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(lblTelefonos);
+            tabPage1.Controls.Add(lblDirecciones);
             tabPage1.Controls.Add(label3);
             tabPage1.Controls.Add(label6);
             tabPage1.Controls.Add(label4);
@@ -176,9 +119,80 @@
             tabPage1.Text = "Datos Cliente";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // lblTelefonos
+            // 
+            lblTelefonos.AutoSize = true;
+            lblTelefonos.Location = new Point(46, 218);
+            lblTelefonos.Name = "lblTelefonos";
+            lblTelefonos.Size = new Size(38, 15);
+            lblTelefonos.TabIndex = 42;
+            lblTelefonos.Text = "label5";
+            lblTelefonos.Visible = false;
+            // 
+            // lblDirecciones
+            // 
+            lblDirecciones.AutoSize = true;
+            lblDirecciones.Location = new Point(46, 184);
+            lblDirecciones.Name = "lblDirecciones";
+            lblDirecciones.Size = new Size(38, 15);
+            lblDirecciones.TabIndex = 42;
+            lblDirecciones.Text = "label5";
+            lblDirecciones.Visible = false;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(37, 21);
+            label3.Name = "label3";
+            label3.Size = new Size(73, 15);
+            label3.TabIndex = 41;
+            label3.Text = "Documento:";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(37, 109);
+            label6.Name = "label6";
+            label6.Size = new Size(54, 15);
+            label6.TabIndex = 40;
+            label6.Text = "Nombre:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(37, 66);
+            label4.Name = "label4";
+            label4.Size = new Size(54, 15);
+            label4.TabIndex = 40;
+            label4.Text = "Apellido:";
+            // 
+            // txtDocumento
+            // 
+            txtDocumento.Location = new Point(135, 15);
+            txtDocumento.MaxLength = 8;
+            txtDocumento.Name = "txtDocumento";
+            txtDocumento.Size = new Size(148, 23);
+            txtDocumento.TabIndex = 30;
+            // 
+            // txtApellido
+            // 
+            txtApellido.Location = new Point(135, 60);
+            txtApellido.MaxLength = 50;
+            txtApellido.Name = "txtApellido";
+            txtApellido.Size = new Size(412, 23);
+            txtApellido.TabIndex = 31;
+            // 
+            // txtNombre
+            // 
+            txtNombre.Location = new Point(135, 103);
+            txtNombre.MaxLength = 50;
+            txtNombre.Name = "txtNombre";
+            txtNombre.Size = new Size(412, 23);
+            txtNombre.TabIndex = 31;
+            // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(dataGridView1);
+            tabPage2.Controls.Add(dgvDirecciones);
             tabPage2.Controls.Add(btnEditarDireccion);
             tabPage2.Controls.Add(btnBorrarDireccion);
             tabPage2.Controls.Add(btnAgregarDireccion);
@@ -190,17 +204,67 @@
             tabPage2.Text = "Direcciones";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // dgvDirecciones
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colCalle, colPais, colEstado, colCiudad, colDetalle });
-            dataGridView1.Location = new Point(3, 3);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.Size = new Size(920, 278);
-            dataGridView1.TabIndex = 0;
+            dgvDirecciones.AllowUserToAddRows = false;
+            dgvDirecciones.AllowUserToDeleteRows = false;
+            dgvDirecciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDirecciones.Columns.AddRange(new DataGridViewColumn[] { colId, colDireccion });
+            dgvDirecciones.Location = new Point(3, 3);
+            dgvDirecciones.MultiSelect = false;
+            dgvDirecciones.Name = "dgvDirecciones";
+            dgvDirecciones.ReadOnly = true;
+            dgvDirecciones.RowHeadersVisible = false;
+            dgvDirecciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDirecciones.Size = new Size(920, 278);
+            dgvDirecciones.TabIndex = 0;
+            // 
+            // colId
+            // 
+            colId.HeaderText = "Id";
+            colId.Name = "colId";
+            colId.ReadOnly = true;
+            colId.Visible = false;
+            // 
+            // colDireccion
+            // 
+            colDireccion.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colDireccion.HeaderText = "Dirección";
+            colDireccion.Name = "colDireccion";
+            colDireccion.ReadOnly = true;
+            // 
+            // btnEditarDireccion
+            // 
+            btnEditarDireccion.Image = Properties.Resources.edit_28px1;
+            btnEditarDireccion.Location = new Point(269, 301);
+            btnEditarDireccion.Name = "btnEditarDireccion";
+            btnEditarDireccion.Size = new Size(119, 54);
+            btnEditarDireccion.TabIndex = 35;
+            btnEditarDireccion.Text = "Editar";
+            btnEditarDireccion.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnEditarDireccion.UseVisualStyleBackColor = true;
+            // 
+            // btnBorrarDireccion
+            // 
+            btnBorrarDireccion.Image = Properties.Resources.delete_sign_28px;
+            btnBorrarDireccion.Location = new Point(144, 301);
+            btnBorrarDireccion.Name = "btnBorrarDireccion";
+            btnBorrarDireccion.Size = new Size(119, 54);
+            btnBorrarDireccion.TabIndex = 35;
+            btnBorrarDireccion.Text = "Borrar";
+            btnBorrarDireccion.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnBorrarDireccion.UseVisualStyleBackColor = true;
+            // 
+            // btnAgregarDireccion
+            // 
+            btnAgregarDireccion.Image = Properties.Resources.add_28px;
+            btnAgregarDireccion.Location = new Point(19, 301);
+            btnAgregarDireccion.Name = "btnAgregarDireccion";
+            btnAgregarDireccion.Size = new Size(119, 54);
+            btnAgregarDireccion.TabIndex = 35;
+            btnAgregarDireccion.Text = "Agregar";
+            btnAgregarDireccion.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnAgregarDireccion.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -213,73 +277,6 @@
             tabPage3.Text = "Teléfonos";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // colCalle
-            // 
-            colCalle.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colCalle.HeaderText = "Calle";
-            colCalle.Name = "colCalle";
-            colCalle.ReadOnly = true;
-            // 
-            // colPais
-            // 
-            colPais.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colPais.HeaderText = "País";
-            colPais.Name = "colPais";
-            colPais.ReadOnly = true;
-            // 
-            // colEstado
-            // 
-            colEstado.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colEstado.HeaderText = "Estado";
-            colEstado.Name = "colEstado";
-            colEstado.ReadOnly = true;
-            // 
-            // colCiudad
-            // 
-            colCiudad.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colCiudad.HeaderText = "Ciudad";
-            colCiudad.Name = "colCiudad";
-            colCiudad.ReadOnly = true;
-            // 
-            // colDetalle
-            // 
-            colDetalle.HeaderText = "Detalle";
-            colDetalle.Name = "colDetalle";
-            colDetalle.ReadOnly = true;
-            // 
-            // btnAgregarDireccion
-            // 
-            btnAgregarDireccion.Image = Properties.Resources.add_28px;
-            btnAgregarDireccion.Location = new Point(19, 301);
-            btnAgregarDireccion.Name = "btnAgregarDireccion";
-            btnAgregarDireccion.Size = new Size(119, 54);
-            btnAgregarDireccion.TabIndex = 35;
-            btnAgregarDireccion.Text = "Ok";
-            btnAgregarDireccion.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnAgregarDireccion.UseVisualStyleBackColor = true;
-            // 
-            // btnBorrarDireccion
-            // 
-            btnBorrarDireccion.Image = Properties.Resources.delete_sign_28px;
-            btnBorrarDireccion.Location = new Point(144, 301);
-            btnBorrarDireccion.Name = "btnBorrarDireccion";
-            btnBorrarDireccion.Size = new Size(119, 54);
-            btnBorrarDireccion.TabIndex = 35;
-            btnBorrarDireccion.Text = "Ok";
-            btnBorrarDireccion.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnBorrarDireccion.UseVisualStyleBackColor = true;
-            // 
-            // btnEditarDireccion
-            // 
-            btnEditarDireccion.Image = Properties.Resources.edit_28px1;
-            btnEditarDireccion.Location = new Point(269, 301);
-            btnEditarDireccion.Name = "btnEditarDireccion";
-            btnEditarDireccion.Size = new Size(119, 54);
-            btnEditarDireccion.TabIndex = 35;
-            btnEditarDireccion.Text = "Ok";
-            btnEditarDireccion.TextImageRelation = TextImageRelation.ImageAboveText;
-            btnEditarDireccion.UseVisualStyleBackColor = true;
-            // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
@@ -289,134 +286,79 @@
             // 
             // splitContainer1.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(button1);
-            splitContainer1.Panel1.Controls.Add(button2);
-            splitContainer1.Panel1.Controls.Add(button3);
-            splitContainer1.Panel1.Controls.Add(cboTipoTelefono);
-            splitContainer1.Panel1.Controls.Add(label2);
-            splitContainer1.Panel1.Controls.Add(label1);
-            splitContainer1.Panel1.Controls.Add(textBox1);
+            splitContainer1.Panel1.Controls.Add(dgvTelefonos);
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(dataGridView2);
+            splitContainer1.Panel2.Controls.Add(btnEditarTelefono);
+            splitContainer1.Panel2.Controls.Add(btnBorrarTelefono);
+            splitContainer1.Panel2.Controls.Add(btnAgregarTelefono);
             splitContainer1.Size = new Size(920, 381);
-            splitContainer1.SplitterDistance = 103;
+            splitContainer1.SplitterDistance = 247;
             splitContainer1.TabIndex = 0;
             // 
-            // dataGridView2
+            // dgvTelefonos
             // 
-            dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.AllowUserToDeleteRows = false;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3, dataGridViewTextBoxColumn4, dataGridViewButtonColumn1 });
-            dataGridView2.Location = new Point(0, -2);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.ReadOnly = true;
-            dataGridView2.Size = new Size(920, 278);
-            dataGridView2.TabIndex = 1;
+            dgvTelefonos.AllowUserToAddRows = false;
+            dgvTelefonos.AllowUserToDeleteRows = false;
+            dgvTelefonos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTelefonos.Columns.AddRange(new DataGridViewColumn[] { colTelId, colTelefono });
+            dgvTelefonos.Dock = DockStyle.Fill;
+            dgvTelefonos.Location = new Point(0, 0);
+            dgvTelefonos.MultiSelect = false;
+            dgvTelefonos.Name = "dgvTelefonos";
+            dgvTelefonos.ReadOnly = true;
+            dgvTelefonos.RowHeadersVisible = false;
+            dgvTelefonos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTelefonos.Size = new Size(920, 247);
+            dgvTelefonos.TabIndex = 1;
             // 
-            // dataGridViewTextBoxColumn1
+            // colTelId
             // 
-            dataGridViewTextBoxColumn1.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewTextBoxColumn1.HeaderText = "Calle";
-            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            dataGridViewTextBoxColumn1.ReadOnly = true;
+            colTelId.HeaderText = "Id";
+            colTelId.Name = "colTelId";
+            colTelId.ReadOnly = true;
+            colTelId.Visible = false;
             // 
-            // dataGridViewTextBoxColumn2
+            // colTelefono
             // 
-            dataGridViewTextBoxColumn2.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewTextBoxColumn2.HeaderText = "País";
-            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            dataGridViewTextBoxColumn2.ReadOnly = true;
+            colTelefono.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colTelefono.HeaderText = "Teléfono";
+            colTelefono.Name = "colTelefono";
+            colTelefono.ReadOnly = true;
             // 
-            // dataGridViewTextBoxColumn3
+            // btnEditarTelefono
             // 
-            dataGridViewTextBoxColumn3.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewTextBoxColumn3.HeaderText = "Estado";
-            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            dataGridViewTextBoxColumn3.ReadOnly = true;
+            btnEditarTelefono.Image = Properties.Resources.edit_28px1;
+            btnEditarTelefono.Location = new Point(271, 37);
+            btnEditarTelefono.Name = "btnEditarTelefono";
+            btnEditarTelefono.Size = new Size(119, 54);
+            btnEditarTelefono.TabIndex = 36;
+            btnEditarTelefono.Text = "Editar";
+            btnEditarTelefono.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnEditarTelefono.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewTextBoxColumn4
+            // btnBorrarTelefono
             // 
-            dataGridViewTextBoxColumn4.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewTextBoxColumn4.HeaderText = "Ciudad";
-            dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            dataGridViewTextBoxColumn4.ReadOnly = true;
+            btnBorrarTelefono.Image = Properties.Resources.delete_sign_28px;
+            btnBorrarTelefono.Location = new Point(146, 37);
+            btnBorrarTelefono.Name = "btnBorrarTelefono";
+            btnBorrarTelefono.Size = new Size(119, 54);
+            btnBorrarTelefono.TabIndex = 37;
+            btnBorrarTelefono.Text = "Borrar";
+            btnBorrarTelefono.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnBorrarTelefono.UseVisualStyleBackColor = true;
             // 
-            // dataGridViewButtonColumn1
+            // btnAgregarTelefono
             // 
-            dataGridViewButtonColumn1.HeaderText = "Detalle";
-            dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
-            dataGridViewButtonColumn1.ReadOnly = true;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(40, 46);
-            label1.Name = "label1";
-            label1.Size = new Size(55, 15);
-            label1.TabIndex = 43;
-            label1.Text = "Teléfono:";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(141, 43);
-            textBox1.MaxLength = 8;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(311, 23);
-            textBox1.TabIndex = 42;
-            // 
-            // cboTipoTelefono
-            // 
-            cboTipoTelefono.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboTipoTelefono.FormattingEnabled = true;
-            cboTipoTelefono.Location = new Point(141, 11);
-            cboTipoTelefono.Name = "cboTipoTelefono";
-            cboTipoTelefono.Size = new Size(311, 23);
-            cboTipoTelefono.TabIndex = 49;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(40, 14);
-            label2.Name = "label2";
-            label2.Size = new Size(81, 15);
-            label2.TabIndex = 50;
-            label2.Text = "Tipo Teléfono:";
-            // 
-            // button1
-            // 
-            button1.Image = Properties.Resources.edit_28px1;
-            button1.Location = new Point(750, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(119, 54);
-            button1.TabIndex = 51;
-            button1.Text = "Ok";
-            button1.TextImageRelation = TextImageRelation.ImageAboveText;
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            button2.Image = Properties.Resources.delete_sign_28px;
-            button2.Location = new Point(625, 12);
-            button2.Name = "button2";
-            button2.Size = new Size(119, 54);
-            button2.TabIndex = 52;
-            button2.Text = "Ok";
-            button2.TextImageRelation = TextImageRelation.ImageAboveText;
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Image = Properties.Resources.add_28px;
-            button3.Location = new Point(500, 12);
-            button3.Name = "button3";
-            button3.Size = new Size(119, 54);
-            button3.TabIndex = 53;
-            button3.Text = "Ok";
-            button3.TextImageRelation = TextImageRelation.ImageAboveText;
-            button3.UseVisualStyleBackColor = true;
+            btnAgregarTelefono.Image = Properties.Resources.add_28px;
+            btnAgregarTelefono.Location = new Point(21, 37);
+            btnAgregarTelefono.Name = "btnAgregarTelefono";
+            btnAgregarTelefono.Size = new Size(119, 54);
+            btnAgregarTelefono.TabIndex = 38;
+            btnAgregarTelefono.Text = "Agregar";
+            btnAgregarTelefono.TextImageRelation = TextImageRelation.ImageAboveText;
+            btnAgregarTelefono.UseVisualStyleBackColor = true;
             // 
             // frmClientesAE
             // 
@@ -432,53 +374,43 @@
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDirecciones).EndInit();
             tabPage3.ResumeLayout(false);
             splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel1.PerformLayout();
             splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvTelefonos).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Label label4;
-        private Label label3;
         private Button btnCancelar;
         private Button btnOk;
-        private TextBox txtApellido;
-        private TextBox txtDocumento;
-        private TextBox txtNombre;
-        private Label label6;
         private TabControl tabCliente;
         private TabPage tabPage1;
+        private Label lblTelefonos;
+        private Label lblDirecciones;
+        private Label label3;
+        private Label label6;
+        private Label label4;
+        private TextBox txtDocumento;
+        private TextBox txtApellido;
+        private TextBox txtNombre;
         private TabPage tabPage2;
-        private DataGridView dataGridView1;
-        private TabPage tabPage3;
-        private DataGridViewTextBoxColumn colCalle;
-        private DataGridViewTextBoxColumn colPais;
-        private DataGridViewTextBoxColumn colEstado;
-        private DataGridViewTextBoxColumn colCiudad;
-        private DataGridViewButtonColumn colDetalle;
-        private Button btnAgregarDireccion;
+        private DataGridView dgvDirecciones;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colDireccion;
         private Button btnEditarDireccion;
         private Button btnBorrarDireccion;
+        private Button btnAgregarDireccion;
+        private TabPage tabPage3;
         private SplitContainer splitContainer1;
-        private Label label1;
-        private TextBox textBox1;
-        private DataGridView dataGridView2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private DataGridViewButtonColumn dataGridViewButtonColumn1;
-        private ComboBox cboTipoTelefono;
-        private Label label2;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private DataGridView dgvTelefonos;
+        private DataGridViewTextBoxColumn colTelId;
+        private DataGridViewTextBoxColumn colTelefono;
+        private Button btnEditarTelefono;
+        private Button btnBorrarTelefono;
+        private Button btnAgregarTelefono;
     }
 }

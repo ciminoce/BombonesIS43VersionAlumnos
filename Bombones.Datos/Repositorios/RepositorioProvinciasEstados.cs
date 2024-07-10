@@ -102,21 +102,48 @@ namespace Bombones.Datos.Repositorios
                         p.NombrePais 
                         FROM ProvinciasEstados pe
                         INNER JOIN Paises p ON pe.PaisId = p.PaisId";
+            
             List<string> conditions = new List<string>();
 
             if(pais != null)
             {
-                conditions.Add(" WHERE pe.PaisId==@paisId");
-            }
-            if (conditions.Any())
-            {
-                selectQuery += string.Join("", conditions);
+                conditions.Add("pe.PaisId=@paisId");
             }
 
-            if(orden==Orden.ProvinciaEstadoAZ || orden == null)
+            if (conditions.Any())
             {
-                selectQuery += " ORDER BY pe.NombreProvinciaEstado ";
+                selectQuery +=" WHERE "+ string.Join(" AND ", conditions);
             }
+            string orderBy=string.Empty;
+
+            switch (orden)
+            {
+                case Orden.Ninguno:
+                    orderBy = " ORDER BY pe.ProvinciaEstadoId ";
+                    break;
+                case Orden.PaisAZ:
+                    orderBy = " ORDER BY p.NombrePais ";
+
+                    break;
+                case Orden.PaisZA:
+                    orderBy = " ORDER BY p.NombrePais DESC ";
+
+                    break;
+                case Orden.ProvinciaEstadoAZ:
+                    orderBy = " ORDER BY pe.NombreProvinciaEstado ";
+
+                    break;
+                default:
+                    orderBy = " ORDER BY pe.NombreProvinciaEstado DESC ";
+
+                    break;
+
+            }
+            selectQuery += orderBy;
+            //if(orden==Orden.ProvinciaEstadoAZ || orden == null)
+            //{
+            //    selectQuery += " ORDER BY pe.NombreProvinciaEstado ";
+            //}
 
             if (currentPage.HasValue && pageSize.HasValue)
             {

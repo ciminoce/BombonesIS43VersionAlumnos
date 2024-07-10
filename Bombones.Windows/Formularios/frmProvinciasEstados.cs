@@ -19,6 +19,9 @@ namespace Bombones.Windows.Formularios
         private int pageSize = 10;//registros por página
         private int totalRecords = 0;//cantidad de registros
 
+        private FiltroContexto filtroContexto = FiltroContexto.Pais;
+        private Pais? paisFiltro = null;
+        private bool filterOn = false;
         public frmProvinciasEstados(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
@@ -53,7 +56,7 @@ namespace Bombones.Windows.Formularios
                     throw new ApplicationException("Dependencias no cargadas");
                 }
 
-                lista = _servicio.GetLista(currentPage, pageSize,orden);
+                lista = _servicio.GetLista(currentPage, pageSize, orden, paisFiltro);
                 MostrarDatosEnGrilla(lista);
                 if (cboPaginas.Items.Count != totalPages)
                 {
@@ -241,8 +244,8 @@ namespace Bombones.Windows.Formularios
                 if (!_servicio.Existe(pe))
                 {
                     _servicio.Guardar(pe);
-                    totalRecords = _servicio.GetCantidad();
-                    totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                    //totalRecords = _servicio.GetCantidad();
+                    //totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(pe.NombreProvinciaEstado, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pe.ProvinciaEstadoId);
@@ -275,32 +278,60 @@ namespace Bombones.Windows.Formularios
 
         private void tsbFiltrar_Click(object sender, EventArgs e)
         {
-            //frmSeleccionarPais frm = new frmSeleccionarPais(_serviceProvider) { Text = "Seleccionar Pais para Filtrar" };
-            //DialogResult dr = frm.ShowDialog(this);
-            //if (dr == DialogResult.Cancel) return;
-            //var paisSeleccionado = frm.GetPais();
-            //if (paisSeleccionado is null) return;
+            frmFormularioFiltro frm = new frmFormularioFiltro(_serviceProvider, filtroContexto) { Text = "Seleccionar Pais para Filtrar" };
+            DialogResult dr = frm.ShowDialog(this);
+            if (dr == DialogResult.Cancel) return;
+            paisFiltro = frm.GetPais();
+            if (paisFiltro is null) return;
 
-            //lista = _servicio.GetLista(orden, paisSeleccionado);
-            //MostrarDatosEnGrilla();
+            //lista = _servicio?.GetLista(currentPage, pageSize, orden, paisFiltro);
+            totalRecords = _servicio?.GetCantidad(paisFiltro) ?? 0;
+            totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+
+            LoadData();
+            filterOn = true;
+            tsbFiltrar.Enabled = false;
+
         }
 
         private void tsbActualizar_Click(object sender, EventArgs e)
         {
-            lista = _servicio?.GetLista(currentPage, pageSize);
-            if (lista != null)
-            {
-                MostrarDatosEnGrilla(lista);
-            }
+            currentPage = 1;
+            paisFiltro = null;
+            //lista = _servicio?.GetLista(currentPage, pageSize, orden);
+            totalRecords = _servicio?.GetCantidad() ?? 0;
+            totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+
+            LoadData();
+            filterOn = false;
+            tsbFiltrar.Enabled = true;
+
         }
 
 
         private void aZPorPaísToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //orden = Orden.PaisAZ;
-            //lista = _servicio.GetLista(orden);
-            //MostrarDatosEnGrilla();
+            orden = Orden.PaisAZ;
+            LoadData();
 
+        }
+
+        private void zAPorEstadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            orden = Orden.ProvinciaEstadoZA;
+            LoadData();
+        }
+
+        private void aZPorEstadoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            orden = Orden.ProvinciaEstadoAZ;
+            LoadData();
+        }
+
+        private void zAPorPaísToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            orden = Orden.PaisZA;
+            LoadData();
         }
     }
 }

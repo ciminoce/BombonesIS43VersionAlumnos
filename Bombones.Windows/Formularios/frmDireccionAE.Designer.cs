@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDireccionAE));
             label6 = new Label();
             label1 = new Label();
@@ -36,23 +37,25 @@
             cboCiudades = new ComboBox();
             txtCalle = new TextBox();
             cboProvinciasEstados = new ComboBox();
-            txtNombre = new TextBox();
+            txtCodPostal = new TextBox();
             cboPaises = new ComboBox();
             label2 = new Label();
             label3 = new Label();
             cboTipoDireccion = new ComboBox();
-            textBox1 = new TextBox();
+            txtAltura = new TextBox();
             label7 = new Label();
-            textBox2 = new TextBox();
+            txtEntre1 = new TextBox();
             label8 = new Label();
-            textBox3 = new TextBox();
+            txtEntre2 = new TextBox();
             label9 = new Label();
-            textBox4 = new TextBox();
+            txtPiso = new TextBox();
             label10 = new Label();
-            textBox5 = new TextBox();
+            txtDepto = new TextBox();
             label11 = new Label();
             btnCancelar = new Button();
             btnOk = new Button();
+            errorProvider1 = new ErrorProvider(components);
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // label6
@@ -117,13 +120,13 @@
             cboProvinciasEstados.Size = new Size(315, 23);
             cboProvinciasEstados.TabIndex = 44;
             // 
-            // txtNombre
+            // txtCodPostal
             // 
-            txtNombre.Location = new Point(581, 247);
-            txtNombre.MaxLength = 50;
-            txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(207, 23);
-            txtNombre.TabIndex = 42;
+            txtCodPostal.Location = new Point(581, 247);
+            txtCodPostal.MaxLength = 50;
+            txtCodPostal.Name = "txtCodPostal";
+            txtCodPostal.Size = new Size(207, 23);
+            txtCodPostal.TabIndex = 42;
             // 
             // cboPaises
             // 
@@ -161,13 +164,13 @@
             cboTipoDireccion.Size = new Size(315, 23);
             cboTipoDireccion.TabIndex = 43;
             // 
-            // textBox1
+            // txtAltura
             // 
-            textBox1.Location = new Point(626, 63);
-            textBox1.MaxLength = 50;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(144, 23);
-            textBox1.TabIndex = 41;
+            txtAltura.Location = new Point(626, 63);
+            txtAltura.MaxLength = 50;
+            txtAltura.Name = "txtAltura";
+            txtAltura.Size = new Size(144, 23);
+            txtAltura.TabIndex = 41;
             // 
             // label7
             // 
@@ -178,13 +181,13 @@
             label7.TabIndex = 50;
             label7.Text = "Altura:";
             // 
-            // textBox2
+            // txtEntre1
             // 
-            textBox2.Location = new Point(148, 92);
-            textBox2.MaxLength = 50;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(412, 23);
-            textBox2.TabIndex = 41;
+            txtEntre1.Location = new Point(148, 92);
+            txtEntre1.MaxLength = 50;
+            txtEntre1.Name = "txtEntre1";
+            txtEntre1.Size = new Size(412, 23);
+            txtEntre1.TabIndex = 41;
             // 
             // label8
             // 
@@ -195,13 +198,13 @@
             label8.TabIndex = 50;
             label8.Text = "Entre";
             // 
-            // textBox3
+            // txtEntre2
             // 
-            textBox3.Location = new Point(148, 121);
-            textBox3.MaxLength = 50;
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(412, 23);
-            textBox3.TabIndex = 41;
+            txtEntre2.Location = new Point(148, 121);
+            txtEntre2.MaxLength = 50;
+            txtEntre2.Name = "txtEntre2";
+            txtEntre2.Size = new Size(412, 23);
+            txtEntre2.TabIndex = 41;
             // 
             // label9
             // 
@@ -212,13 +215,13 @@
             label9.TabIndex = 50;
             label9.Text = "Y:";
             // 
-            // textBox4
+            // txtPiso
             // 
-            textBox4.Location = new Point(148, 310);
-            textBox4.MaxLength = 50;
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(129, 23);
-            textBox4.TabIndex = 42;
+            txtPiso.Location = new Point(148, 310);
+            txtPiso.MaxLength = 50;
+            txtPiso.Name = "txtPiso";
+            txtPiso.Size = new Size(129, 23);
+            txtPiso.TabIndex = 42;
             // 
             // label10
             // 
@@ -229,13 +232,13 @@
             label10.TabIndex = 49;
             label10.Text = "Piso:";
             // 
-            // textBox5
+            // txtDepto
             // 
-            textBox5.Location = new Point(396, 310);
-            textBox5.MaxLength = 50;
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(129, 23);
-            textBox5.TabIndex = 42;
+            txtDepto.Location = new Point(396, 310);
+            txtDepto.MaxLength = 50;
+            txtDepto.Name = "txtDepto";
+            txtDepto.Size = new Size(129, 23);
+            txtDepto.TabIndex = 42;
             // 
             // label11
             // 
@@ -268,6 +271,10 @@
             btnOk.TextImageRelation = TextImageRelation.ImageAboveText;
             btnOk.UseVisualStyleBackColor = true;
             // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // frmDireccionAE
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -285,20 +292,21 @@
             Controls.Add(label4);
             Controls.Add(label5);
             Controls.Add(cboCiudades);
-            Controls.Add(textBox1);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
+            Controls.Add(txtAltura);
+            Controls.Add(txtEntre2);
+            Controls.Add(txtEntre1);
             Controls.Add(txtCalle);
             Controls.Add(cboProvinciasEstados);
-            Controls.Add(textBox5);
-            Controls.Add(textBox4);
-            Controls.Add(txtNombre);
+            Controls.Add(txtDepto);
+            Controls.Add(txtPiso);
+            Controls.Add(txtCodPostal);
             Controls.Add(cboTipoDireccion);
             Controls.Add(label3);
             Controls.Add(cboPaises);
             Controls.Add(label2);
             Name = "frmDireccionAE";
             Text = "frmDireccionAE";
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -312,22 +320,23 @@
         private ComboBox cboCiudades;
         private TextBox txtCalle;
         private ComboBox cboProvinciasEstados;
-        private TextBox txtNombre;
+        private TextBox txtCodPostal;
         private ComboBox cboPaises;
         private Label label2;
         private Label label3;
         private ComboBox cboTipoDireccion;
-        private TextBox textBox1;
+        private TextBox txtAltura;
         private Label label7;
-        private TextBox textBox2;
+        private TextBox txtEntre1;
         private Label label8;
-        private TextBox textBox3;
+        private TextBox txtEntre2;
         private Label label9;
-        private TextBox textBox4;
+        private TextBox txtPiso;
         private Label label10;
-        private TextBox textBox5;
+        private TextBox txtDepto;
         private Label label11;
         private Button btnCancelar;
         private Button btnOk;
+        private ErrorProvider errorProvider1;
     }
 }

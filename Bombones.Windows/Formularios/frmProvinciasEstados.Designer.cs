@@ -170,7 +170,7 @@
             // 
             aZPorPaísToolStripMenuItem.Image = Properties.Resources.alphabetical_sorting_16px;
             aZPorPaísToolStripMenuItem.Name = "aZPorPaísToolStripMenuItem";
-            aZPorPaísToolStripMenuItem.Size = new Size(153, 22);
+            aZPorPaísToolStripMenuItem.Size = new Size(180, 22);
             aZPorPaísToolStripMenuItem.Text = "A-Z por País";
             aZPorPaísToolStripMenuItem.Click += aZPorPaísToolStripMenuItem_Click;
             // 
@@ -178,22 +178,25 @@
             // 
             aZPorEstadoToolStripMenuItem.Image = Properties.Resources.alphabetical_sorting_16px;
             aZPorEstadoToolStripMenuItem.Name = "aZPorEstadoToolStripMenuItem";
-            aZPorEstadoToolStripMenuItem.Size = new Size(153, 22);
+            aZPorEstadoToolStripMenuItem.Size = new Size(180, 22);
             aZPorEstadoToolStripMenuItem.Text = "A-Z por Estado";
+            aZPorEstadoToolStripMenuItem.Click += aZPorEstadoToolStripMenuItem_Click;
             // 
             // zAPorPaísToolStripMenuItem
             // 
             zAPorPaísToolStripMenuItem.Image = Properties.Resources.alphabetical_sorting_2_16px;
             zAPorPaísToolStripMenuItem.Name = "zAPorPaísToolStripMenuItem";
-            zAPorPaísToolStripMenuItem.Size = new Size(153, 22);
+            zAPorPaísToolStripMenuItem.Size = new Size(180, 22);
             zAPorPaísToolStripMenuItem.Text = "Z-A por País";
+            zAPorPaísToolStripMenuItem.Click += zAPorPaísToolStripMenuItem_Click;
             // 
             // zAPorEstadoToolStripMenuItem
             // 
             zAPorEstadoToolStripMenuItem.Image = Properties.Resources.alphabetical_sorting_2_16px;
             zAPorEstadoToolStripMenuItem.Name = "zAPorEstadoToolStripMenuItem";
-            zAPorEstadoToolStripMenuItem.Size = new Size(153, 22);
+            zAPorEstadoToolStripMenuItem.Size = new Size(180, 22);
             zAPorEstadoToolStripMenuItem.Text = "Z-A por Estado";
+            zAPorEstadoToolStripMenuItem.Click += zAPorEstadoToolStripMenuItem_Click;
             // 
             // tsbCerrar
             // 

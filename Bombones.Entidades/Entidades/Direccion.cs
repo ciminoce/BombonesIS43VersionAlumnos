@@ -7,6 +7,9 @@
         public string Altura { get; set; } = null!;
         public string? Entre1 { get; set; }
         public string? Entre2 { get; set; }
+        public int? Piso { get; set; }
+        public string? Depto { get; set; }
+
         public int PaisId { get; set; }
         public int ProvinciaEstadoId { get; set; }
         public int CiudadId { get; set; }
