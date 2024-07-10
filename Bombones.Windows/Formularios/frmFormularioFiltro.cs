@@ -1,8 +1,8 @@
 ﻿namespace Bombones.Windows.Formularios
 {
-    public partial class frmSeleccionarCiudadEstadoPais : Form
+    public partial class frmFormularioFiltro : Form
     {
-        public frmSeleccionarCiudadEstadoPais()
+        public frmFormularioFiltro()
         {
             InitializeComponent();
         }

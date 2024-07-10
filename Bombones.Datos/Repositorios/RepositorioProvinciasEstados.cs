@@ -113,9 +113,9 @@ namespace Bombones.Datos.Repositorios
                 selectQuery += string.Join("", conditions);
             }
 
-            if(orden==Orden.Ninguno || orden == null)
+            if(orden==Orden.ProvinciaEstadoAZ || orden == null)
             {
-                selectQuery += " ORDER BY pe.ProvinciaEstadoId ";
+                selectQuery += " ORDER BY pe.NombreProvinciaEstado ";
             }
 
             if (currentPage.HasValue && pageSize.HasValue)
@@ -137,6 +137,28 @@ namespace Bombones.Datos.Repositorios
                 ORDER BY NombreProvinciaEstado";
             return conn.Query<ProvinciaEstado>(selectQuery,
                 new { @PaisId = pais.PaisId }).ToList();
+
+        }
+
+        public int GetPaginaPorRegistro(SqlConnection conn, string nombreProvinciaEstado, int pageSize,  SqlTransaction? tran = null)
+        {
+            var positionQuery = @"
+                    WITH EstadoOrdenado AS (
+                    SELECT 
+                        ROW_NUMBER() OVER (ORDER BY NombreProvinciaEstado) AS RowNum,
+                        NombreProvinciaEstado
+                    FROM 
+                        ProvinciasEstados
+                )
+                SELECT 
+                    RowNum 
+                FROM 
+                    EstadoOrdenado 
+                WHERE 
+                    NombreProvinciaEstado = @NombreProvinciaEstado";
+
+            int position = conn.ExecuteScalar<int>(positionQuery, new { @NombreProvinciaEstado=nombreProvinciaEstado });
+            return (int)Math.Ceiling((decimal)position / pageSize);
 
         }
 

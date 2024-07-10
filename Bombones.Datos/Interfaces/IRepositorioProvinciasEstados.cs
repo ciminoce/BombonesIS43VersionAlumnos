@@ -19,5 +19,6 @@ namespace Bombones.Datos.Interfaces
             Pais? pais=null, SqlTransaction? tran = null);
         List<ProvinciaEstado> GetListaComboEstados(Pais pais, SqlConnection conn, SqlTransaction? tran = null);
         ProvinciaEstado? GetProvinciaEstadoPorId(int provinciaEstadoId, SqlConnection conn, SqlTransaction? tran = null);
+        int GetPaginaPorRegistro(SqlConnection conn, string nombreProvinciaEstado,int pageSize, SqlTransaction? tran=null);
     }
 }

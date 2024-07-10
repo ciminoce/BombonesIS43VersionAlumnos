@@ -3,6 +3,7 @@ using Bombones.Entidades.Dtos;
 using Bombones.Entidades.Entidades;
 using Bombones.Entidades.Enumeraciones;
 using Bombones.Servicios.Intefaces;
+using Dapper;
 using System.Data.SqlClient;
 
 namespace Bombones.Servicios.Servicios
@@ -97,7 +98,7 @@ namespace Bombones.Servicios.Servicios
 
 
 
-        public List<ProvinciaEstadoListDto>? GetLista(int? currentPage, int? pageSize, Orden? orden = Orden.Ninguno, Pais? paisSeleccionado = null)
+        public List<ProvinciaEstadoListDto> GetLista(int? currentPage, int? pageSize, Orden? orden = Orden.Ninguno, Pais? paisSeleccionado = null)
         {
             if (_repositorio is null)
             {
@@ -107,7 +108,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetLista(conn, currentPage, pageSize, orden, paisSeleccionado
+                return _repositorio.GetLista(conn, currentPage, pageSize, orden, paisSeleccionado
                     );
 
             }
@@ -127,6 +128,23 @@ namespace Bombones.Servicios.Servicios
                 return _repositorio.GetListaComboEstados(pais, conn);
 
             }
+        }
+
+        public int GetPaginaPorRegistro(string nombreProvinciaEstado, int pageSize)
+        {
+            if (_repositorio is null)
+            {
+                throw new ApplicationException("Dependencias no cargadas!!!");
+            }
+
+            using (var conn = new SqlConnection(_cadena))
+            {
+                conn.Open();
+                return _repositorio.GetPaginaPorRegistro(conn, nombreProvinciaEstado, pageSize);
+
+            }
+
+
         }
 
         public ProvinciaEstado? GetProvinciaEstadoPorId(int provinciaEstadoId)

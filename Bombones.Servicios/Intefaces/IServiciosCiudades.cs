@@ -12,6 +12,7 @@ namespace Bombones.Servicios.Intefaces
         Ciudad? GetCiudadPorId(int ciudadId);
         List<CiudadListDto> GetLista(int? currentPage, int? pageSize);
         List<Ciudad>? GetListaCombo(Pais? paisSeleccionado, ProvinciaEstado provinciaEstado);
+        int GetPaginaPorRegistro(string nombreCiudad, int pageSize);
         void Guardar(Ciudad ciudad);
     }
 }

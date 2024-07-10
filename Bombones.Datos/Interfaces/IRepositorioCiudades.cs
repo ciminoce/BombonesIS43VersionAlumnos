@@ -22,5 +22,6 @@ namespace Bombones.Datos.Interfaces
             ProvinciaEstado? provSeleccionada,
             SqlTransaction? tran=null
             );
+        int GetPaginaPorRegistro(SqlConnection conn, string nombreCiudad, int pageSize, SqlTransaction? tran=null);
     }
 }

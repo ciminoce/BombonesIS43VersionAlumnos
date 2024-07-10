@@ -13,6 +13,7 @@ namespace Bombones.Servicios.Intefaces
         List<ProvinciaEstadoListDto> GetLista(int? currentPage, int? pageSize, Orden? orden = Orden.Ninguno,
             Pais ? paisSeleccionado=null);
         List<ProvinciaEstado> GetListaComboEstados(Pais pais);
+        int GetPaginaPorRegistro(string nombreProvinciaEstado, int pageSize);
         ProvinciaEstado? GetProvinciaEstadoPorId(int provinciaEstadoId);
         void Guardar(ProvinciaEstado pe);
     }

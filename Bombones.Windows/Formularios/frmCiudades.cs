@@ -132,15 +132,15 @@ namespace Bombones.Windows
                 if (!_servicio?.Existe(ciudad) ?? false)
                 {
                     _servicio?.Guardar(ciudad);
-                    var r = GridHelper.ConstruirFila(dgvDatos);
-                    CiudadListDto ciudadDto = CiudadesExtensions
-                        .ToCiudadListDto(ciudad);
-                    GridHelper.SetearFila(r, ciudadDto);
-                    GridHelper.AgregarFila(r, dgvDatos);
+                    totalRecords = _servicio.GetCantidad();
+                    totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                    currentPage = _servicio.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize);
+                    LoadData();
+
                     MessageBox.Show("Registro agregado",
-                                    "Mensaje",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                        "Mensaje",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -180,9 +180,15 @@ namespace Bombones.Windows
                 if (!_servicio.EstaRelacionado(ciudadDto.CiudadId))
                 {
                     _servicio.Borrar(ciudadDto.CiudadId);
-                    GridHelper.QuitarFila(r, dgvDatos);
-                    MessageBox.Show("Registro eliminado!!", "Mensaje",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    totalRecords = _servicio.GetCantidad();
+                    totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+                    if (currentPage > totalPages) currentPage = totalPages; // Ajustar la página actual si se reduce el total de páginas
+
+                    LoadData();
+                    MessageBox.Show("Registro eliminado",
+                        "Mensaje",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -224,14 +230,12 @@ namespace Bombones.Windows
                 {
                     _servicio?.Guardar(ciudad);
 
-                    ciudadDto = CiudadesExtensions
-                        .ToCiudadListDto(ciudad);
-
-                    GridHelper.SetearFila(r, ciudadDto);
-                    MessageBox.Show("Registro editado",
-                                    "Mensaje",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                    totalRecords = _servicio.GetCantidad();
+                    totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
+                    currentPage = _servicio.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize);
+                    LoadData();
+                    int row = GridHelper.ObtenerRowIndex(dgvDatos, ciudad.CiudadId);
+                    GridHelper.MarcarRow(dgvDatos, row);
                 }
                 else
                 {

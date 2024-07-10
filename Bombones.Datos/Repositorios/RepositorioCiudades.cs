@@ -140,5 +140,27 @@ namespace Bombones.Datos.Repositorios
                 @ProvinciaEstadoId = provinciaEstado.ProvinciaEstadoId
             }).ToList();
         }
+
+        public int GetPaginaPorRegistro(SqlConnection conn, string nombreCiudad, int pageSize, SqlTransaction? tran = null)
+        {
+            var positionQuery = @"
+                    WITH CiudadOrdenada AS (
+                    SELECT 
+                        ROW_NUMBER() OVER (ORDER BY NombreCiudad) AS RowNum,
+                        NombreCiudad
+                    FROM 
+                        Ciudades
+                )
+                SELECT 
+                    RowNum 
+                FROM 
+                    CiudadOrdenada 
+                WHERE 
+                    NombreCiudad = @NombreCiudad";
+
+            int position = conn.ExecuteScalar<int>(positionQuery, new { NombreCiudad = nombreCiudad });
+            return (int)Math.Ceiling((decimal)position / pageSize);
+
+        }
     }
 }

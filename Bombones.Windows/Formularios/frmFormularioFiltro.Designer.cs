@@ -1,6 +1,6 @@
 ﻿namespace Bombones.Windows.Formularios
 {
-    partial class frmSeleccionarCiudadEstadoPais
+    partial class frmFormularioFiltro
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmSeleccionarCiudadEstadoPais));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmFormularioFiltro));
             cboCiudades = new ComboBox();
             cboProvinciasEstados = new ComboBox();
             cboPaises = new ComboBox();
@@ -115,7 +115,7 @@
             label1.TabIndex = 30;
             label1.Text = "Provincia/Estado:";
             // 
-            // frmSeleccionarCiudadEstadoPais
+            // frmFormularioFiltro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -128,8 +128,8 @@
             Controls.Add(btnOk);
             Controls.Add(label5);
             Controls.Add(label1);
-            Name = "frmSeleccionarCiudadEstadoPais";
-            Text = "frmSeleccionarCiudadEstadoPais";
+            Name = "frmFormularioFiltro";
+            Text = "Seleccionar";
             ResumeLayout(false);
             PerformLayout();
         }

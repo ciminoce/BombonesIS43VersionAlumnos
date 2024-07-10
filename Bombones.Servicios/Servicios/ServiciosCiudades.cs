@@ -112,7 +112,7 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public List<Ciudad>? GetListaCombo(Pais? paisSeleccionado, ProvinciaEstado provinciaEstado)
+        public List<Ciudad>? GetListaCombo(Pais paisSeleccionado, ProvinciaEstado provinciaEstado)
         {
             if (_repositorio is null)
             {
@@ -124,6 +124,21 @@ namespace Bombones.Servicios.Servicios
                 conn.Open();
                 return _repositorio?.GetListaCombo(conn, paisSeleccionado, provinciaEstado);
             }
+        }
+
+        public int GetPaginaPorRegistro(string nombreCiudad, int pageSize)
+        {
+            if (_repositorio is null)
+            {
+                throw new ApplicationException("Dependencias no cargadas!!!");
+            }
+
+            using (var conn = new SqlConnection(_cadena))
+            {
+                conn.Open();
+                return _repositorio.GetPaginaPorRegistro(conn, nombreCiudad, pageSize);
+            }
+
         }
 
         public void Guardar(Ciudad ciudad)
