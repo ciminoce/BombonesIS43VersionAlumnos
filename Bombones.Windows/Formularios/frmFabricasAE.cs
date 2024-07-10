@@ -48,7 +48,7 @@ namespace Bombones.Windows.Formularios
                 fabrica.ProvinciaEstado = provinciaEstado;
                 fabrica.PaisId = paisSeleccionado?.PaisId ?? 0;
                 fabrica.ProvinciaEstadoId = provinciaEstado?.ProvinciaEstadoId ?? 0;
-                fabrica.CiudadId = ciudad.CiudadId;
+                fabrica.CiudadId = ciudad?.CiudadId??0;
                 fabrica.Ciudad = ciudad;
                 DialogResult = DialogResult.OK;
             }
@@ -135,6 +135,8 @@ namespace Bombones.Windows.Formularios
 
         private void cboCiudades_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ciudad = cboCiudades.SelectedIndex > 0 ?
+                    (Ciudad?)cboCiudades.SelectedItem : null;
 
         }
     }

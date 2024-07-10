@@ -17,7 +17,7 @@ namespace Bombones.Datos.Interfaces
         List<CiudadListDto> GetLista(SqlConnection conn, int? currentPage,
             int? pageSize, SqlTransaction? tran = null);
         Ciudad? GetCiudadPorId(int ciudadId, SqlConnection conn);
-        List<Ciudad>? GetListaCombo(SqlConnection conn,Pais paisSeleccionado, ProvinciaEstado provinciaEstado);
+        List<Ciudad> GetListaCombo(SqlConnection conn,Pais paisSeleccionado, ProvinciaEstado provinciaEstado);
         int GetCantidad(SqlConnection conn, Pais? paisSeleccionado,
             ProvinciaEstado? provSeleccionada,
             SqlTransaction? tran=null

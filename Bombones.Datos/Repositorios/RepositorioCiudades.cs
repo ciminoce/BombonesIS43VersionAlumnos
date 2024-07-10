@@ -119,7 +119,7 @@ namespace Bombones.Datos.Repositorios
                 INNER JOIN Paises p ON c.PaisId=p.PaisId INNER JOIN 
                 ProvinciasEstados pe ON c.ProvinciaEstadoId=pe.ProvinciaEstadoId";
 
-            selectQuery += " ORDER BY c.CiudadId";
+            selectQuery += " ORDER BY c.NombreCiudad";
             if (currentPage.HasValue && pageSize.HasValue)
             {
                 var offSet = (currentPage.Value - 1) * pageSize;

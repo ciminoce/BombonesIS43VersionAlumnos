@@ -1,6 +1,5 @@
 ﻿using Bombones.Entidades.Dtos;
 using Bombones.Entidades.Entidades;
-using Bombones.Entidades.Extensions;
 using Bombones.Servicios.Intefaces;
 using Bombones.Windows.Formularios;
 using Bombones.Windows.Helpers;
@@ -35,7 +34,7 @@ namespace Bombones.Windows
                 {
                     throw new ApplicationException("Dependencias no cargadas");
                 }
-                totalRecords = _servicio.GetCantidad(null,null);
+                totalRecords = _servicio.GetCantidad(null, null);
                 totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                 LoadData();
             }
@@ -132,6 +131,12 @@ namespace Bombones.Windows
                 if (!_servicio?.Existe(ciudad) ?? false)
                 {
                     _servicio?.Guardar(ciudad);
+                    if (_servicio is null)
+                    {
+                        throw new ApplicationException("Dependencias no cargadas");
+                    }
+
+
                     totalRecords = _servicio.GetCantidad();
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize);
@@ -156,7 +161,7 @@ namespace Bombones.Windows
                 "Error",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
-                
+
             }
         }
 
@@ -177,6 +182,10 @@ namespace Bombones.Windows
             if (dr == DialogResult.No) return;
             try
             {
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
                 if (!_servicio.EstaRelacionado(ciudadDto.CiudadId))
                 {
                     _servicio.Borrar(ciudadDto.CiudadId);
@@ -229,6 +238,11 @@ namespace Bombones.Windows
                 if (!_servicio?.Existe(ciudad) ?? false)
                 {
                     _servicio?.Guardar(ciudad);
+                    if (_servicio is null)
+                    {
+                        throw new ApplicationException("Dependencias no cargadas");
+                    }
+
 
                     totalRecords = _servicio.GetCantidad();
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);

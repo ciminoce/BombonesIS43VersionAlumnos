@@ -104,6 +104,7 @@ namespace Bombones.Windows.Formularios
             if (dr == DialogResult.No) return;
             try
             {
+
                 if (!_servicios.EstaRelacionado(fabricaDto.FabricaId))
                 {
                     _servicios.Borrar(fabricaDto.FabricaId);

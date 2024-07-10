@@ -112,7 +112,7 @@ namespace Bombones.Servicios.Servicios
             }
         }
 
-        public List<Ciudad>? GetListaCombo(Pais paisSeleccionado, ProvinciaEstado provinciaEstado)
+        public List<Ciudad> GetListaCombo(Pais paisSeleccionado, ProvinciaEstado provinciaEstado)
         {
             if (_repositorio is null)
             {
@@ -122,7 +122,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetListaCombo(conn, paisSeleccionado, provinciaEstado);
+                return _repositorio.GetListaCombo(conn, paisSeleccionado, provinciaEstado);
             }
         }
 

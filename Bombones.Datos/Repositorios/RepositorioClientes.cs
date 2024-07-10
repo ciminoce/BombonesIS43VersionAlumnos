@@ -69,7 +69,7 @@ namespace Bombones.Datos.Repositorios
             }
         }
 
-        public void Editar(Cliente cliente, SqlConnection conn, SqlTransaction tran)
+        public void Editar(Cliente cliente, SqlConnection conn, SqlTransaction? tran=null)
         {
             var updateQuery = @"UPDATE Clientes
             SET Documento=@Documento,

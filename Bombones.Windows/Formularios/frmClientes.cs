@@ -274,7 +274,11 @@ namespace Bombones.Windows.Formularios
             try
             {
                 lista = _servicio?.GetLista(currentPage, pageSize);
-                MostrarDatosEnGrilla(lista);
+                if(lista is not null)
+                {
+                    MostrarDatosEnGrilla(lista);
+
+                }
             }
             catch (Exception)
             {
