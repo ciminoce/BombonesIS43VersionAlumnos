@@ -225,8 +225,6 @@ namespace Bombones.Windows.Formularios
                 {
                     _servicio.Guardar(pais);
 
-                    //totalRecords = _servicio.GetCantidad();
-                    //totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(pais.NombrePais, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pais.PaisId);

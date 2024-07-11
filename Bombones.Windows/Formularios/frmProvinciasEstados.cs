@@ -63,7 +63,10 @@ namespace Bombones.Windows.Formularios
                     CombosHelper.CargarComboPaginas(ref cboPaginas, totalPages);
                 }
                 txtCantidadPaginas.Text = totalPages.ToString();
+                cboPaginas.SelectedIndexChanged -= cboPaginas_SelectedIndexChanged;
                 cboPaginas.SelectedIndex = currentPage == 1 ? 0 : currentPage - 1;
+                cboPaginas.SelectedIndexChanged += cboPaginas_SelectedIndexChanged;
+
             }
             catch (Exception)
             {
@@ -143,6 +146,8 @@ namespace Bombones.Windows.Formularios
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(pe.NombreProvinciaEstado, pageSize);
                     LoadData();
+                    int row = GridHelper.ObtenerRowIndex(dgvDatos, pe.ProvinciaEstadoId);
+                    GridHelper.MarcarRow(dgvDatos, row);
 
                     MessageBox.Show("Registro agregado",
                         "Mensaje",
@@ -244,8 +249,6 @@ namespace Bombones.Windows.Formularios
                 if (!_servicio.Existe(pe))
                 {
                     _servicio.Guardar(pe);
-                    //totalRecords = _servicio.GetCantidad();
-                    //totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(pe.NombreProvinciaEstado, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pe.ProvinciaEstadoId);

@@ -60,7 +60,10 @@ namespace Bombones.Windows
                     CombosHelper.CargarComboPaginas(ref cboPaginas, totalPages);
                 }
                 txtCantidadPaginas.Text = totalPages.ToString();
+                cboPaginas.SelectedIndexChanged -= cboPaginas_SelectedIndexChanged;
                 cboPaginas.SelectedIndex = currentPage == 1 ? 0 : currentPage - 1;
+                cboPaginas.SelectedIndexChanged += cboPaginas_SelectedIndexChanged;
+
             }
             catch (Exception)
             {
@@ -128,18 +131,19 @@ namespace Bombones.Windows
             {
                 Ciudad? ciudad = frm.GetCiudad();
                 if (ciudad is null) return;
-                if (!_servicio?.Existe(ciudad) ?? false)
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
+                if (!_servicio.Existe(ciudad))
                 {
                     _servicio?.Guardar(ciudad);
-                    if (_servicio is null)
-                    {
-                        throw new ApplicationException("Dependencias no cargadas");
-                    }
 
 
-                    totalRecords = _servicio.GetCantidad();
+                    totalRecords = _servicio?.GetCantidad()??0;
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
-                    currentPage = _servicio.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize);
+                    currentPage = _servicio?.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize)??0;
                     LoadData();
 
                     MessageBox.Show("Registro agregado",
@@ -235,7 +239,12 @@ namespace Bombones.Windows
             if (ciudad == null) return;
             try
             {
-                if (!_servicio?.Existe(ciudad) ?? false)
+                if (_servicio is null)
+                {
+                    throw new ApplicationException("Dependencias no cargadas");
+                }
+
+                if (!_servicio.Existe(ciudad))
                 {
                     _servicio?.Guardar(ciudad);
                     if (_servicio is null)
@@ -244,8 +253,6 @@ namespace Bombones.Windows
                     }
 
 
-                    totalRecords = _servicio.GetCantidad();
-                    totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                     currentPage = _servicio.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, ciudad.CiudadId);
