@@ -6,7 +6,7 @@ namespace Bombones.Servicios.Intefaces
     public interface IServiciosClientes
     {
         void Borrar(int clienteId);
-        bool EstaRelacionado(int clienteId);
+        //bool EstaRelacionado(int clienteId);
         bool Existe(Cliente cliente);
         List<ClienteListDto> GetLista(int? currentPage, int? pageSize);
         void Guardar(Cliente cliente);

@@ -8,14 +8,89 @@ namespace Bombones.Servicios.Servicios
 {
     public class ServiciosClientes : IServiciosClientes
     {
-        private readonly IRepositorioClientes? _repositorio;
-        private readonly string? _cadena;
+        private readonly IRepositorioClientes _repositorioClientes;
+        private readonly IRepositorioDirecciones _repositorioDirecciones;
+        private readonly IRepositorioTelefonos _repositorioTelefonos;
+        private readonly IRepositorioClientesDirecciones _repositorioClientesDirecciones;
+        private readonly IRepositorioClientesTelefonos _repositorioClientesTelefonos;
+        private readonly string _cadena;
 
-        public ServiciosClientes(IRepositorioClientes? repositorio,
-            string? cadena)
+        public ServiciosClientes(
+            IRepositorioClientes repositorioClientes,
+            IRepositorioDirecciones repositorioDirecciones,
+            IRepositorioTelefonos repositorioTelefonos,
+            IRepositorioClientesDirecciones repositorioClientesDirecciones,
+            IRepositorioClientesTelefonos repositorioClientesTelefonos,
+            string cadena)
         {
-            _repositorio = repositorio??throw new ApplicationException("Dependencias no cargadas!!!"); ;
+            _repositorioClientes = repositorioClientes;
+            _repositorioDirecciones = repositorioDirecciones;
+            _repositorioTelefonos = repositorioTelefonos;
+            _repositorioClientesDirecciones = repositorioClientesDirecciones;
+            _repositorioClientesTelefonos = repositorioClientesTelefonos;
             _cadena = cadena;
+        }
+
+        public void Guardar(Cliente cliente)
+        {
+            using (var conn = new SqlConnection(_cadena))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        if (cliente.ClienteId == 0)
+                        {
+                            _repositorioClientes.Agregar(cliente, conn, tran);
+                        }
+                        else
+                        {
+                            _repositorioClientes.Editar(cliente, conn, tran);
+                            _repositorioClientesDirecciones.BorrarPorClienteId(cliente.ClienteId, conn, tran);
+                            _repositorioClientesTelefonos.BorrarPorClienteId(cliente.ClienteId, conn, tran);
+                        }
+
+                        foreach (var clienteDireccion in cliente.ClienteDirecciones)
+                        {
+                            int direccionIdExistente = _repositorioDirecciones
+                                .GetDireccionIdIfExists(clienteDireccion.Direccion, conn, tran);
+                            if (direccionIdExistente == 0)
+                            {
+                                _repositorioDirecciones.Agregar(clienteDireccion.Direccion, conn, tran);
+                                clienteDireccion.DireccionId = clienteDireccion.Direccion.DireccionId;
+                            }
+                            else
+                            {
+                                clienteDireccion.DireccionId = direccionIdExistente;
+                            }
+
+                            clienteDireccion.ClienteId = cliente.ClienteId;
+                            _repositorioClientesDirecciones.Agregar(clienteDireccion, conn, tran);
+                        }
+
+                        foreach (var clienteTelefono in cliente.ClienteTelefonos)
+                        {
+                            int telefonoIdExistente = _repositorioTelefonos
+                                .GetTelefonoIdIfExist(clienteTelefono.Telefono, conn, tran);
+                            if (clienteTelefono.Telefono.TelefonoId == 0)
+                            {
+                                _repositorioTelefonos.Agregar(clienteTelefono.Telefono, conn, tran);
+                            }
+                            clienteTelefono.ClienteId = cliente.ClienteId;
+                            clienteTelefono.TelefonoId = clienteTelefono.Telefono.TelefonoId;
+                            _repositorioClientesTelefonos.Agregar(clienteTelefono, conn, tran);
+                        }
+
+                        tran.Commit();
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                        throw;
+                    }
+                }
+            }
         }
 
         public void Borrar(int clienteId)
@@ -27,73 +102,15 @@ namespace Bombones.Servicios.Servicios
                 {
                     try
                     {
-                        _repositorio!.Borrar(clienteId, conn, tran);
+                        _repositorioClientesDirecciones.BorrarPorClienteId(clienteId, conn, tran);
+                        _repositorioClientesTelefonos.BorrarPorClienteId(clienteId, conn, tran);
+                        _repositorioClientes.Borrar(clienteId, conn, tran);
+
                         tran.Commit();
                     }
-                    catch (Exception)
+                    catch
                     {
                         tran.Rollback();
-                        throw;
-                    }
-                }
-            }
-        }
-
-        public bool EstaRelacionado(int clienteId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Existe(Cliente cliente)
-        {
-            using (var conn = new SqlConnection(_cadena))
-            {
-                conn.Open();
-                return _repositorio!.Existe(cliente, conn);
-            }
-        }
-
-        public List<ClienteListDto> GetLista(int? currentPage, int? pageSize)
-        {
-            using (var conn = new SqlConnection(_cadena))
-            {
-                conn.Open();
-                return _repositorio!.GetLista(conn, currentPage, pageSize);
-            }
-        }
-
-        public Cliente? GetClientePorId(int clienteId)
-        {
-            using (var conn = new SqlConnection(_cadena))
-            {
-                return _repositorio!.GetClientePorId(clienteId, conn);
-            }
-        }
-
-        public void Guardar(Cliente cliente)
-        {
-
-            using (var conn = new SqlConnection(_cadena))
-            {
-                conn.Open();
-                using (var tran = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        if (cliente.ClienteId == 0)
-                        {
-                            _repositorio!.Agregar(cliente, conn, tran);
-                        }
-                        else
-                        {
-                            _repositorio!.Editar(cliente, conn, tran);
-                        }
-
-                        tran.Commit();//guarda efectivamente
-                    }
-                    catch (Exception)
-                    {
-                        tran.Rollback();//tira todo pa tras!!!
                         throw;
                     }
                 }
@@ -104,8 +121,40 @@ namespace Bombones.Servicios.Servicios
         {
             using (var conn = new SqlConnection(_cadena))
             {
+                return _repositorioClientes.GetCantidad(conn);
+            }
+        }
+
+        public Cliente? GetClientePorId(int clienteId)
+        {
+            using (var conn = new SqlConnection(_cadena))
+            {
                 conn.Open();
-                return _repositorio!.GetCantidad(conn);
+                var cliente = _repositorioClientes.GetClientePorId(clienteId, conn);
+                if (cliente != null)
+                {
+                    cliente.ClienteDirecciones = _repositorioClientesDirecciones.GetDireccionesPorClienteId(clienteId, conn);
+                    cliente.ClienteTelefonos = _repositorioClientesTelefonos.GetTelefonosPorClienteId(clienteId, conn);
+                }
+                return cliente;
+            }
+        }
+
+        public List<ClienteListDto> GetLista(int? pageNumber = null, int? pageSize = null)
+        {
+            using (var conn = new SqlConnection(_cadena))
+            {
+                conn.Open();
+                return _repositorioClientes.GetLista(conn, pageNumber, pageSize);
+            }
+        }
+
+        public bool Existe(Cliente cliente)
+        {
+            using (var conn = new SqlConnection(_cadena))
+            {
+                conn.Open();
+                return _repositorioClientes.Existe(cliente,conn);
             }
 
         }
