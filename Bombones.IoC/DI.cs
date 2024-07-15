@@ -23,13 +23,18 @@ namespace Bombones.IoC
 
             service.AddScoped<IRepositorioCiudades, RepositorioCiudades>();
             service.AddScoped<IRepositorioFabricas, RepositorioFabricas>();
-            service.AddScoped<IRepositorioClientes, RepositorioClientes>();
 
-            service.AddScoped<IServiciosPaises, ServiciosPaises>();
-            service.AddScoped<IServiciosTiposDeChocolates, ServiciosTiposDeChocolates>();
-            service.AddScoped<IServiciosTiposDeNueces, ServiciosTiposDeNueces>();
-            service.AddScoped<IServiciosTiposDeRellenos, ServiciosTiposDeRellenos>();  
-            service.AddScoped<IServiciosProvinciasEstados,ServiciosProvinciasEstados>();
+            service.AddScoped<IServiciosProvinciasEstados, ServiciosProvinciasEstados>();
+
+            service.AddScoped<IRepositorioClientes, RepositorioClientes>();
+            service.AddScoped<IRepositorioDirecciones, RepositorioDirecciones>();
+            service.AddScoped<IRepositorioTelefonos, RepositorioTelefonos>();
+
+            service.AddScoped<IRepositorioClientesTelefonos, RepositorioClientesTelefonos>();
+            service.AddScoped<IRepositorioClientesDirecciones, RepositorioClientesDirecciones>();
+
+            service.AddScoped<IRepositorioTiposDeDirecciones, RepositorioTiposDeDirecciones>();
+            service.AddScoped<IRepositorioTiposDeTelefonos, RepositorioTiposDeTelefonos>();
 
             service.AddScoped<IServiciosPaises>(sp => {
                 var repositorio = new RepositorioPaises();
@@ -66,11 +71,30 @@ namespace Bombones.IoC
                 return new ServiciosFabricas(repositorio, cadena);
             });
 
-            service.AddScoped<IServiciosClientes>(sp => {
+            service.AddScoped<IServiciosClientes>(sp =>
+            {
                 var repositorio = new RepositorioClientes();
-                return new ServiciosClientes(repositorio, cadena);
+                var repositorioDirecciones = new RepositorioDirecciones();
+                var repositorioTelefonos = new RepositorioTelefonos();
+                var repositorioClientesDirecciones = new RepositorioClientesDirecciones();
+                var repositorioClientesTelefonos = new RepositorioClientesTelefonos();
+                return new ServiciosClientes(repositorio,
+                    repositorioDirecciones,
+                    repositorioTelefonos,
+                    repositorioClientesDirecciones,
+                    repositorioClientesTelefonos,
+                    cadena);
             });
 
+            service.AddScoped<IServiciosTiposDeDirecciones>(sp => {
+                var repositorio = new RepositorioTiposDeDirecciones();
+                return new ServiciosTiposDeDirecciones(repositorio, cadena);
+            });
+
+            service.AddScoped<IServiciosTiposDeTelefonos>(sp => {
+                var repositorio = new RepositorioTiposDeTelefonos();
+                return new ServiciosTiposDeTelefonos(repositorio, cadena);
+            });
 
             return service.BuildServiceProvider();
         }

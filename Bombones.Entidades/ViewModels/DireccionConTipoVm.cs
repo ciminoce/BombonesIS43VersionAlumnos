@@ -19,4 +19,4 @@ namespace Bombones.Entidades.ViewModels
         }
     }
 }
-}
+
