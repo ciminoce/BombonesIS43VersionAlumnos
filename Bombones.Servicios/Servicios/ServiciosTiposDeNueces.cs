@@ -8,72 +8,52 @@ namespace Bombones.Servicios.Servicios
 {
     public class ServiciosTiposDeNueces : IServiciosTiposDeNueces
     {
-        private readonly IRepositorioTiposDeNueces _repositorio;
+        private readonly IRepositorioTiposDeNueces? _repositorio;
         private readonly string? _cadena;
-        public ServiciosTiposDeNueces(IRepositorioTiposDeNueces repositorio, string? cadena)
+        public ServiciosTiposDeNueces(IRepositorioTiposDeNueces? repositorio, string? cadena)
         {
-            _repositorio = repositorio;
+            _repositorio = repositorio?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
             _cadena = cadena;
         }
 
         public List<TipoDeNuez> GetLista()
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn = new SqlConnection(_cadena))
             {
-                return _repositorio.GetLista(conn);
+                return _repositorio!.GetLista(conn);
 
             }
         }
         public bool EstaRelacionado(int tipoId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn = new SqlConnection(_cadena))
             {
-                return _repositorio.EstaRelacionado(tipoId, conn);
+                return _repositorio!.EstaRelacionado(tipoId, conn);
 
             }
         }
         public bool Existe(TipoDeNuez tipo)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn = new SqlConnection(_cadena))
             {
-                return _repositorio.Existe(tipo, conn);
+                return _repositorio!.Existe(tipo, conn);
 
             }
         }
         public void Borrar(int tipoDeNuezId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
                 using (var tran = conn.BeginTransaction())
                 {
-                    _repositorio.Borrar(tipoDeNuezId, conn, tran);
+                    _repositorio!.Borrar(tipoDeNuezId, conn, tran);
 
                 }
             }
         }
         public void Guardar(TipoDeNuez tipoDeNuez)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
@@ -83,11 +63,11 @@ namespace Bombones.Servicios.Servicios
                     {
                         if (tipoDeNuez.TipoDeNuezId == 0)
                         {
-                            _repositorio.Agregar(tipoDeNuez, conn, tran);
+                            _repositorio!.Agregar(tipoDeNuez, conn, tran);
                         }
                         else
                         {
-                            _repositorio.Editar(tipoDeNuez, conn, tran);
+                            _repositorio!.Editar(tipoDeNuez, conn, tran);
                         }
                         tran.Commit();
                     }

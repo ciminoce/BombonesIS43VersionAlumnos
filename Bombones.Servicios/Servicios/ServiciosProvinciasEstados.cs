@@ -15,21 +15,13 @@ namespace Bombones.Servicios.Servicios
         public ServiciosProvinciasEstados(IRepositorioProvinciasEstados repositorio,
             string cadena)
         {
-            _repositorio = repositorio;
+            _repositorio = repositorio?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
             _cadena = cadena;
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
         }
 
         public void Borrar(int provinciaEstadoId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
@@ -39,7 +31,7 @@ namespace Bombones.Servicios.Servicios
                 {
                     try
                     {
-                        _repositorio?.Borrar(provinciaEstadoId, conn, tran);
+                        _repositorio!.Borrar(provinciaEstadoId, conn, tran);
                         tran.Commit();
                     }
                     catch (Exception)
@@ -54,44 +46,31 @@ namespace Bombones.Servicios.Servicios
 
         public bool EstaRelacionado(int provinciaEstadoId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.EstaRelacionado(provinciaEstadoId, conn);
+                return _repositorio!.EstaRelacionado(provinciaEstadoId, conn);
 
             }
         }
 
         public bool Existe(ProvinciaEstado pe)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.Existe(pe, conn);
+                return _repositorio!.Existe(pe, conn);
 
             }
         }
 
         public int GetCantidad(Pais? filtroPais)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetCantidad(conn, filtroPais);
+                return _repositorio!.GetCantidad(conn, filtroPais);
 
             }
         }
@@ -100,15 +79,11 @@ namespace Bombones.Servicios.Servicios
 
         public List<ProvinciaEstadoListDto> GetLista(int? currentPage, int? pageSize, Orden? orden = Orden.Ninguno, Pais? paisSeleccionado = null)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetLista(conn, currentPage, pageSize, orden,
+                return _repositorio!.GetLista(conn, currentPage, pageSize, orden,
                     paisSeleccionado);
 
             }
@@ -117,30 +92,21 @@ namespace Bombones.Servicios.Servicios
 
         public List<ProvinciaEstado> GetListaComboEstados(Pais pais)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetListaComboEstados(pais, conn);
+                return _repositorio!.GetListaComboEstados(pais, conn);
 
             }
         }
 
         public int GetPaginaPorRegistro(string nombreProvinciaEstado, int pageSize)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetPaginaPorRegistro(conn, nombreProvinciaEstado, pageSize);
+                return _repositorio!.GetPaginaPorRegistro(conn, nombreProvinciaEstado, pageSize);
 
             }
 
@@ -149,26 +115,16 @@ namespace Bombones.Servicios.Servicios
 
         public ProvinciaEstado? GetProvinciaEstadoPorId(int provinciaEstadoId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.GetProvinciaEstadoPorId(provinciaEstadoId, conn);
+                return _repositorio!.GetProvinciaEstadoPorId(provinciaEstadoId, conn);
 
             }
         }
 
         public void Guardar(ProvinciaEstado pe)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
@@ -178,11 +134,11 @@ namespace Bombones.Servicios.Servicios
                     {
                         if (pe.ProvinciaEstadoId == 0)
                         {
-                            _repositorio?.Agregar(pe, conn, tran);
+                            _repositorio!.Agregar(pe, conn, tran);
                         }
                         else
                         {
-                            _repositorio?.Editar(pe, conn, tran);
+                            _repositorio!.Editar(pe, conn, tran);
                         }
                         tran.Commit();
                     }

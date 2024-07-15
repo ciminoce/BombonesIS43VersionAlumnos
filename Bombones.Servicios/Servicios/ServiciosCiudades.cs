@@ -14,16 +14,12 @@ namespace Bombones.Servicios.Servicios
         public ServiciosCiudades(IRepositorioCiudades? repositorio,
             string? cadena)
         {
-            _repositorio = repositorio;
+            _repositorio = repositorio?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
             _cadena = cadena;
         }
 
         public void Borrar(int ciudadId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
@@ -32,7 +28,7 @@ namespace Bombones.Servicios.Servicios
                 {
                     try
                     {
-                        _repositorio?.Borrar(ciudadId, conn, tran);
+                        _repositorio!.Borrar(ciudadId, conn, tran);
                         tran.Commit();
                     }
                     catch (Exception)
@@ -46,107 +42,74 @@ namespace Bombones.Servicios.Servicios
 
         public bool EstaRelacionado(int ciudadId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.EstaRelacionado(ciudadId, conn) ?? true;
+                return _repositorio!.EstaRelacionado(ciudadId, conn);
             }
         }
 
         public bool Existe(Ciudad ciudad)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio?.Existe(ciudad, conn) ?? true;
+                return _repositorio!.Existe(ciudad, conn);
             }
         }
 
         public int GetCantidad(Pais? paisSeleccionado = null, ProvinciaEstado? provSeleccionada = null)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn=new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetCantidad(conn, paisSeleccionado, provSeleccionada);
+                return _repositorio!
+                    .GetCantidad(conn, paisSeleccionado, provSeleccionada);
             }
         }
 
         public Ciudad? GetCiudadPorId(int ciudadId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
-                return _repositorio?.GetCiudadPorId(ciudadId, conn);
+                return _repositorio!.GetCiudadPorId(ciudadId, conn);
             }
         }
 
         public List<CiudadListDto> GetLista(int? currentPage, int? pageSize)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetLista(conn, currentPage, pageSize);
+                return _repositorio!.GetLista(conn, currentPage, pageSize);
             }
         }
 
         public List<Ciudad> GetListaCombo(Pais paisSeleccionado, ProvinciaEstado provinciaEstado)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetListaCombo(conn, paisSeleccionado, provinciaEstado);
+                return _repositorio!.GetListaCombo(conn, paisSeleccionado, provinciaEstado);
             }
         }
 
         public int GetPaginaPorRegistro(string nombreCiudad, int pageSize)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetPaginaPorRegistro(conn, nombreCiudad, pageSize);
+                return _repositorio!
+                    .GetPaginaPorRegistro(conn, nombreCiudad, pageSize);
             }
 
         }
 
         public void Guardar(Ciudad ciudad)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
@@ -157,11 +120,11 @@ namespace Bombones.Servicios.Servicios
                     {
                         if (ciudad.CiudadId == 0)
                         {
-                            _repositorio?.Agregar(ciudad, conn, tran);
+                            _repositorio!.Agregar(ciudad, conn, tran);
                         }
                         else
                         {
-                            _repositorio?.Editar(ciudad, conn, tran);
+                            _repositorio!.Editar(ciudad, conn, tran);
                         }
 
                         tran.Commit();//guarda efectivamente

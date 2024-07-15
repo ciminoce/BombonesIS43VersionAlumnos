@@ -14,7 +14,7 @@ namespace Bombones.Servicios.Servicios
         public ServiciosClientes(IRepositorioClientes? repositorio,
             string? cadena)
         {
-            _repositorio = repositorio;
+            _repositorio = repositorio??throw new ApplicationException("Dependencias no cargadas!!!"); ;
             _cadena = cadena;
         }
 
@@ -27,7 +27,7 @@ namespace Bombones.Servicios.Servicios
                 {
                     try
                     {
-                        _repositorio?.Borrar(clienteId, conn, tran);
+                        _repositorio!.Borrar(clienteId, conn, tran);
                         tran.Commit();
                     }
                     catch (Exception)
@@ -46,29 +46,19 @@ namespace Bombones.Servicios.Servicios
 
         public bool Existe(Cliente cliente)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.Existe(cliente, conn);
+                return _repositorio!.Existe(cliente, conn);
             }
         }
 
         public List<ClienteListDto> GetLista(int? currentPage, int? pageSize)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetLista(conn, currentPage, pageSize);
+                return _repositorio!.GetLista(conn, currentPage, pageSize);
             }
         }
 
@@ -76,16 +66,12 @@ namespace Bombones.Servicios.Servicios
         {
             using (var conn = new SqlConnection(_cadena))
             {
-                return _repositorio?.GetClientePorId(clienteId, conn);
+                return _repositorio!.GetClientePorId(clienteId, conn);
             }
         }
 
         public void Guardar(Cliente cliente)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
@@ -96,11 +82,11 @@ namespace Bombones.Servicios.Servicios
                     {
                         if (cliente.ClienteId == 0)
                         {
-                            _repositorio?.Agregar(cliente, conn, tran);
+                            _repositorio!.Agregar(cliente, conn, tran);
                         }
                         else
                         {
-                            _repositorio?.Editar(cliente, conn, tran);
+                            _repositorio!.Editar(cliente, conn, tran);
                         }
 
                         tran.Commit();//guarda efectivamente
@@ -116,14 +102,10 @@ namespace Bombones.Servicios.Servicios
 
         public int GetCantidad()
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetCantidad(conn);
+                return _repositorio!.GetCantidad(conn);
             }
 
         }

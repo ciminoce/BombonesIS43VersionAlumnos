@@ -7,49 +7,35 @@ namespace Bombones.Servicios.Servicios
 {
     public class ServiciosTiposDeChocolates : IServiciosTiposDeChocolates
     {
-        private readonly IRepositorioTiposDeChocolates _repositorio;
+        private readonly IRepositorioTiposDeChocolates? _repositorio;
         private readonly string? _cadena;
-        public ServiciosTiposDeChocolates(IRepositorioTiposDeChocolates repositorio, string? cadena)
+        public ServiciosTiposDeChocolates(IRepositorioTiposDeChocolates? repositorio, string? cadena)
         {
-            _repositorio = repositorio;
+            _repositorio = repositorio?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
             _cadena = cadena;
         }
 
         public bool Existe(TipoDeChocolate tipoDeChocolate)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.Existe(tipoDeChocolate, conn);
+                return _repositorio!.Existe(tipoDeChocolate, conn);
 
             }
         }
 
         public List<TipoDeChocolate> GetLista()
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetLista(conn);
+                return _repositorio!.GetLista(conn);
             }
         }
         public void Guardar(TipoDeChocolate tipoDeChocolate)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
@@ -60,11 +46,11 @@ namespace Bombones.Servicios.Servicios
                     {
                         if (tipoDeChocolate.TipoDeChocolateId == 0)
                         {
-                            _repositorio.Agregar(tipoDeChocolate, conn, tran);
+                            _repositorio!.Agregar(tipoDeChocolate, conn, tran);
                         }
                         else
                         {
-                            _repositorio.Editar(tipoDeChocolate, conn, tran);
+                            _repositorio!.Editar(tipoDeChocolate, conn, tran);
                         }
                         tran.Commit();
                     }
@@ -79,11 +65,6 @@ namespace Bombones.Servicios.Servicios
         }
         public void Borrar(int tipoDeChocolateId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
-
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
@@ -92,7 +73,7 @@ namespace Bombones.Servicios.Servicios
                 {
                     try
                     {
-                        _repositorio.Borrar(tipoDeChocolateId, conn, tran);
+                        _repositorio!.Borrar(tipoDeChocolateId, conn, tran);
                         tran.Commit();
                     }
                     catch (Exception)
@@ -107,15 +88,11 @@ namespace Bombones.Servicios.Servicios
 
         public bool EstaRelacionado(int tipoDeChocolateId)
         {
-            if (_repositorio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas!!!");
-            }
 
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.EstaRelacionado(tipoDeChocolateId, conn);
+                return _repositorio!.EstaRelacionado(tipoDeChocolateId, conn);
             }
         }
     }
