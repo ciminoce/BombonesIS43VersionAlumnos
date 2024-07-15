@@ -17,18 +17,15 @@ namespace Bombones.Windows.Formularios
         public frmPaises(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            _servicio = serviceProvider.GetService<IServiciosPaises>();
+            _servicio = serviceProvider.GetService<IServiciosPaises>()
+                ?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
         }
 
         private void frmPaises_Load(object sender, EventArgs e)
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-                totalRecords = _servicio.GetCantidad();
+                totalRecords = _servicio!.GetCantidad();
                 totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                 currentPage = totalPages;
                 LoadData();
@@ -44,7 +41,7 @@ namespace Bombones.Windows.Formularios
         {
             try
             {
-                lista = _servicio?.GetLista(currentPage, pageSize);
+                lista = _servicio!?.GetLista(currentPage, pageSize);
                 MostrarDatosEnGrilla(lista);
                 if (cboPaginas.Items.Count != totalPages)
                 {
@@ -93,18 +90,14 @@ namespace Bombones.Windows.Formularios
                 {
                     return;
                 }
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
 
-                if (!_servicio.Existe(pais))
+                if (!_servicio!.Existe(pais))
                 {
-                    _servicio.Guardar(pais);
+                    _servicio!.Guardar(pais);
 
-                    totalRecords = _servicio.GetCantidad();
+                    totalRecords = _servicio!.GetCantidad();
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
-                    currentPage = _servicio.GetPaginaPorRegistro(pais.NombrePais, pageSize);
+                    currentPage = _servicio!.GetPaginaPorRegistro(pais.NombrePais, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pais.PaisId);
                     GridHelper.MarcarRow(dgvDatos, row);
@@ -157,15 +150,11 @@ namespace Bombones.Windows.Formularios
                 {
                     return;
                 }
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
 
-                if (!_servicio.EstaRelacionado(pais.PaisId))
+                if (!_servicio!.EstaRelacionado(pais.PaisId))
                 {
-                    _servicio.Borrar(pais.PaisId);
-                    totalRecords = _servicio.GetCantidad();
+                    _servicio!.Borrar(pais.PaisId);
+                    totalRecords = _servicio!.GetCantidad();
                     totalPages=(int)Math.Ceiling((double)totalRecords/pageSize);
                     if (currentPage > totalPages) currentPage = totalPages; // Ajustar la página actual si se reduce el total de páginas
 
@@ -216,16 +205,11 @@ namespace Bombones.Windows.Formularios
             if (pais is null) return;
             try
             {
-                if (_servicio is null)
+                if (!_servicio!.Existe(pais))
                 {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
+                    _servicio!.Guardar(pais);
 
-                if (!_servicio.Existe(pais))
-                {
-                    _servicio.Guardar(pais);
-
-                    currentPage = _servicio.GetPaginaPorRegistro(pais.NombrePais, pageSize);
+                    currentPage = _servicio!.GetPaginaPorRegistro(pais.NombrePais, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pais.PaisId);
                     GridHelper.MarcarRow(dgvDatos, row);

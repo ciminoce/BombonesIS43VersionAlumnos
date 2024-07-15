@@ -121,7 +121,7 @@ namespace Bombones.Servicios.Servicios
             using (var conn = new SqlConnection(_cadena))
             {
                 conn.Open();
-                return _repositorio.GetPaginaPorRegistro(conn,nombrePais,pageSize);
+                return _repositorio!.GetPaginaPorRegistro(conn,nombrePais,pageSize);
             }
         }
     }

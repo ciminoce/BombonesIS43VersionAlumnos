@@ -97,5 +97,9 @@ namespace Bombones.Windows.Helpers
 
         }
 
+        internal static void QuitarFila(DataGridViewRow r)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

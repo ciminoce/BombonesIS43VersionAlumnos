@@ -12,13 +12,14 @@ namespace Bombones.Windows.Formularios
         public frmRellenos(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
-            _servicio = serviceProvider?.GetService<IServiciosTiposDeRellenos>();
+            _servicio = serviceProvider?.GetService<IServiciosTiposDeRellenos>()
+                ?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
         }
         private void frmRellenos_Load(object sender, EventArgs e)
         {
             try
             {
-                lista = _servicio?.GetLista();
+                lista = _servicio!.GetLista();
                 MostrarDatosEnGrilla();
             }
             catch (Exception)
@@ -43,24 +44,6 @@ namespace Bombones.Windows.Formularios
             }
         }
 
-        private void AgregarFila(DataGridViewRow r)
-        {
-            dgvDatos.Rows.Add(r);
-        }
-
-        private void SetearFila(DataGridViewRow r, TipoDeRelleno tipo)
-        {
-            r.Cells[colRelleno.Index].Value = tipo.Descripcion;
-
-            r.Tag = tipo;
-        }
-
-        private DataGridViewRow ConstruirFila()
-        {
-            var r = new DataGridViewRow();
-            r.CreateCells(dgvDatos);
-            return r;
-        }
 
         private void tsbNuevo_Click(object sender, EventArgs e)
         {
@@ -74,12 +57,12 @@ namespace Bombones.Windows.Formularios
                 }
                 TipoDeRelleno? tipo = frm.GetRelleno();
                 if (tipo is null) return;
-                if (!_servicio.Existe(tipo))
+                if (!_servicio!.Existe(tipo))
                 {
-                    _servicio.Guardar(tipo);
-                    DataGridViewRow r = ConstruirFila();
-                    SetearFila(r, tipo);
-                    AgregarFila(r);
+                    _servicio!.Guardar(tipo);
+                    DataGridViewRow r = GridHelper.ConstruirFila(dgvDatos);
+                    GridHelper.SetearFila(r, tipo);
+                    GridHelper.AgregarFila(r,dgvDatos);
                     MessageBox.Show("Registro agregado",
                         "Mensaje",
                         MessageBoxButtons.OK,
@@ -126,10 +109,11 @@ namespace Bombones.Windows.Formularios
                 {
                     return;
                 }
-                if (!_servicio.EstaRelacionado(tipo.TipoDeRellenoId))
+                if (!_servicio!.EstaRelacionado(tipo.TipoDeRellenoId))
                 {
-                    _servicio.Borrar(tipo.TipoDeRellenoId);
-                    QuitarFila(r);
+                    _servicio!.Borrar(tipo.TipoDeRellenoId);
+                    GridHelper.QuitarFila(r,
+                                          dgvDatos);
                     MessageBox.Show("Registro eliminado",
                         "Mensaje",
                         MessageBoxButtons.OK,
@@ -156,10 +140,6 @@ namespace Bombones.Windows.Formularios
             }
         }
 
-        private void QuitarFila(DataGridViewRow r)
-        {
-            dgvDatos.Rows.Remove(r);
-        }
 
         private void tsbEditar_Click(object sender, EventArgs e)
         {
@@ -181,11 +161,11 @@ namespace Bombones.Windows.Formularios
             if (tipo is null) return;
             try
             {
-                if (!_servicio.Existe(tipo))
+                if (!_servicio!.Existe(tipo))
                 {
-                    _servicio.Guardar(tipo);
+                    _servicio!.Guardar(tipo);
 
-                    SetearFila(r, tipo);
+                    GridHelper.SetearFila(r, tipo);
                     MessageBox.Show("Registro modificado",
                         "Mensaje",
                         MessageBoxButtons.OK,

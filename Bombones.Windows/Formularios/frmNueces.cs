@@ -12,14 +12,15 @@ namespace Bombones.Windows.Formularios
         public frmNueces(IServiceProvider serviceProvider)
         {
             InitializeComponent();
-            _servicio = serviceProvider?.GetService<IServiciosTiposDeNueces>();
+            _servicio = serviceProvider?.GetService<IServiciosTiposDeNueces>()
+                ??throw new ApplicationException("Dependencias no cargadas!!!"); ;
         }
 
         private void frmNueces_Load(object sender, EventArgs e)
         {
             try
             {
-                lista = _servicio.GetLista();
+                lista = _servicio!.GetLista();
                 MostrarDatosEnGrilla();
             }
             catch (Exception)
@@ -59,9 +60,9 @@ namespace Bombones.Windows.Formularios
                 TipoDeNuez? tipo = frm.GetNuez();
                 if (tipo is not null)
                 {
-                    if (!_servicio.Existe(tipo))
+                    if (!_servicio!.Existe(tipo))
                     {
-                        _servicio.Guardar(tipo);
+                        _servicio!.Guardar(tipo);
                         DataGridViewRow r = GridHelper.ConstruirFila(dgvDatos);
                         GridHelper.SetearFila(r, tipo);
                         GridHelper.AgregarFila(r, dgvDatos);
@@ -113,10 +114,10 @@ namespace Bombones.Windows.Formularios
                 {
                     return;
                 }
-                if (!_servicio.EstaRelacionado(tipo.TipoDeNuezId))
+                if (!_servicio!.EstaRelacionado(tipo.TipoDeNuezId))
                 {
-                    _servicio.Borrar(tipo.TipoDeNuezId);
-                    QuitarFila(r);
+                    _servicio!.Borrar(tipo.TipoDeNuezId);
+                    GridHelper.QuitarFila(r,dgvDatos);
                     MessageBox.Show("Registro eliminado",
                         "Mensaje",
                         MessageBoxButtons.OK,
@@ -143,10 +144,6 @@ namespace Bombones.Windows.Formularios
             }
         }
 
-        private void QuitarFila(DataGridViewRow r)
-        {
-            dgvDatos.Rows.Remove(r);
-        }
 
         private void tsbEditar_Click(object sender, EventArgs e)
         {
@@ -167,9 +164,9 @@ namespace Bombones.Windows.Formularios
             {
                 tipo = frm.GetNuez();
                 if (tipo is null) return;
-                if (!_servicio.Existe(tipo))
+                if (!_servicio!.Existe(tipo))
                 {
-                    _servicio.Guardar(tipo);
+                    _servicio!.Guardar(tipo);
 
                     GridHelper.SetearFila(r, tipo);
                     MessageBox.Show("Registro modificado",

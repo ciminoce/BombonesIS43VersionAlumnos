@@ -26,18 +26,15 @@ namespace Bombones.Windows.Formularios
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
-            _servicio = _serviceProvider?.GetService<IServiciosProvinciasEstados>();
+            _servicio = _serviceProvider?.GetService<IServiciosProvinciasEstados>()
+                ?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
         }
 
         private void frmProvinciasEstados_Load(object sender, EventArgs e)
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-                totalRecords = _servicio.GetCantidad();
+                totalRecords = _servicio!.GetCantidad();
                 totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                 LoadData();
             }
@@ -51,12 +48,8 @@ namespace Bombones.Windows.Formularios
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
 
-                lista = _servicio.GetLista(currentPage, pageSize, orden, paisFiltro);
+                lista = _servicio!.GetLista(currentPage, pageSize, orden, paisFiltro);
                 MostrarDatosEnGrilla(lista);
                 if (cboPaginas.Items.Count != totalPages)
                 {
@@ -134,17 +127,13 @@ namespace Bombones.Windows.Formularios
             try
             {
                 ProvinciaEstado pe = frm.GetProvEstado();
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
 
-                if (!_servicio.Existe(pe))
+                if (!_servicio!.Existe(pe))
                 {
-                    _servicio.Guardar(pe);
-                    totalRecords = _servicio.GetCantidad();
+                    _servicio!.Guardar(pe);
+                    totalRecords = _servicio!.GetCantidad();
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
-                    currentPage = _servicio.GetPaginaPorRegistro(pe.NombreProvinciaEstado, pageSize);
+                    currentPage = _servicio!.GetPaginaPorRegistro(pe.NombreProvinciaEstado, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pe.ProvinciaEstadoId);
                     GridHelper.MarcarRow(dgvDatos, row);
@@ -190,14 +179,10 @@ namespace Bombones.Windows.Formularios
             if (dr == DialogResult.No) return;
             try
             {
-                if (_servicio is null)
+                if (!_servicio!.EstaRelacionado(peDto.ProvinciaEstadoId))
                 {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-                if (!_servicio.EstaRelacionado(peDto.ProvinciaEstadoId))
-                {
-                    _servicio.Borrar(peDto.ProvinciaEstadoId);
-                    totalRecords = _servicio.GetCantidad();
+                    _servicio!.Borrar(peDto.ProvinciaEstadoId);
+                    totalRecords = _servicio!.GetCantidad();
                     totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
                     if (currentPage > totalPages) currentPage = totalPages; // Ajustar la página actual si se reduce el total de páginas
 
@@ -231,12 +216,8 @@ namespace Bombones.Windows.Formularios
             var r = dgvDatos.SelectedRows[0];
             if (r.Tag is null) return;
             var peDto = (ProvinciaEstadoListDto)r.Tag;
-            if (_servicio is null)
-            {
-                throw new ApplicationException("Dependencias no cargadas");
-            }
 
-            var pe = _servicio.GetProvinciaEstadoPorId(peDto.ProvinciaEstadoId); ;
+            var pe = _servicio!.GetProvinciaEstadoPorId(peDto.ProvinciaEstadoId); ;
             if (pe is null) return;
             frmProvinciasEstadosAE frm = new frmProvinciasEstadosAE(_serviceProvider) { Text = "Editar Prov/Estado" };
             frm.SetProvEstado(pe);
@@ -246,10 +227,10 @@ namespace Bombones.Windows.Formularios
             {
                 pe = frm.GetProvEstado();
                 if (pe is null) return;
-                if (!_servicio.Existe(pe))
+                if (!_servicio!.Existe(pe))
                 {
-                    _servicio.Guardar(pe);
-                    currentPage = _servicio.GetPaginaPorRegistro(pe.NombreProvinciaEstado, pageSize);
+                    _servicio!.Guardar(pe);
+                    currentPage = _servicio!.GetPaginaPorRegistro(pe.NombreProvinciaEstado, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, pe.ProvinciaEstadoId);
                     GridHelper.MarcarRow(dgvDatos, row);
@@ -287,8 +268,8 @@ namespace Bombones.Windows.Formularios
             paisFiltro = frm.GetPais();
             if (paisFiltro is null) return;
 
-            //lista = _servicio?.GetLista(currentPage, pageSize, orden, paisFiltro);
-            totalRecords = _servicio?.GetCantidad(paisFiltro) ?? 0;
+            //lista = _servicio!?.GetLista(currentPage, pageSize, orden, paisFiltro);
+            totalRecords = _servicio!?.GetCantidad(paisFiltro) ?? 0;
             totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
 
             LoadData();
@@ -301,8 +282,8 @@ namespace Bombones.Windows.Formularios
         {
             currentPage = 1;
             paisFiltro = null;
-            //lista = _servicio?.GetLista(currentPage, pageSize, orden);
-            totalRecords = _servicio?.GetCantidad() ?? 0;
+            //lista = _servicio!?.GetLista(currentPage, pageSize, orden);
+            totalRecords = _servicio!?.GetCantidad() ?? 0;
             totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
 
             LoadData();

@@ -11,7 +11,7 @@ namespace Bombones.Windows.Formularios
         private readonly FiltroContexto _filtroContexto;
 
         private Pais? paisSeleccionado;
-        public frmFormularioFiltro(IServiceProvider service,
+        public frmFormularioFiltro(IServiceProvider? service,
             FiltroContexto filtroContexto)
         {
             InitializeComponent();

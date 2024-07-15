@@ -129,7 +129,7 @@ namespace Bombones.Datos.Repositorios
 
         }
 
-        public List<Ciudad>? GetListaCombo(SqlConnection conn, Pais paisSeleccionado, ProvinciaEstado provinciaEstado)
+        public List<Ciudad> GetListaCombo(SqlConnection conn, Pais paisSeleccionado, ProvinciaEstado provinciaEstado)
         {
             string selectQuery = @"SELECT CiudadId, NombreCiudad, 
                 PaisId, ProvinciaEstadoId FROM Ciudades 

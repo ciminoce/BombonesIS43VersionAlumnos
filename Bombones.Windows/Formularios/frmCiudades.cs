@@ -23,18 +23,15 @@ namespace Bombones.Windows
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
-            _servicio = _serviceProvider?.GetService<IServiciosCiudades>();
+            _servicio = _serviceProvider?.GetService<IServiciosCiudades>()
+                ??throw new ApplicationException("Dependencias no cargadas!!!"); ;
         }
 
         private void frmCiudades_Load(object sender, EventArgs e)
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-                totalRecords = _servicio.GetCantidad(null, null);
+                totalRecords = _servicio!.GetCantidad(null, null);
                 totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                 LoadData();
             }
@@ -48,12 +45,7 @@ namespace Bombones.Windows
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-
-                lista = _servicio.GetLista(currentPage, pageSize);
+                lista = _servicio!.GetLista(currentPage, pageSize);
                 MostrarDatosEnGrilla(lista);
                 if (cboPaginas.Items.Count != totalPages)
                 {
@@ -131,19 +123,14 @@ namespace Bombones.Windows
             {
                 Ciudad? ciudad = frm.GetCiudad();
                 if (ciudad is null) return;
-                if (_servicio is null)
+                if (!_servicio!.Existe(ciudad))
                 {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-
-                if (!_servicio.Existe(ciudad))
-                {
-                    _servicio?.Guardar(ciudad);
+                    _servicio!?.Guardar(ciudad);
 
 
-                    totalRecords = _servicio?.GetCantidad()??0;
+                    totalRecords = _servicio!?.GetCantidad()??0;
                     totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
-                    currentPage = _servicio?.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize)??0;
+                    currentPage = _servicio!?.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize)??0;
                     LoadData();
 
                     MessageBox.Show("Registro agregado",
@@ -186,14 +173,10 @@ namespace Bombones.Windows
             if (dr == DialogResult.No) return;
             try
             {
-                if (_servicio is null)
+                if (!_servicio!.EstaRelacionado(ciudadDto.CiudadId))
                 {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-                if (!_servicio.EstaRelacionado(ciudadDto.CiudadId))
-                {
-                    _servicio.Borrar(ciudadDto.CiudadId);
-                    totalRecords = _servicio.GetCantidad();
+                    _servicio!.Borrar(ciudadDto.CiudadId);
+                    totalRecords = _servicio!.GetCantidad();
                     totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
                     if (currentPage > totalPages) currentPage = totalPages; // Ajustar la página actual si se reduce el total de páginas
 
@@ -228,7 +211,7 @@ namespace Bombones.Windows
             var r = dgvDatos.SelectedRows[0];
             if (r.Tag == null) return;
             CiudadListDto ciudadDto = (CiudadListDto)r.Tag;
-            Ciudad? ciudad = _servicio?.GetCiudadPorId(ciudadDto.CiudadId);
+            Ciudad? ciudad = _servicio!?.GetCiudadPorId(ciudadDto.CiudadId);
             if (ciudad is null) return;
             frmCiudadesAE frm = new frmCiudadesAE(_serviceProvider) { Text = "Editar Ciudad" };
             frm.SetCiudad(ciudad);
@@ -239,21 +222,13 @@ namespace Bombones.Windows
             if (ciudad == null) return;
             try
             {
-                if (_servicio is null)
+
+                if (!_servicio!.Existe(ciudad))
                 {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-
-                if (!_servicio.Existe(ciudad))
-                {
-                    _servicio?.Guardar(ciudad);
-                    if (_servicio is null)
-                    {
-                        throw new ApplicationException("Dependencias no cargadas");
-                    }
+                    _servicio!?.Guardar(ciudad);
 
 
-                    currentPage = _servicio.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize);
+                    currentPage = _servicio!.GetPaginaPorRegistro(ciudad.NombreCiudad, pageSize);
                     LoadData();
                     int row = GridHelper.ObtenerRowIndex(dgvDatos, ciudad.CiudadId);
                     GridHelper.MarcarRow(dgvDatos, row);

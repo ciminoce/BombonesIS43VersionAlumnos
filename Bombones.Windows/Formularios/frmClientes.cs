@@ -25,7 +25,8 @@ namespace Bombones.Windows.Formularios
             {
                 throw new ApplicationException("Dependencias no cargadas");
             }
-            _servicio = serviceProvider?.GetService<IServiciosClientes>();
+            _servicio = serviceProvider?.GetService<IServiciosClientes>()
+                ?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
         }
 
         private void tsbNuevo_Click(object sender, EventArgs e)
@@ -42,13 +43,9 @@ namespace Bombones.Windows.Formularios
             {
                 Cliente? cliente = frm.GetCliente();
                 if (cliente == null) {return; }
-                if (_servicio is null)
+                if (!_servicio!.Existe(cliente))
                 {
-                    throw new ApplicationException("Dependencia no cargada");
-                }
-                if (!_servicio.Existe(cliente))
-                {
-                    _servicio.Guardar(cliente);
+                    _servicio!.Guardar(cliente);
                     DataGridViewRow r = GridHelper.ConstruirFila(dgvDatos);
                     ClienteListDto clienteDto = ClientesExtensions.ToClienteListDto(cliente);
                     GridHelper.SetearFila(r, clienteDto);
@@ -77,11 +74,7 @@ namespace Bombones.Windows.Formularios
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-                totalRecords = _servicio.GetCantidad();
+                totalRecords = _servicio!.GetCantidad();
                 totalPages = (int)Math.Ceiling((decimal)totalRecords / pageSize);
                 LoadData();
             }
@@ -95,12 +88,7 @@ namespace Bombones.Windows.Formularios
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-
-                lista = _servicio.GetLista(currentPage, pageSize);
+                lista = _servicio!.GetLista(currentPage, pageSize);
                 MostrarDatosEnGrilla(lista);
                 if (cboPaginas.Items.Count != totalPages)
                 {
@@ -190,7 +178,7 @@ namespace Bombones.Windows.Formularios
 
                 if (dr == DialogResult.Yes)
                 {
-                    _servicio.Borrar(clienteDto.ClienteId);
+                    _servicio!.Borrar(clienteDto.ClienteId);
                     GridHelper.QuitarFila(r, dgvDatos);
                     MessageBox.Show("Registro eliminado",
                         "Mensaje",
@@ -229,7 +217,7 @@ namespace Bombones.Windows.Formularios
             var r = dgvDatos.SelectedRows[0];
             if (r.Tag == null) return;
             ClienteListDto clienteDto = (ClienteListDto)r.Tag;
-            Cliente? cliente = _servicio?.GetClientePorId(clienteDto.ClienteId);
+            Cliente? cliente = _servicio!?.GetClientePorId(clienteDto.ClienteId);
             if (cliente is null) return;
             frmClientesAE frm = new frmClientesAE(_serviceProvider) { Text = "Editar Cliente" };
             frm.SetCliente(cliente);
@@ -240,9 +228,9 @@ namespace Bombones.Windows.Formularios
             if (cliente == null) return;
             try
             {
-                if (!_servicio?.Existe(cliente) ?? false)
+                if (!_servicio!.Existe(cliente))
                 {
-                    _servicio?.Guardar(cliente);
+                    _servicio!.Guardar(cliente);
 
                     clienteDto = ClientesExtensions.ToClienteListDto(cliente);
 
@@ -273,7 +261,7 @@ namespace Bombones.Windows.Formularios
         {
             try
             {
-                lista = _servicio?.GetLista(currentPage, pageSize);
+                lista = _servicio!?.GetLista(currentPage, pageSize);
                 if(lista is not null)
                 {
                     MostrarDatosEnGrilla(lista);

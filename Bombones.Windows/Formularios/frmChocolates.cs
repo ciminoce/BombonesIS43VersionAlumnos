@@ -12,7 +12,8 @@ namespace Bombones.Windows
         public frmChocolates(IServiceProvider? serviceProvider)
         {
             InitializeComponent();
-            _servicio = serviceProvider?.GetService<IServiciosTiposDeChocolates>();
+            _servicio = serviceProvider?.GetService<IServiciosTiposDeChocolates>()
+                ?? throw new ApplicationException("Dependencias no cargadas!!!"); ;
         }
 
         private void tsbCerrar_Click(object sender, EventArgs e)
@@ -24,12 +25,8 @@ namespace Bombones.Windows
         {
             try
             {
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
 
-                lista = _servicio.GetLista();      // la lista guarda el listado de los registros con los tipos de chocolate
+                lista = _servicio!.GetLista();      // la lista guarda el listado de los registros con los tipos de chocolate
                 MostrarDatosEnGrilla();
             }
             catch (Exception)
@@ -64,13 +61,9 @@ namespace Bombones.Windows
             try
             {
                 TipoDeChocolate tipoDeChocolate = frm.GetTipo();
-                if(_servicio is null)
+                if (!_servicio!.Existe(tipoDeChocolate))
                 {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
-                if (!_servicio.Existe(tipoDeChocolate))
-                {
-                    _servicio.Guardar(tipoDeChocolate);
+                    _servicio!.Guardar(tipoDeChocolate);
                     var r = GridHelper.ConstruirFila(dgvDatos);
                     GridHelper.SetearFila(r, tipoDeChocolate);
                     GridHelper.AgregarFila(r, dgvDatos);
@@ -119,14 +112,10 @@ namespace Bombones.Windows
                 {
                     return;     // Si se presiona No, cancelar
                 }
-                if (_servicio is null)
-                {
-                    throw new ApplicationException("Dependencias no cargadas");
-                }
 
-                if (!_servicio.EstaRelacionado(chocolate.TipoDeChocolateId))
+                if (!_servicio!.EstaRelacionado(chocolate.TipoDeChocolateId))
                 {
-                    _servicio.Borrar(chocolate.TipoDeChocolateId);
+                    _servicio!.Borrar(chocolate.TipoDeChocolateId);
 
                     GridHelper.QuitarFila(r, dgvDatos);
                     MessageBox.Show("Registro eliminado satisfactoriamente",
@@ -175,15 +164,11 @@ namespace Bombones.Windows
                         return;
                     }
                     tipoChocolate = frm.GetTipo();
-                    if (_servicio is null)
-                    {
-                        throw new ApplicationException("Dependencias no cargadas");
-                    }
 
-                    if (!_servicio.Existe(tipoChocolate))       // Si no existe el chocolate, lo edita
+                    if (!_servicio!.Existe(tipoChocolate))       // Si no existe el chocolate, lo edita
                     {
                         // Servicios ordena a Datos que guarde la edición en la BASE DE DATOS
-                        _servicio.Guardar(tipoChocolate);
+                        _servicio!.Guardar(tipoChocolate);
                         GridHelper.SetearFila(r, tipoChocolate);    // Agrega los datos en las celdas de una la fila que YA ESTÁ CREADA.
                         MessageBox.Show("Chocolate editado satisfactoriamente",
                             "Mensaje",
