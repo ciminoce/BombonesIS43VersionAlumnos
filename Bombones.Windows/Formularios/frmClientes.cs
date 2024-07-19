@@ -31,41 +31,22 @@ namespace Bombones.Windows.Formularios
 
         private void tsbNuevo_Click(object sender, EventArgs e)
         {
-            frmClientesAE frm = new frmClientesAE();
+            frmClientesAE frm = new frmClientesAE(_serviceProvider) { Text = "Agregar Cliente" };
             DialogResult dr = frm.ShowDialog(this);
-
-            if (dr == DialogResult.Cancel)
-            {
-                return;
-            }
-
+            if (dr == DialogResult.Cancel) return;
+            Cliente? cliente = frm.GetCliente();
+            if (cliente is null) return;
             try
             {
-                Cliente? cliente = frm.GetCliente();
-                if (cliente == null) {return; }
-                if (!_servicio!.Existe(cliente))
+                if (_servicio is null)
                 {
-                    _servicio!.Guardar(cliente);
-                    DataGridViewRow r = GridHelper.ConstruirFila(dgvDatos);
-                    ClienteListDto clienteDto = ClientesExtensions.ToClienteListDto(cliente);
-                    GridHelper.SetearFila(r, clienteDto);
-                    GridHelper.AgregarFila(r, dgvDatos);
-                    clienteDto = ClientesExtensions.ToClienteListDto(cliente);
-                    MessageBox.Show("Registro agregado",
-                                    "Mensaje",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                    throw new ApplicationException("Dependencias no cargadas");
                 }
-                else
-                {
-                    MessageBox.Show("Registro existente\nAlta denegada",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                }
+                _servicio.Guardar(cliente);
             }
             catch (Exception)
             {
+
                 throw;
             }
         }
@@ -155,57 +136,57 @@ namespace Bombones.Windows.Formularios
         }
         private void tsbBorrar_Click(object sender, EventArgs e)
         {
-            if (dgvDatos.SelectedRows.Count == 0)
-            {
-                return;
-            }
-            var r = dgvDatos.SelectedRows[0];
-            if (r.Tag is null) return;
+            //if (dgvDatos.SelectedRows.Count == 0)
+            //{
+            //    return;
+            //}
+            //var r = dgvDatos.SelectedRows[0];
+            //if (r.Tag is null) return;
 
-            var clienteDto = (ClienteListDto)r.Tag;
+            //var clienteDto = (ClienteListDto)r.Tag;
 
-            try
-            {
-                DialogResult dr = MessageBox.Show($@"¿Desea dar de baja al cliente {clienteDto.Nombres}?",
-                        "Confirmar Baja",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question,
-                        MessageBoxDefaultButton.Button2);
-                if (dr == DialogResult.No)
-                {
-                    return;
-                }
+            //try
+            //{
+            //    DialogResult dr = MessageBox.Show($@"¿Desea dar de baja al cliente {clienteDto.Nombres}?",
+            //            "Confirmar Baja",
+            //            MessageBoxButtons.YesNo,
+            //            MessageBoxIcon.Question,
+            //            MessageBoxDefaultButton.Button2);
+            //    if (dr == DialogResult.No)
+            //    {
+            //        return;
+            //    }
 
-                if (dr == DialogResult.Yes)
-                {
-                    _servicio!.Borrar(clienteDto.ClienteId);
-                    GridHelper.QuitarFila(r, dgvDatos);
-                    MessageBox.Show("Registro eliminado",
-                        "Mensaje",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
+            //    if (dr == DialogResult.Yes)
+            //    {
+            //        _servicio!.Borrar(clienteDto.ClienteId);
+            //        GridHelper.QuitarFila(r, dgvDatos);
+            //        MessageBox.Show("Registro eliminado",
+            //            "Mensaje",
+            //            MessageBoxButtons.OK,
+            //            MessageBoxIcon.Information);
+            //    }
 
 
 
-                else
-                {
-                    MessageBox.Show("Baja Denegada",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+            //    else
+            //    {
+            //        MessageBox.Show("Baja Denegada",
+            //            "Error",
+            //            MessageBoxButtons.OK,
+            //            MessageBoxIcon.Error);
 
-                }
-            }
-            catch (Exception ex)
-            {
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
 
-                MessageBox.Show(ex.Message,
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+            //    MessageBox.Show(ex.Message,
+            //                "Error",
+            //                MessageBoxButtons.OK,
+            //                MessageBoxIcon.Error);
 
-            }
+            //}
         }
 
         private void tsbEditar_Click(object sender, EventArgs e)
@@ -231,10 +212,7 @@ namespace Bombones.Windows.Formularios
                 if (!_servicio!.Existe(cliente))
                 {
                     _servicio!.Guardar(cliente);
-
-                    clienteDto = ClientesExtensions.ToClienteListDto(cliente);
-
-                    GridHelper.SetearFila(r, clienteDto);
+                    //TODO:Hacer manejo de la edición
                     MessageBox.Show("Registro editado",
                                     "Mensaje",
                                     MessageBoxButtons.OK,

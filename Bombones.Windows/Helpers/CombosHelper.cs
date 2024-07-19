@@ -75,5 +75,39 @@ namespace Bombones.Windows.Helpers
             }
             
         }
+
+        public static void CargarComboTipoTelefono(ref ComboBox cbo, IServiceProvider? serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+            IServiciosTiposDeTelefonos? servicio = _serviceProvider?.GetService<IServiciosTiposDeTelefonos>();
+            var lista = servicio?.GetLista();
+            var defaultTipo = new TipoTelefono()
+            {
+                TipoTelefonoId = 0,
+                Descripcion = "Seleccione"
+            };
+            lista?.Insert(0, defaultTipo);
+            cbo.DataSource = lista;
+            cbo.DisplayMember = "Descripcion";
+            cbo.ValueMember = "TipoTelefonoId";
+            cbo.SelectedIndex = 0;
+        }
+
+        public static void CargarComboTipoDireccion(ref ComboBox cbo, IServiceProvider? serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+            IServiciosTiposDeDirecciones? servicio = _serviceProvider?.GetService<IServiciosTiposDeDirecciones>();
+            var lista = servicio?.GetLista();
+            var defaultTipo = new TipoDireccion()
+            {
+                TipoDireccionId = 0,
+                Descripcion = "Seleccione"
+            };
+            lista?.Insert(0, defaultTipo);
+            cbo.DataSource = lista;
+            cbo.DisplayMember = "Descripcion";
+            cbo.ValueMember = "TipoDireccionId";
+            cbo.SelectedIndex = 0;
+        }
     }
 }

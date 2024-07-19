@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClientesAE));
             btnCancelar = new Button();
             btnOk = new Button();
@@ -56,6 +57,7 @@
             btnEditarTelefono = new Button();
             btnBorrarTelefono = new Button();
             btnAgregarTelefono = new Button();
+            errorProvider1 = new ErrorProvider(components);
             tabCliente.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -66,6 +68,7 @@
             splitContainer1.Panel2.SuspendLayout();
             splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTelefonos).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // btnCancelar
@@ -360,6 +363,10 @@
             btnAgregarTelefono.TextImageRelation = TextImageRelation.ImageAboveText;
             btnAgregarTelefono.UseVisualStyleBackColor = true;
             // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // frmClientesAE
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -381,6 +388,7 @@
             ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
             splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvTelefonos).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
         }
 
@@ -412,5 +420,6 @@
         private Button btnEditarTelefono;
         private Button btnBorrarTelefono;
         private Button btnAgregarTelefono;
+        private ErrorProvider errorProvider1;
     }
 }

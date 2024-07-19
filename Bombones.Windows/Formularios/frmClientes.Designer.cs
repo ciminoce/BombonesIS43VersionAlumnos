@@ -31,10 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClientes));
             panelGrilla = new Panel();
             dgvDatos = new DataGridView();
-            colDni = new DataGridViewTextBoxColumn();
-            colCliente = new DataGridViewTextBoxColumn();
-            colDireccion = new DataGridViewTextBoxColumn();
-            colTelefono = new DataGridViewTextBoxColumn();
             toolStrip1 = new ToolStrip();
             tsbNuevo = new ToolStripButton();
             tsbBorrar = new ToolStripButton();
@@ -62,6 +58,11 @@
             btnSiguiente = new Button();
             btnAnterior = new Button();
             btnPrimero = new Button();
+            colId = new DataGridViewTextBoxColumn();
+            colDni = new DataGridViewTextBoxColumn();
+            colCliente = new DataGridViewTextBoxColumn();
+            colDireccion = new DataGridViewTextBoxColumn();
+            colTelefono = new DataGridViewTextBoxColumn();
             panelGrilla.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDatos).BeginInit();
             toolStrip1.SuspendLayout();
@@ -82,7 +83,7 @@
             dgvDatos.AllowUserToAddRows = false;
             dgvDatos.AllowUserToDeleteRows = false;
             dgvDatos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colDni, colCliente, colDireccion, colTelefono });
+            dgvDatos.Columns.AddRange(new DataGridViewColumn[] { colId, colDni, colCliente, colDireccion, colTelefono });
             dgvDatos.Dock = DockStyle.Fill;
             dgvDatos.Location = new Point(0, 0);
             dgvDatos.MultiSelect = false;
@@ -92,32 +93,6 @@
             dgvDatos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDatos.Size = new Size(931, 568);
             dgvDatos.TabIndex = 1;
-            // 
-            // colDni
-            // 
-            colDni.HeaderText = "DNI";
-            colDni.Name = "colDni";
-            colDni.ReadOnly = true;
-            // 
-            // colCliente
-            // 
-            colCliente.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colCliente.HeaderText = "Cliente";
-            colCliente.Name = "colCliente";
-            colCliente.ReadOnly = true;
-            // 
-            // colDireccion
-            // 
-            colDireccion.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            colDireccion.HeaderText = "Dirección";
-            colDireccion.Name = "colDireccion";
-            colDireccion.ReadOnly = true;
-            // 
-            // colTelefono
-            // 
-            colTelefono.HeaderText = "Teléfono";
-            colTelefono.Name = "colTelefono";
-            colTelefono.ReadOnly = true;
             // 
             // toolStrip1
             // 
@@ -368,6 +343,39 @@
             btnPrimero.UseVisualStyleBackColor = true;
             btnPrimero.Click += btnPrimero_Click;
             // 
+            // colId
+            // 
+            colId.HeaderText = "Id";
+            colId.Name = "colId";
+            colId.ReadOnly = true;
+            colId.Visible = false;
+            // 
+            // colDni
+            // 
+            colDni.HeaderText = "DNI";
+            colDni.Name = "colDni";
+            colDni.ReadOnly = true;
+            // 
+            // colCliente
+            // 
+            colCliente.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colCliente.HeaderText = "Cliente";
+            colCliente.Name = "colCliente";
+            colCliente.ReadOnly = true;
+            // 
+            // colDireccion
+            // 
+            colDireccion.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colDireccion.HeaderText = "Dirección";
+            colDireccion.Name = "colDireccion";
+            colDireccion.ReadOnly = true;
+            // 
+            // colTelefono
+            // 
+            colTelefono.HeaderText = "Teléfono";
+            colTelefono.Name = "colTelefono";
+            colTelefono.ReadOnly = true;
+            // 
             // frmClientes
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -412,10 +420,6 @@
         private ToolStripButton tsbBuscar;
         private Panel panelNavegacion;
         private DataGridView dgvDatos;
-        private DataGridViewTextBoxColumn colDni;
-        private DataGridViewTextBoxColumn colCliente;
-        private DataGridViewTextBoxColumn colDireccion;
-        private DataGridViewTextBoxColumn colTelefono;
         private TextBox txtCantidadPaginas;
         private ComboBox cboPaginas;
         private Label label2;
@@ -424,5 +428,10 @@
         private Button btnSiguiente;
         private Button btnAnterior;
         private Button btnPrimero;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colDni;
+        private DataGridViewTextBoxColumn colCliente;
+        private DataGridViewTextBoxColumn colDireccion;
+        private DataGridViewTextBoxColumn colTelefono;
     }
 }

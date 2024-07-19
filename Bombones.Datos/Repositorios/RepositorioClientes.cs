@@ -92,18 +92,57 @@ namespace Bombones.Datos.Repositorios
                 selectQuery, new { @ClienteId = clienteId });
         }
 
-        public List<ClienteListDto> GetLista(SqlConnection conn, int? currentPage, int? pageSize, SqlTransaction? tran = null)
+        public List<ClienteListDto> GetLista(SqlConnection conn, int? pageNumber, int? pageSize, SqlTransaction? tran)
         {
-            string selectQuery = @"SELECT ClienteId, Documento, 
-                        Nombres, Apellido FROM Clientes";
-            selectQuery += " ORDER BY ClienteId";
-            if (currentPage.HasValue && pageSize.HasValue)
-            {
-                var offSet = (currentPage.Value - 1) * pageSize;
-                selectQuery += $" OFFSET {offSet} ROWS FETCH NEXT {pageSize.Value} ROWS ONLY";
-            }
+            var offset = (pageNumber - 1) * pageSize;
+            var selectQuery = @"SELECT 
+                c.ClienteId, 
+                c.Documento, 
+                c.Apellido,
+                c.Nombres,
+                d.Calle,
+                d.Altura,
+                ci.NombreCiudad AS Ciudad,
+                pe.NombreProvinciaEstado AS ProvinciaEstado, 
+                p.NombrePais AS Pais,
+                t.Numero 
+            FROM Clientes c
+            LEFT JOIN ClientesDirecciones cd ON c.ClienteId = cd.ClienteId
+            LEFT JOIN Direcciones d ON cd.DireccionId = d.DireccionId
+            LEFT JOIN ClientesTelefonos ct ON c.ClienteId = ct.ClienteId
+            LEFT JOIN Telefonos t ON ct.TelefonoId = t.TelefonoId
+            LEFT JOIN Paises p ON d.PaisId = p.PaisId
+            LEFT JOIN ProvinciasEstados pe ON d.ProvinciaEstadoId = pe.ProvinciaEstadoId
+            LEFT JOIN Ciudades ci ON d.CiudadId = ci.CiudadId
+            ORDER BY c.ClienteId 
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
-            return conn.Query<ClienteListDto>(selectQuery).ToList();
+            var clientes = new List<ClienteListDto>();
+            conn.Query<Cliente, DireccionListDto, Telefono, ClienteListDto>
+                (selectQuery,
+                    (cliente, direccion, telefono) =>
+                    {
+                        var clienteDto = clientes
+                        .FirstOrDefault(c => c.ClienteId == cliente.ClienteId);
+                        if (clienteDto is null)
+                        {
+                            clienteDto = new ClienteListDto
+                            {
+                                ClienteId = cliente.ClienteId,
+                                Documento = cliente.Documento,
+                                NombreCompleto = $"{cliente.Apellido} {cliente.Nombres}",
+                                DireccionPrincipal = direccion.ToString(),
+                                TelefonoPrincipal = telefono.ToString()
+                            };
+                            clientes.Add(clienteDto);
+                        }
+                        return clienteDto;
+                    },
+                    new { @Offset = offset, @PageSize = pageSize },
+                    splitOn: "ClienteId, Calle, Numero",
+                    buffered: true
+                );
+            return clientes;
         }
 
         public int GetCantidad(SqlConnection conn)
